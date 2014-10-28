@@ -33,7 +33,7 @@
   <description xml:lang="x-default">
 	  Creates smaller sample catalog from the one you select
   </description>
-  <exec pipeline="CatalogReducerUI" node="Start"/>
+  <exec pipeline="CatalogReducerUI" node="Menu"/>
   <sub-pipelines>
      <pipeline name="custom_extensionsactions-SiteAction" />
   </sub-pipelines>

@@ -1,0 +1,5 @@
+<!--- TEMPLATENAME: Menu.isml --->
+<isdecorate template = "application/MenuFrame.isml">
+      Do your stories!
+
+</isdecorate>
