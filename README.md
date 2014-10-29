@@ -23,12 +23,12 @@ Release History
 Creators:
 ---------------
 Project Lead: 
-- Tony Ruschioni: truschioni@demandware.com
+Tony Ruschioni: truschioni@demandware.com
 
 Tech Lead:
-- Rob Turner: rturner@demandware.com
+Rob Turner: rturner@demandware.com
 
 Code Contributors:
-- Grace Buzanoski: gbuzanoski@demandware.com
-- Andrew Tougas: atougas@demandware.com
-- Scott Girouard: sgirouard@demandware.com
+Grace Buzanoski: gbuzanoski@demandware.com
+Andrew Tougas: atougas@demandware.com
+Scott Girouard: sgirouard@demandware.com
