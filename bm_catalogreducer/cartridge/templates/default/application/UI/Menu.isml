@@ -1,5 +1,10 @@
 <!--- TEMPLATENAME: Menu.isml --->
 <isdecorate template = "application/MenuFrame.isml">
-      Do your stories!
+      
+	<p>Do your stories!</p>
+	<ul>
+		<li>As a user, I want to click a button that will automatically reduce my catalog</li>
+		<li>As a user, I want to input a list of product IDs to be exported</li>
+	</ul>
 
 </isdecorate>
