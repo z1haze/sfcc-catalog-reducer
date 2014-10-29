@@ -28,7 +28,9 @@ Tony Ruschioni: truschioni@demandware.com
 Tech Lead:
 Rob Turner: rturner@demandware.com
 
-Code Contributors:
+Scrummaster:
 Grace Buzanoski: gbuzanoski@demandware.com
+
+Code Contributors:
 Andrew Tougas: atougas@demandware.com
 Scott Girouard: sgirouard@demandware.com
