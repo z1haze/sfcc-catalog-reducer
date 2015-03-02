@@ -1,36 +1,32 @@
-Sample Catalog Builder
+Catalog Reducer Extension
 =================
 
 --------------------------
 
 Introduction
 ------------
-The Sample Catalog Builder is a Business Manager Extension that was created to give a simple way to build small catalog samples of PROD. catalogs for use on sandboxes on the Demandware Platform.
+The Catalog Reducer Extension is a Business Manager Extension that was created to provide a simple, easy way to export smaller version of Production catalogs, for use on sandboxes on the Demandware Platform.
 
 Documentation
 ----------------
-Take a look at the [manual](https://bitbucket.org/demandware/catalog-reducer-extension/src/4954147a5c7c6e766cc6c80f3114e7b5edcf667b/bm_catalogreducer/documentation/?at=master).
+None
 
 Support / Contributing
 ----------------------
-Feel free to create issues and enhancement requests or discuss on the existing ones, this will help us understanding which area has the biggest need.
+Feel free to create issues and enhancement requests or discuss/comment on existing issues/requests. This will help us understand which area, or component has the biggest need.
 
 Release History
 ---------------
-- 2014/10/07 - [V 14.1.1](https://bitbucket.org/demandware/product-list-suite/src/1f7f9bf4762d09878a288c3459e2e4eef1b32358/?at=V14.1.1)
-- 2013/09/09 - [V 0.98.8](https://bitbucket.org/demandware/product-list-suite/src/1f7f9bf4762d09878a288c3459e2e4eef1b32358/?at=V0.98.9)
+None
 
 Creators:
 ---------------
 Project Lead: 
+Project Lead: Andrew Tougas: atougas@demandware.com
+
+Tech Lead: Rob Turner: rturner@demandware.com
+
+Code Contributors:  
 Tony Ruschioni: truschioni@demandware.com
-
-Tech Lead:
-Rob Turner: rturner@demandware.com
-
-Scrummaster:
-Grace Buzanoski: gbuzanoski@demandware.com
-
-Code Contributors:
-Andrew Tougas: atougas@demandware.com
-Scott Girouard: sgirouard@demandware.com
+Elec Boothe: jboothe@demandware.com
+Ramasree Pitla: rpitla@demandware.com
