@@ -27,6 +27,6 @@ Project Lead: Andrew Tougas: atougas@demandware.com
 Tech Lead: Rob Turner: rturner@demandware.com
 
 Code Contributors:  
-Tony Ruschioni: truschioni@demandware.com
-Elec Boothe: jboothe@demandware.com
+Tony Ruschioni: truschioni@demandware.com  
+Elec Boothe: jboothe@demandware.com  
 Ramasree Pitla: rpitla@demandware.com
