@@ -1,0 +1,6 @@
+<!--- TEMPLATENAME: Test.isml --->
+<isdecorate template = "application/MenuFrame.isml">
+      
+	<p>Test Job complete!</p>
+
+</isdecorate>

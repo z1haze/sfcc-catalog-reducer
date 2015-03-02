@@ -1,6 +1,10 @@
 <!--- TEMPLATENAME: Menu.isml --->
 <isdecorate template = "application/MenuFrame.isml">
-      
-	<p>Do your stories!</p>
+    
+    <div class="table_title">
+    	<p>Catalog Reducer</p>	
+    </div>  
+	<p>Test job run below</p>
+	<a href="${URLUtils.url('CatalogReducerExport-Start')}"><button class="button" name="testsubmit" id="testsubmit" type="submit">Run</button></a>
 
 </isdecorate>
