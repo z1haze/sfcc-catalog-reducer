@@ -20,8 +20,7 @@ Release History
 None
 
 Creators:
----------------
-Project Lead: 
+--------------- 
 Project Lead: Andrew Tougas: atougas@demandware.com
 
 Tech Lead: Rob Turner: rturner@demandware.com
