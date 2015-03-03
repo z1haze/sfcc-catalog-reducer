@@ -1,6 +1,61 @@
-<!--- TEMPLATENAME: Test.isml --->
+<!--- TEMPLATENAME: test.isml --->
 <isdecorate template = "application/MenuFrame.isml">
-      
-	<p>Test Job complete!</p>
 
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="breadcrumb">
+					<a href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Site</a> > 
+					<a href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Product and Catalogs</a> > 
+					<a href="${URLUtils.url('CatalogReducerUI-Menu', 'SelectedMenuItem', 'prod-cat', 'CurrentMenuItemId', 'prod-cat', 'menupath', 'CR', 'mainmenuname', 'CR1')}">Catalog Reducer</a> >
+					Export
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="table_title">Catalog Reducer</td>
+			</tr>
+			<tr>
+				<td class="w s e">
+					<!-- <img width="1" height="2" src="${URLUtils.staticURL('/images/spacer.gif')}" /> -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table class="infobox w e s" width="100%">
+		<tbody>
+			<tr>
+				<td class="infobox_title_search">Catalog Reducer Export</td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tbody>
+			<tr>
+				<td class="fielditem2" style="color: #40A040;">
+					Catalog export successfully!
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tbody>
+			<tr>
+				<td>
+					<a href="${URLUtils.url('CatalogReducerUI-Menu', 'SelectedMenuItem', 'prod-cat', 'CurrentMenuItemId', 'prod-cat', 'menupath', 'CR', 'mainmenuname', 'CR1')}">
+						<button class="button" name="testsubmit" id="testsubmit" type="submit">&lt;&lt; Back to Catalog Reducer</button>
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+    
 </isdecorate>

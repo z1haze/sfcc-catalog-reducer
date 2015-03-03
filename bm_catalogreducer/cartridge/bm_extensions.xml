@@ -28,10 +28,10 @@
 <menuaction id="catalog-reducer" menupath="prod-cat" position="700" site="true">
   <name xml:lang="x-default">Catalog Reducer</name>
   <short_description xml:lang="x-default">
-	  Creates smaller sample catalog from the one you select.
+	  Exports a smaller version of a site catalog. 
   </short_description>
   <description xml:lang="x-default">
-	  Creates smaller sample catalog from the one you select
+	  Exports a smaller version of a site catalog.
   </description>
   <exec pipeline="CatalogReducerUI" node="Menu"/>
   <sub-pipelines>

@@ -1,10 +1,54 @@
 <!--- TEMPLATENAME: Menu.isml --->
 <isdecorate template = "application/MenuFrame.isml">
-    
-    <div class="table_title">
-    	<p>Catalog Reducer</p>	
-    </div>  
-	<p>Test job run below</p>
-	<a href="${URLUtils.url('CatalogReducerExport-Start')}"><button class="button" name="testsubmit" id="testsubmit" type="submit">Run</button></a>
 
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="breadcrumb">
+					<a href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Site</a> > 
+					<a href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Product and Catalogs</a>
+					> Catalog Reducer
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="table_title">Catalog Reducer</td>
+			</tr>
+			<tr>
+				<td class="w s e">
+					<!-- <img width="1" height="2" src="${URLUtils.staticURL('/images/spacer.gif')}" /> -->
+				</td>
+			</tr>
+			<tr>
+				<td class="table_title_description">
+					<p>Be sure to add <b>bm_catalogreducer</b> to cartridge path of both Business Manager and the site.</p>
+    				<p>Exports to <b>webdav/Sites/Impex/src/catalog/</b></p>
+    				<p>For test purposes, this export just returns categories and product ID - 25752218</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table class="infobox w e s" width="100%" style="border-top: 1px solid #DADADA;">
+		<tbody>
+			<tr>
+				<td class="infobox_title_search">Catalog Reducer Export</td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tbody>
+			<tr>
+				<td><a href="${URLUtils.url('CatalogReducerExport-Start')}"><button class="button" name="testsubmit" id="testsubmit" type="submit">Export Catalog</button></a></td>
+			</tr>
+		</tbody>
+	</table>
+    
 </isdecorate>

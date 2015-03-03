@@ -88,7 +88,11 @@
           </segment>
         </branch>
       </node>
-      <simple-transition/>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
           <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;apparel-catalog&quot;)" key="Catalog"/>
@@ -108,7 +112,7 @@
           <key-binding alias="null" key="ExportVariationAttributes"/>
           <key-binding alias="ProductIterator" key="Products"/>
         </pipelet-node>
-        <node-display x="0" y="2"/>
+        <node-display x="0" y="1"/>
         <branch basename="b4" source-connector="error">
           <transition target-connector="in">
             <transition-display>
@@ -146,7 +150,7 @@
           <key-binding alias="null" key="MailCC"/>
           <key-binding alias="null" key="MailBCC"/>
         </pipelet-node>
-        <node-display x="5" y="2"/>
+        <node-display x="5" y="1"/>
       </node>
     </segment>
   </branch>
