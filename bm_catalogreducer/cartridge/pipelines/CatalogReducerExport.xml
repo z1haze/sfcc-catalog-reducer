@@ -258,7 +258,7 @@
       <simple-transition/>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
-          <key-binding alias="dw.catalog.CatalogMgr.getSiteCatalog()" key="Catalog"/>
+          <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;apparel-catalog&quot;)" key="Catalog"/>
           <key-binding alias="&quot;/catalog/exportProductListTest.xml&quot;" key="ExportFile"/>
           <key-binding alias="null" key="Categories"/>
           <key-binding alias="null" key="ExportProducts"/>
