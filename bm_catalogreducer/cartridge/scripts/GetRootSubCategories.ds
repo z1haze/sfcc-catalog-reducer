@@ -1,0 +1,23 @@
+/**
+* GetRootSubCategories Script File
+*
+* For example:
+*
+*	@input RootCategory : dw.catalog.Category
+*   @output RootSubCategories : dw.util.Iterator
+*
+*/
+importPackage( dw.system );
+importPackage( dw.util );
+importPackage( dw.catalog );
+
+function execute( args : PipelineDictionary ) : Number
+{
+
+	var rootCategory : Category = args.RootCategory;
+	var rootSubCategories : Iterator = rootCategory.getSubCategories().iterator();
+	
+	args.RootSubCategories = rootSubCategories;
+	
+   	return PIPELET_NEXT;
+}

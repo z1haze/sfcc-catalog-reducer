@@ -37,10 +37,10 @@
       </node>
     </segment>
   </branch>
-  <branch basename="Export">
+  <branch basename="ExportTest">
     <segment>
       <node>
-        <start-node call-mode="private" name="Export" secure="false"/>
+        <start-node call-mode="private" name="ExportTest" secure="false"/>
         <node-display x="3" y="1"/>
       </node>
       <simple-transition/>
@@ -138,19 +138,162 @@
       </node>
     </segment>
   </branch>
-  <branch basename="_ANONYMOUS_BRANCH_3">
+  <branch basename="Export">
     <segment>
       <node>
-        <pipelet-node pipelet-name="SendMail" pipelet-set-identifier="bc_api">
-          <key-binding alias="&quot;test@demandware.com&quot;" key="MailFrom"/>
-          <key-binding alias="&quot;mail/jobtest&quot;" key="MailTemplate"/>
-          <key-binding alias="&quot;atougas@demandware.com&quot;" key="MailTo"/>
-          <key-binding alias="&quot;Run Job Test Complete&quot;" key="MailSubject"/>
-          <key-binding alias="null" key="LocaleID"/>
-          <key-binding alias="null" key="MailCC"/>
-          <key-binding alias="null" key="MailBCC"/>
+        <start-node call-mode="private" name="Export" secure="false"/>
+        <node-display x="6" y="1"/>
+      </node>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="GetRootCategory.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="RootCategory" key="RootCategory"/>
         </pipelet-node>
-        <node-display x="5" y="1"/>
+        <node-display x="0" y="1"/>
+        <branch basename="b2" source-connector="error">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="1" y="0"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <end-node/>
+              <node-display orientation="horizontal" x="1" y="0"/>
+            </node>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="GetRootSubCategories.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="RootCategory" key="RootCategory"/>
+          <key-binding alias="RootSubCategories" key="RootSubCategories"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b3" source-connector="error">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="1" y="0"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <end-node/>
+              <node-display orientation="horizontal" x="1" y="0"/>
+            </node>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="CreateProductIterator.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="RootSubCategories" key="RootSubCategories"/>
+          <key-binding alias="ProductExportList" key="ProductExportList"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b4" source-connector="error">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="1" y="0"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <end-node/>
+              <node-display orientation="horizontal" x="1" y="0"/>
+            </node>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="ProductListToIterator.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="ProductExportList" key="ProductExportList"/>
+          <key-binding alias="ProductExportListIterator" key="ProductExportListIterator"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b5" source-connector="error">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="1" y="0"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <end-node/>
+              <node-display orientation="horizontal" x="1" y="0"/>
+            </node>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
+          <key-binding alias="dw.catalog.CatalogMgr.getSiteCatalog()" key="Catalog"/>
+          <key-binding alias="&quot;/catalog/exportProductListTest.xml&quot;" key="ExportFile"/>
+          <key-binding alias="null" key="Categories"/>
+          <key-binding alias="null" key="ExportProducts"/>
+          <key-binding alias="null" key="ExportCategories"/>
+          <key-binding alias="null" key="ExportSubCategories"/>
+          <key-binding alias="null" key="OverwriteExportFile"/>
+          <key-binding alias="null" key="ErrorCode"/>
+          <key-binding alias="null" key="ErrorMsg"/>
+          <key-binding alias="null" key="LogFileName"/>
+          <key-binding alias="null" key="Status"/>
+          <key-binding alias="null" key="ExportCategoryAssignments"/>
+          <key-binding alias="null" key="ExportRecommendations"/>
+          <key-binding alias="null" key="ExportProductOptions"/>
+          <key-binding alias="null" key="ExportVariationAttributes"/>
+          <key-binding alias="ProductExportListIterator" key="Products"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b6" source-connector="error">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="1" y="0"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <end-node/>
+              <node-display orientation="horizontal" x="1" y="0"/>
+            </node>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <end-node/>
+        <node-display x="0" y="1"/>
       </node>
     </segment>
   </branch>
