@@ -2,46 +2,11 @@
 <?demandware-pipeline version="2.0"?>
 
 <pipeline type="view">
-  <branch basename="Start">
-    <segment>
-      <node>
-        <start-node name="Start" secure="false"/>
-        <node-display x="1" y="1"/>
-      </node>
-      <simple-transition/>
-      <node>
-        <pipelet-node pipelet-name="RunJobNow" pipelet-set-identifier="bc_api">
-          <key-binding alias="&quot;CatalogReducerExport&quot;" key="JobName"/>
-        </pipelet-node>
-        <node-display x="0" y="1"/>
-        <branch basename="b2" source-connector="error">
-          <transition target-connector="in">
-            <transition-display>
-              <bend-point relative-to="source" x="1" y="0"/>
-            </transition-display>
-          </transition>
-          <segment>
-            <node>
-              <end-node/>
-              <node-display orientation="horizontal" x="1" y="0"/>
-            </node>
-          </segment>
-        </branch>
-      </node>
-      <simple-transition/>
-      <node>
-        <interaction-node transaction-required="false">
-          <template buffered="true" dynamic="false" name="application/UI/test"/>
-        </interaction-node>
-        <node-display x="0" y="1"/>
-      </node>
-    </segment>
-  </branch>
   <branch basename="ExportTest">
     <segment>
       <node>
         <start-node call-mode="private" name="ExportTest" secure="false"/>
-        <node-display x="3" y="1"/>
+        <node-display x="1" y="1"/>
       </node>
       <simple-transition/>
       <node>
@@ -64,12 +29,17 @@
           </segment>
         </branch>
       </node>
-      <simple-transition/>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
       <node>
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
           <config-property key="Transactional" value="false"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
           <config-property key="ScriptFile" value="ProductToIterator.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
           <key-binding alias="Product" key="Product"/>
           <key-binding alias="ProductIterator" key="ProductIterator"/>
         </pipelet-node>
@@ -142,7 +112,7 @@
     <segment>
       <node>
         <start-node call-mode="private" name="Export" secure="false"/>
-        <node-display x="6" y="1"/>
+        <node-display x="4" y="1"/>
       </node>
       <simple-transition>
         <transition-display>

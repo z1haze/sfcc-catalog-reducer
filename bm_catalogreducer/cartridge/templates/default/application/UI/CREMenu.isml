@@ -1,0 +1,15 @@
+	<table class="w e s cre-table" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tbody>
+			<tr>
+				<td>
+					<isif condition="${pdict.CREMenu == 'Simple'}">
+						Simple
+					<iselseif condition="${pdict.CREMenu == 'Manual'}">
+						Manual
+					<iselse>
+						CSV
+					</isif>
+				</td>
+			</tr>
+		</tbody>
+	</table>
