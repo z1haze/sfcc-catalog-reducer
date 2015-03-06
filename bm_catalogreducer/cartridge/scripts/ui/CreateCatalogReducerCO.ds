@@ -2,24 +2,36 @@
 * CreateCatalogReducerCO Script
 * This is a basic test script to create a Catalog Reducer Definition CO
 *
-*   @output CREDefinition : Object
+*   @output CatalogReducerInfo : Object
 *
 */
 importPackage( dw.system );
 importPackage( dw.object );
+importPackage( dw.util );
 
 function execute( args : PipelineDictionary ) : Number
 {
+	var log : Logger = Logger.getLogger("BCM2","");
+	log.error("Searching for previous custom objects");
+	
+	var prevCOs : SeekableIterator = CustomObjectMgr.getAllCustomObjects("CatalogReducerDefinition");
+	while (prevCOs.hasNext()) {
+		log.error("Found previous custom object");
+		var prevCO : CustomObject = prevCOs.next();
+		CustomObjectMgr.remove(prevCO);
+		log.error("Deleted previous custom object");
+	}
 	
 	var numberproducts : Number = 5;
 	var onlineproducts : Boolean = false;
 
-    var co : CustomObject = CustomObjectMgr.createCustomObject("CatalogReducerDefinition", "creCOtest");
+    var co : CustomObject = CustomObjectMgr.createCustomObject("CatalogReducerDefinition", "CatalogReducerInfo");
+    log.error("Created new custom object");
     
     co.custom.numberProducts = numberproducts;
     co.custom.onlineProducts = onlineproducts;
     
-    args.CREDefinition = co;
+    args.CatalogReducerInfo = co;
 
    	return PIPELET_NEXT;
 }
