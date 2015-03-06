@@ -14,23 +14,31 @@
 		</tbody>
 	</table>
 	
-	<div id="cre-menu-div">
-		<table class="w e s cre-table" id="cre-table-Simple" width="100%" cellspacing="0" cellpadding="4" border="0">
+	<form action="${URLUtils.url('CatalogReducerUI-CreateCRECO')}" method="post" id="${pdict.CurrentForms.catalogreducer.htmlName}">
+	
+		<div id="cre-menu-div">
+			<table class="w e s cre-table" id="cre-table-Simple" width="100%" cellspacing="0" cellpadding="4" border="0">
+				<tbody>
+					<tr>
+						<td>Simple</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
 			<tbody>
 				<tr>
-					<td>Simple</td>
+					<td>
+						<button class="button" type="submit" value="${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}" name="${pdict.CurrentForms.catalogreducer.export.htmlName}">
+				    		<span>${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}</span>
+				    	</button>
+			    	</td>
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	
-	<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
-		<tbody>
-			<tr>
-				<td><a href="${URLUtils.url('CatalogReducerUI-ExportJob')}"><button class="button" name="testsubmit" id="testsubmit" type="submit">Export Catalog</button></a></td>
-			</tr>
-		</tbody>
-	</table>
+		
+	</form>
 	
 	<table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 30px;">
 		<tbody>

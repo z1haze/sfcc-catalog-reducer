@@ -1,31 +1,5 @@
 <!--- TEMPLATENAME: test.isml --->
 <isdecorate template = "application/MenuFrame.isml">
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-		<tbody>
-			<tr>
-				<td class="breadcrumb">
-					<a href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Site</a> > 
-					<a href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Product and Catalogs</a> > 
-					<a href="${URLUtils.url('CatalogReducerUI-Menu', 'SelectedMenuItem', 'prod-cat', 'CurrentMenuItemId', 'prod-cat', 'menupath', 'CR', 'mainmenuname', 'CR1')}">Catalog Reducer</a> >
-					Export
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-		<tbody>
-			<tr>
-				<td class="table_title">Catalog Reducer</td>
-			</tr>
-			<tr>
-				<td class="w s e">
-					<!-- <img width="1" height="2" src="${URLUtils.staticURL('/images/spacer.gif')}" /> -->
-				</td>
-			</tr>
-		</tbody>
-	</table>
 	
 	<table class="infobox w e s" width="100%">
 		<tbody>

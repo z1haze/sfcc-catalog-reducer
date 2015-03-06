@@ -1,0 +1,25 @@
+/**
+* CreateCatalogReducerCO Script
+* This is a basic test script to create a Catalog Reducer Definition CO
+*
+*   @output CREDefinition : Object
+*
+*/
+importPackage( dw.system );
+importPackage( dw.object );
+
+function execute( args : PipelineDictionary ) : Number
+{
+	
+	var numberproducts : Number = 5;
+	var onlineproducts : Boolean = false;
+
+    var co : CustomObject = CustomObjectMgr.createCustomObject("CatalogReducerDefinition", "creCOtest");
+    
+    co.custom.numberProducts = numberproducts;
+    co.custom.onlineProducts = onlineproducts;
+    
+    args.CREDefinition = co;
+
+   	return PIPELET_NEXT;
+}

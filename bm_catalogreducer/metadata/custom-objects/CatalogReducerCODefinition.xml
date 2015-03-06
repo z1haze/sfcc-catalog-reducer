@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-type type-id="CatalogReducerDefinition">
+        <display-name xml:lang="x-default">Catalog Reducer Definition</display-name>
+        <description xml:lang="x-default">A definition for a catalog reduction, specifying necessary elements of the reduction job</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>organization</storage-scope>
+        <key-definition attribute-id="ID">
+            <display-name xml:lang="x-default">Definition ID</display-name>
+            <type>string</type>
+            <min-length>0</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="csvProducts">
+                <display-name xml:lang="x-default">CSV Product IDs</display-name>
+                <type>text</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="numberProducts">
+                <display-name xml:lang="x-default">Number of Products</display-name>
+                <description xml:lang="x-default">Number of Products per category</description>
+                <type>int</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="onlineProducts">
+                <display-name xml:lang="x-default">Online Products Only</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="productIDs">
+                <display-name xml:lang="x-default">Product IDs</display-name>
+                <description xml:lang="x-default">List of product IDs to export</description>
+                <type>text</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="presentation">
+                <display-name xml:lang="x-default">Presentation</display-name>
+                <attribute attribute-id="numberProducts"/>
+                <attribute attribute-id="creationDate" system="true"/>
+                <attribute attribute-id="lastModified" system="true"/>
+                <attribute attribute-id="ID"/>
+                <attribute attribute-id="onlineProducts"/>
+                <attribute attribute-id="csvProducts"/>
+                <attribute attribute-id="productIDs"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+</metadata>

@@ -1,0 +1,4 @@
+<!--- TEMPLATENAME: cocreatetest.isml --->
+<isdecorate template = "application/MenuFrame.isml">
+	<p>Custom Object Created</p>
+</isdecorate>
