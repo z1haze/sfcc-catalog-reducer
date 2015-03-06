@@ -22,7 +22,13 @@
 				//jQuery(".cre-table").hide();
 				//jQuery("#cre-table-"+id).show();
 				
-				
+			});
+			
+			jQuery("form#catalogreducerform").submit(function (e) {
+				e.preventDefault();
+				var $form = jQuery(this),
+					url = $form.attr('action');
+				cre.util.runCREJob(url);
 			});
 		});
 	}
@@ -40,6 +46,14 @@
 			jQuery.post(u, d).done(function(response) {
 				var $response = jQuery(jQuery.trim(response));
 				jQuery('#cre-menu-div').html($response);
+			});
+		},
+		runCREJob : function (url) {
+			var u = url;
+			jQuery.post(u).done(function(response) {
+				jQuery('#exportFinishMessageTbl').show();
+				var $response = jQuery(jQuery.trim(response));
+				jQuery('#exportFinishMessage').html($response);
 			});
 		}	
 	};

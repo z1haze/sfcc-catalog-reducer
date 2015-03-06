@@ -1,5 +1,13 @@
 <!--- TEMPLATENAME: Menu.isml --->
 <isdecorate template = "application/MenuFrame.isml">
+
+	<table id="exportFinishMessageTbl" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 30px; display: none;">
+		<tbody>
+			<tr>
+				<td class="table_header" width="100%" nowrap="nowrap"><span id="exportFinishMessage"></span></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	<table class="infobox w e s" width="100%" cellspacing="0" style="border-top: 1px solid #DADADA;">
 		<tbody>
@@ -14,7 +22,7 @@
 		</tbody>
 	</table>
 	
-	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" id="${pdict.CurrentForms.catalogreducer.htmlName}">
+	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" name="${pdict.CurrentForms.catalogreducer.htmlName}" id="catalogreducerform">
 	
 		<div id="cre-menu-div">
 			<table class="w e s cre-table" id="cre-table-Simple" width="100%" cellspacing="0" cellpadding="4" border="0">
