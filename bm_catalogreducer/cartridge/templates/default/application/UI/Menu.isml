@@ -14,7 +14,7 @@
 		</tbody>
 	</table>
 	
-	<form action="${URLUtils.url('CatalogReducerUI-CreateCRECO')}" method="post" id="${pdict.CurrentForms.catalogreducer.htmlName}">
+	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" id="${pdict.CurrentForms.catalogreducer.htmlName}">
 	
 		<div id="cre-menu-div">
 			<table class="w e s cre-table" id="cre-table-Simple" width="100%" cellspacing="0" cellpadding="4" border="0">
