@@ -3,6 +3,7 @@
 *
 *	@output ProductExportList : dw.util.ArrayList
 *   @output ProductExportListIterator : dw.util.Iterator
+*   @output StorefrontCatalog : dw.catalog.Catalog
 *
 */
 
@@ -36,7 +37,8 @@ function execute( args : PipelineDictionary ) : Number
    
     
    args.ProductExportList = productExportList;
-   args.ProductExportListIterator = productExportList.iterator();	
+   args.ProductExportListIterator = productExportList.iterator();
+   args.StorefrontCatalog = siteCatalog; 	
    
    return PIPELET_NEXT;
 }
@@ -57,6 +59,13 @@ function getProductsfromSubCategories(category : Category, productExportList : A
     		}
     		else
     	 	{
+    	 		var test: Collection = subCategory.getProducts();
+    	 		
+    	 		for each( var tProduct : Product in test)
+    	 		{
+    	 			//log.error(tProduct.ID + "-" + tProduct.isAssignedToSiteCatalog());
+    	 			var count2 = count2++;
+    	 		}
     			var onlineProducts: Iterator = subCategory.getOnlineProducts().iterator();
     			var numberofProducts : Number = 5;
     			var count: Number = 0;
@@ -64,7 +73,7 @@ function getProductsfromSubCategories(category : Category, productExportList : A
     			if(onlineProducts.hasNext() && (numberofProducts > count))
     			{
     				var product : Product = onlineProducts.next();
-    				log.error(product.ID);
+    				//log.error(product.ID);
     				productExportList.add(product);
     				count = count++;   				
     			}

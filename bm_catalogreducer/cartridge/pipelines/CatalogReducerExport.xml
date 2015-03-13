@@ -18,10 +18,10 @@
           <config-property key="Transactional" value="false"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
           <config-property key="ScriptFile" value="job/CreateIteratorofProducts.ds"/>
-          <key-binding alias="null" key="ScriptLog"/>
           <key-binding alias="RootSubCategories" key="RootSubCategories"/>
           <key-binding alias="ProductExportList" key="ProductExportList"/>
           <key-binding alias="ProductExportListIterator" key="ProductExportListIterator"/>
+          <key-binding alias="StorefrontCatalog" key="StorefrontCatalog"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b2" source-connector="error">
@@ -42,7 +42,7 @@
       </simple-transition>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
-          <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;apparel-catalog&quot;)" key="Catalog"/>
+          <key-binding alias="StorefrontCatalog" key="Catalog"/>
           <key-binding alias="&quot;/catalog/exportProductListTestRecursive.xml&quot;" key="ExportFile"/>
           <key-binding alias="null" key="Categories"/>
           <key-binding alias="null" key="ExportProducts"/>
