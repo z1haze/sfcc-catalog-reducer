@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
 <form>
-    <field formid="numproducts" label="forms.cre.numproducts.label" type="integer" mandatory="false" binding="custom.numberProducts" max-length="2" />
-    <field formid="onlineproducts" label="forms.cre.onlineproducts.label" type="boolean" mandatory="false" binding="custom.onlineProducts" /> 
 	<action formid="export" valid-form="true"/>
 </form>
