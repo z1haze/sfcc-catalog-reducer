@@ -1,0 +1,2 @@
+<!--- TEMPLATENAME: allCatalogs.isml --->
+${URLUtils.https('ViewChannelCatalogList_52-ListAll')}

@@ -2,6 +2,11 @@
 	
 	function init() {
 		jQuery(document).ready(function(){
+			
+			//show "Simple" menu on page load, pulls cre.urls from creresources.isml
+			var data = {cremenu: "Simple"}
+			cre.util.showCREMenu(cre.urls.showCREMenu, data);
+		
 			jQuery("body").on("click", "a.switch_link", function(e) {
 				e.preventDefault();
 				var id = jQuery(this).attr("id");
@@ -18,9 +23,6 @@
 				};
 				
 				cre.util.showCREMenu(url, data);
-					
-				//jQuery(".cre-table").hide();
-				//jQuery("#cre-table-"+id).show();
 				
 			});
 			

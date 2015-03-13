@@ -1,0 +1,15 @@
+<iscontent type="text/javascript" charset="UTF-8" compact="true"/>
+
+<isscript>
+	importPackage( dw.system );
+	importPackage( dw.util );
+	importPackage( dw.web );
+
+	//application urls
+	var urls = {
+		showCREMenu : URLUtils.url('CatalogReducerUI-CREMenu').toString()
+	};
+</isscript>
+(function(cre){	
+	cre.urls = <isprint value="${JSON.stringify(urls)}" encoding="off"/>;
+}(window.cre = window.cre || {}));

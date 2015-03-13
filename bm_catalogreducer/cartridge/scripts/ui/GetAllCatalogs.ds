@@ -1,0 +1,34 @@
+/**
+* GetAllCatalogs Demandware Script File
+*
+*   @output Response : String
+*
+*/
+importPackage( dw.system );
+importPackage( dw.net );
+importPackage( dw.web );
+
+function execute( args : PipelineDictionary ) : Number
+{
+	
+	var log : Logger = Logger.getLogger("BCM2","");
+
+    var httpClient : HTTPClient = new HTTPClient();
+    	httpClient.setTimeout(500);
+    	
+    var response : String = "";
+    var url : String = URLUtils.https('ViewChannelCatalogList_52-ListAll');
+    httpClient.open('GET', url);
+    httpClient.send();
+    
+    if (httpClient.statusCode == 200) {
+    	response = httpClient.text;
+    }
+    else {
+    	log.error("Error with HTTPClient request! Returned status code: " + httpClient.statusCode);
+    }
+    
+    args.Response = response;
+
+    return PIPELET_NEXT;
+}

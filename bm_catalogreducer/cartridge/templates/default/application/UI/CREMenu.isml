@@ -9,8 +9,8 @@
 					<td>
 						<table width="100%" cellspacing="0" cellpadding="4">
 							<tr>
-								<td width="10%">Number of Products &#09;</td>
-								<td width="5%"><input value="5" name="noofprods" id="noofprods" type="text" size="5" maxlength="2" onpaste="return false" onkeydown="return isNumberKey(event)"></td>
+								<td width="180px">Number of Products &#09;</td>
+								<td width="55px"><input value="5" name="noofprods" id="noofprods" type="text" size="5" maxlength="2" onpaste="return false" onkeydown="return isNumberKey(event)"></td>
 								<td class="table_title_description" style="padding: 0">Products per category</td>
 							</tr>
 							<tr>
