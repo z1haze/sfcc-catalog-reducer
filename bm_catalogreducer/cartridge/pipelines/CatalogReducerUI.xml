@@ -234,23 +234,4 @@
       </node>
     </segment>
   </branch>
-  <branch basename="CREResources">
-    <segment>
-      <node>
-        <start-node name="CREResources" secure="false"/>
-        <node-display x="1" y="10"/>
-      </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="source" x="0" y="1"/>
-        </transition-display>
-      </simple-transition>
-      <node>
-        <interaction-node transaction-required="false">
-          <template buffered="true" dynamic="false" name="application/resources/creresources.isml"/>
-        </interaction-node>
-        <node-display x="0" y="1"/>
-      </node>
-    </segment>
-  </branch>
 </pipeline>
