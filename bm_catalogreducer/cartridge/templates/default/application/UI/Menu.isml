@@ -11,10 +11,46 @@
          return true;
       }
       //-->
-</SCRIPT>
-   
+</SCRIPT>   
    
 <isdecorate template = "application/MenuFrame.isml">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript"><isinclude template="application/resources/creresources"/></script>
+<script src="${URLUtils.staticURL('/js/cre.js')}"></script>
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="breadcrumb">
+					<a href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Site</a> > 
+					<a href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Product and Catalogs</a>
+					> Catalog Reducer
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+			<tr>
+				<td class="table_title">${Resource.msg("cre.title", "cre", "Catalog Reducer")}</td>
+			</tr>
+			<tr>
+				<td class="w s e">
+					<!-- <img width="1" height="2" src="${URLUtils.staticURL('/images/spacer.gif')}" /> -->
+				</td>
+			</tr>
+			<tr>
+				<td class="table_title_description">
+					<p>Select <b>Simple</b> to perform a quick reduced catalog export, <b>Manual</b> to input product IDs for export, or <b>CSV</b> to input a CSV file of product IDs to export.</p>
+					<p><b>Simple</b> export allows you to quickly export a reduced catalog. You can select whether or not to include only <b>Online</b> products, and how many products to include in each subcategory.</p>
+					<p><b>Manual</b> export allows you to input a comma-delimited list of product IDs to be exported as the reduced catalog.</p>
+					<p><b>CSV</b> export allows you to browse to a local CSV file of product IDs, upload it, and the reduced catalog export will include only the products in the CSV.</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
 	<table id="exportFinishMessageTbl" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 30px; display: none;">
 		<tbody>
