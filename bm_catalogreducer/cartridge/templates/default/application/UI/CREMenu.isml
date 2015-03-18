@@ -22,16 +22,14 @@
 					</td>
 				</tr>
 				
-			<iselseif condition="${pdict.CREMenu == 'Manual'}">
+			<iselseif condition="${pdict.CREMenu == 'CSV'}">
 			
 				<tr>
-					<td>Manual</td>
-				</tr>
-				
-			<iselse>
-			
-				<tr>
-					<td>CSV</td>
+					<td>
+					<textarea rows="25" cols="250">
+
+					</textarea>
+					</td>
 				</tr>
 				
 			</isif>
