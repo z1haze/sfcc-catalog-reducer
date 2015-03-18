@@ -8,6 +8,7 @@
 importPackage( dw.system );
 importPackage( dw.net );
 importPackage( dw.web );
+importPackage( dw.util );
 
 function execute( args : PipelineDictionary ) : Number
 {
@@ -46,6 +47,10 @@ function execute( args : PipelineDictionary ) : Number
     else {
     	log.error("Error with HTTPClient request! Returned status code: " + httpClient.statusCode);
     }
+    
+    var regExpString : String = "/class=\"catalog\">[\s\S]*?<\/a>/g";
+    var catalogRegExp : RegExp = new RegExp(regExpString);
+    var catalogNames : String = response.match(catalogRegExp);
     
     args.Response = response;
 

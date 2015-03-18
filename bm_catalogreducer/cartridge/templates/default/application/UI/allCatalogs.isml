@@ -1,2 +1,4 @@
 <!--- TEMPLATENAME: allCatalogs.isml --->
 ${URLUtils.https('ViewChannelCatalogList_52-ListAll')}
+
+<isprint value="${pdict.Response}"/>

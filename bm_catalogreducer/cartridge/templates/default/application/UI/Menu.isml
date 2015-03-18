@@ -43,9 +43,8 @@
 			</tr>
 			<tr>
 				<td class="table_title_description">
-					<p>Select <b>Simple</b> to perform a quick reduced catalog export, <b>Manual</b> to input product IDs for export, or <b>CSV</b> to input a CSV file of product IDs to export.</p>
+					<p>Select <b>Simple</b> to perform a quick reduced catalog export or <b>CSV</b> to input a CSV file of product IDs to export.</p>
 					<p><b>Simple</b> export allows you to quickly export a reduced catalog. You can select whether or not to include only <b>Online</b> products, and how many products to include in each subcategory.</p>
-					<p><b>Manual</b> export allows you to input a comma-delimited list of product IDs to be exported as the reduced catalog.</p>
 					<p><b>CSV</b> export allows you to browse to a local CSV file of product IDs, upload it, and the reduced catalog export will include only the products in the CSV.</p>
 				</td>
 			</tr>
