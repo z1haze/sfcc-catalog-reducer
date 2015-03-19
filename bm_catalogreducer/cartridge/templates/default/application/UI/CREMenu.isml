@@ -15,8 +15,9 @@
 							</tr>
 							<tr>
 								<td>Online Products Only &#09;</td>
-								<td><input name="online" id="online" type="checkbox" checked></td>
+								<td><input name="onlineprods" id="onlineprods" type="checkbox" checked></td>
 								<td></td>
+								<input type="hidden" name="expmethod" id="expmethod" value="simple">
 							</tr>
 						</table>
 					</td>
@@ -31,9 +32,9 @@
 				<table width="100%" cellspacing="0" cellpadding="4">
 					<tr>
 						<td>
-							<textarea rows="25" cols="200">
-							</textarea>
+							<textarea rows="25" cols="200" id="prodids" name="prodids"></textarea>
 						</td>
+						<input type="hidden" name="expmethod" id="expmethod" value="csv">
 					</tr>
 				</table>
 				</td>

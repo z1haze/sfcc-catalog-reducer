@@ -11,6 +11,15 @@
             <min-length>0</min-length>
         </key-definition>
         <attribute-definitions>
+            <attribute-definition attribute-id="expMethod">
+                <display-name xml:lang="x-default">Export Method</display-name>
+                <description xml:lang="x-default">Can be either simple or csv</description>
+                <type>string</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
             <attribute-definition attribute-id="masterCatalogs">
                 <display-name xml:lang="x-default">Master Catalogs</display-name>
                 <type>string</type>
@@ -68,6 +77,7 @@
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="running"/>
+                <attribute attribute-id="expMethod"/>
             </attribute-group>
         </group-definitions>
     </custom-type>

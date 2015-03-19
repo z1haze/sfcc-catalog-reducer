@@ -2,6 +2,10 @@
 * CreateCatalogReducerCO Script
 * This is a basic test script to create a Catalog Reducer Definition CO
 *
+*	@input NumberOfProducts : Number
+*	@input OnlineProducts : Boolean
+*	@input ProductIDs : String
+*	@input ExportMethod : String
 *   @output CatalogReducerInfo : Object
 *
 */
@@ -11,6 +15,12 @@ importPackage( dw.util );
 
 function execute( args : PipelineDictionary ) : Number
 {
+	
+	var numberofproducts : Number = args.NumberOfProducts;
+	var onlineproducts : Boolean = args.OnlineProducts;
+	var productids : String = args.ProductIDs;
+	var expmethod : String = args.ExportMethod;
+	
 	var log : Logger = Logger.getLogger("BCM2","");
 	log.error("Searching for previous custom objects");
 	
@@ -21,15 +31,14 @@ function execute( args : PipelineDictionary ) : Number
 		CustomObjectMgr.remove(prevCO);
 		log.error("Deleted previous custom object");
 	}
-	
-	var numberproducts : Number = 5;
-	var onlineproducts : Boolean = false;
 
     var co : CustomObject = CustomObjectMgr.createCustomObject("CatalogReducerDefinition", "CatalogReducerInfo");
     log.error("Created new custom object");
     
-    co.custom.numberProducts = numberproducts;
+    co.custom.numberProducts = numberofproducts;
     co.custom.onlineProducts = onlineproducts;
+    co.custom.productIDs = productids;
+    co.custom.expMethod = expmethod;
     
     args.CatalogReducerInfo = co;
 

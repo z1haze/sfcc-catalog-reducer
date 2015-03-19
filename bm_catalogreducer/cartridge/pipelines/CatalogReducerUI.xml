@@ -29,12 +29,43 @@
       </node>
       <simple-transition/>
       <node>
+        <pipelet-node pipelet-name="Assign" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <key-binding alias="CurrentHttpParameterMap.noofprods.intValue" key="From_0"/>
+          <key-binding alias="NumberOfProducts" key="To_0"/>
+          <key-binding alias="CurrentHttpParameterMap.onlineprods.booleanValue" key="From_1"/>
+          <key-binding alias="OnlineProducts" key="To_1"/>
+          <key-binding alias="CurrentHttpParameterMap.prodids.stringValue" key="From_2"/>
+          <key-binding alias="ProductIDs" key="To_2"/>
+          <key-binding alias="CurrentHttpParameterMap.expmethod.stringValue" key="From_3"/>
+          <key-binding alias="ExportMethod" key="To_3"/>
+          <key-binding alias="null" key="From_4"/>
+          <key-binding alias="null" key="To_4"/>
+          <key-binding alias="null" key="From_5"/>
+          <key-binding alias="null" key="To_5"/>
+          <key-binding alias="null" key="From_6"/>
+          <key-binding alias="null" key="To_6"/>
+          <key-binding alias="null" key="From_7"/>
+          <key-binding alias="null" key="To_7"/>
+          <key-binding alias="null" key="From_8"/>
+          <key-binding alias="null" key="To_8"/>
+          <key-binding alias="null" key="From_9"/>
+          <key-binding alias="null" key="To_9"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition/>
+      <node>
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
           <config-property key="Transactional" value="true"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
           <config-property key="ScriptFile" value="ui/CreateCatalogReducerCO.ds"/>
           <key-binding alias="null" key="ScriptLog"/>
           <key-binding alias="CatalogReducerInfo" key="CatalogReducerInfo"/>
+          <key-binding alias="NumberOfProducts" key="NumberOfProducts"/>
+          <key-binding alias="OnlineProducts" key="OnlineProducts"/>
+          <key-binding alias="ProductIDs" key="ProductIDs"/>
+          <key-binding alias="ExportMethod" key="ExportMethod"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b2" source-connector="error">
@@ -75,11 +106,7 @@
           </segment>
         </branch>
       </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="source" x="0" y="1"/>
-        </transition-display>
-      </simple-transition>
+      <simple-transition/>
       <node>
         <interaction-node transaction-required="false">
           <template buffered="true" dynamic="false" name="application/UI/exportSuccess.isml"/>
