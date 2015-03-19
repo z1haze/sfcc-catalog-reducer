@@ -1,4 +1,22 @@
-<!--- TEMPLATENAME: allCatalogs.isml --->
-${URLUtils.https('ViewChannelCatalogList_52-ListAll')}
+	<table class="w e s catalogs-table" width="100%" cellspacing="0" cellpadding="4" border="0">
+		<tbody>
+			<tr>
+				<td class="table_title_description">Select all master catalogs that apply, as well as the storefront catalog of the site</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<p><b>Master Catalog(s)</b></p>
+					<isloop items="${pdict.CatalogNames}" alias="catalogName">
+						<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
+					</isloop>
 
-<isprint value="${pdict.Response}"/>
+				</td>
+				<td>	
+					<p><b>Storefront Catalog</b></p>
+					<isloop items="${pdict.CatalogNames}" alias="catalogName">
+						<input type="radio" name="storefrontcat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
+					</isloop>
+				</td>
+			</tr>
+		</tbody>
+	</table>

@@ -2,7 +2,7 @@
 * GetAllCatalogs Demandware Script File
 *
 *   @input Request : dw.system.Request
-*   @output Response : String
+*	@output CatalogNames : Array
 *
 */
 importPackage( dw.system );
@@ -48,11 +48,18 @@ function execute( args : PipelineDictionary ) : Number
     	log.error("Error with HTTPClient request! Returned status code: " + httpClient.statusCode);
     }
     
-    var regExpString : String = "/class=\"catalog\">[\s\S]*?<\/a>/g";
-    var catalogRegExp : RegExp = new RegExp(regExpString);
-    var catalogNames : String = response.match(catalogRegExp);
+    //var regExpString : String = "class=\"catalog\">[\s\S]*?</a>";
+    var catalogRegExp : RegExp = new RegExp("class=\"catalog\".*?</a>", "g");
+    var catalogNamesAll : Object = response.match(catalogRegExp);
+    var catalogNames : Array = new Array();
     
-    args.Response = response;
+    for each (var catalogName : String in catalogNamesAll) {
+    	catalogName = catalogName.replace('class="catalog">', '');
+    	catalogName = catalogName.replace('</a>', '');
+    	catalogNames.push(catalogName);
+    }	
+    
+    args.CatalogNames = catalogNames;
 
     return PIPELET_NEXT;
 }

@@ -24,21 +24,21 @@
 				</tr>
 				
 			<iselseif condition="${pdict.CREMenu == 'CSV'}">
-			<tr>
-				<td class="table_title_description">Product ID CSV</td>
-			</tr>
-			<tr>
-				<td>
-				<table width="100%" cellspacing="0" cellpadding="4">
-					<tr>
-						<td>
-							<textarea rows="25" cols="200" id="prodids" name="prodids"></textarea>
-						</td>
-						<input type="hidden" name="expmethod" id="expmethod" value="csv">
-					</tr>
-				</table>
-				</td>
-			</tr>
+			
+				<tr>
+					<td class="table_title_description">Product IDs CSV</td>
+				</tr>
+				<tr>
+					<td>
+						<table width="100%" cellspacing="0" cellpadding="4">
+							<tr>
+								<td width="180px" valign="top">Product IDs</td>
+								<td><textarea rows="15" id="prodids" name="prodids" style="width: 100%"></textarea></td>
+								<input type="hidden" name="expmethod" id="expmethod" value="csv">
+							</tr>
+						</table>
+					</td>
+				</tr>
 			</isif>
 		</tbody>
 	</table>
