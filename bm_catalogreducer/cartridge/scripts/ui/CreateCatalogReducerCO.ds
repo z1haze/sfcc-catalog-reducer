@@ -6,6 +6,8 @@
 *	@input OnlineProducts : Boolean
 *	@input ProductIDs : String
 *	@input ExportMethod : String
+*	@input MasterCatalog : String
+*	@input StorefrontCatalog : String
 *   @output CatalogReducerInfo : Object
 *
 */
@@ -20,6 +22,8 @@ function execute( args : PipelineDictionary ) : Number
 	var onlineproducts : Boolean = args.OnlineProducts;
 	var productids : String = args.ProductIDs;
 	var expmethod : String = args.ExportMethod;
+	var mastercat : String = args.MasterCatalog;
+	var storefrontcat : String = args.StorefrontCatalog;
 	
 	var log : Logger = Logger.getLogger("BCM2","");
 	log.error("Searching for previous custom objects");
@@ -39,6 +43,8 @@ function execute( args : PipelineDictionary ) : Number
     co.custom.onlineProducts = onlineproducts;
     co.custom.productIDs = productids;
     co.custom.expMethod = expmethod;
+    co.custom.masterCatalogs = mastercat;
+    co.custom.storefrontCatalog = storefrontcat;
     
     args.CatalogReducerInfo = co;
 

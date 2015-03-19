@@ -47,15 +47,25 @@
 					noofprods = 20;
 				}
 				
+				var mastercat = "";
+				jQuery("input[name=mastercat]:checked").each(function() {
+					mastercat += $(this).val() + ",";
+				});
+				//remove last comma on master category list
+				mastercat = mastercat.slice(0, -1);
+				
 				var $form = jQuery(this),
 					url = $form.attr('action'),
 					prodids = jQuery("#prodids").val(),
 					expmethod = jQuery("#expmethod").val(),
+					storefrontcat = jQuery("input[name=storefrontcat]:checked").val(),
 					data = {
 						noofprods: noofprods,
 						onlineprods: onlineprods,
 						prodids: prodids,
-						expmethod: expmethod
+						expmethod: expmethod,
+						mastercat: mastercat,
+						storefrontcat: storefrontcat
 					}
 				cre.util.runCREJob(url, data);
 			});
