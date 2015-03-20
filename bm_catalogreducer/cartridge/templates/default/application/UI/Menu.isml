@@ -43,7 +43,7 @@
 			</tr>
 			<tr>
 				<td class="table_title_description">
-					<p>Select <b>Simple</b> to perform a quick reduced catalog export or <b>CSV</b> to input a CSV file of product IDs to export.</p>
+					<p>Select <b>Simple</b> to perform a quick reduced catalog export or <b>CSV</b> to input a CSV list of product IDs to export.</p>
 					<p><b>Simple</b> export allows you to quickly export a reduced catalog. You can select whether or not to include only <b>Online</b> products, and how many products to include in each subcategory (minimum 1 product, maximum 20 products).</p>
 					<p><b>CSV</b> export allows you to input a comma-separated list of product IDs to export those products as your reduced catalog</p>
 				</td>
@@ -59,7 +59,7 @@
 		</tbody>
 	</table>
 	
-	<table class="infobox w e s" width="100%" cellspacing="0" style="border-top: 1px solid #DADADA;">
+	<table class="infobox w e" width="100%" cellspacing="0" style="border-top: 1px solid #DADADA;">
 		<tbody>
 			<tr>
 				<td class="infobox_title_search" nowrap="nowrap" colspan="3">Catalog Reducer Export</td>
@@ -75,7 +75,13 @@
 	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" name="${pdict.CurrentForms.catalogreducer.htmlName}" id="catalogreducerform">
 	
 		<div id="cre-catalogs-div">
-			<isinclude url="${URLUtils.url('CatalogReducerUI-GetAllCatalogs')}">
+			<table class="infobox w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
+				<tbody>
+					<tr>
+						<td class="table_title_description">Loading all catalogs... <img src="${URLUtils.staticURL('icons/zoomloader.gif')}"/>
+					</tr>
+				</tbody>
+			</table>
 		</div>		
 	
 		<div id="cre-menu-div"></div>
@@ -84,7 +90,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<button class="button" type="submit" value="${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}" name="${pdict.CurrentForms.catalogreducer.export.htmlName}">
+						<button class="button" type="submit" id="export-catalog-btn" value="${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}" name="${pdict.CurrentForms.catalogreducer.export.htmlName}">
 				    		<span>${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}</span>
 				    	</button>
 			    	</td>

@@ -6,6 +6,36 @@
 			//show "Simple" menu on page load, pulls cre.urls from creresources.isml
 			var data = {cremenu: "Simple"}
 			cre.util.showCREMenu(cre.urls.showCREMenu, data);
+			
+			//show all catalogs in the menu and disable export catalog button until done
+			jQuery('button#export-catalog-btn').prop('disabled', true);
+			cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+			
+			//check value of number of products input field
+			jQuery("body").on("keyup", "#noofprods", function(e) {
+				e.preventDefault();
+				var value = jQuery(this).val();
+				var msg = "";
+				if (value === "") {
+					msg = "";
+				} else if (value < 1) {
+					msg = "Number of products cannot be less than 1";
+				} else if (value > 20) {
+					msg = "Number of products cannot be more than 20";
+				} else {
+					msg = "";
+				}
+				jQuery("#noofprods-error").html(msg);
+			});
+			
+			//if number of products input field is blank
+			jQuery("body").on("blur", "#noofprods", function(e) {
+				e.preventDefault();
+				var value = jQuery(this).val();
+				if (value === "") {
+					jQuery("#noofprods-error").html("Number of products cannot be empty");
+				}
+			});
 		
 			jQuery("body").on("click", "a.switch_link", function(e) {
 				e.preventDefault();
@@ -31,19 +61,19 @@
 				
 				if (jQuery("#onlineprods").prop('checked')) {
 					var onlineprods = true;
-				} 
-				else {
+				} else {
 					var onlineprods = false;
 				}
 				
 				var noofprods = jQuery("#noofprods").val();
 				if (noofprods === "") {
+					jQuery("#noofprods").val(5);
 					noofprods = 5;
-				}
-				else if (noofprods < 1) {
+				} else if (noofprods < 1) {
+					jQuery("#noofprods").val(1);
 					noofprods = 1;
-				}
-				else if (noofprods > 20) {
+				} else if (noofprods > 20) {
+					jQuery("#noofprods").val(20);
 					noofprods = 20;
 				}
 				
@@ -85,6 +115,14 @@
 			jQuery.post(u, d).done(function(response) {
 				var $response = jQuery(jQuery.trim(response));
 				jQuery('#cre-menu-div').html($response);
+			});
+		},
+		showAllCatalogs : function (url) {
+			var u = url;
+			jQuery.post(u).done(function(response) {
+				var $response = jQuery(jQuery.trim(response));
+				jQuery('#cre-catalogs-div').html($response);
+				jQuery('button#export-catalog-btn').prop('disabled', false);
 			});
 		},
 		runCREJob : function (url, data) {

@@ -7,7 +7,8 @@
 
 	//application urls
 	var urls = {
-		showCREMenu : URLUtils.url('CatalogReducerUI-CREMenu').toString()
+		showCREMenu : URLUtils.url('CatalogReducerUI-CREMenu').toString(),
+		showAllCatalogs : URLUtils.url('CatalogReducerUI-GetAllCatalogs').toString()
 	};
 </isscript>
 (function(cre){	
