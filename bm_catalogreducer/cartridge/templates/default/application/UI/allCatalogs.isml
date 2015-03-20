@@ -1,7 +1,10 @@
 	<table class="infobox w e s catalogs-table" width="100%" cellspacing="0" cellpadding="4" border="0">
 		<tbody>
 			<tr>
-				<td class="table_title_description">Select all master catalogs that apply, as well as the storefront catalog of the site</td>
+				<td class="table_title_description">
+					<div id="catalogs-error" style="color: red;"></div>
+					Select all master catalogs that apply, as well as the storefront catalog of the site
+				</td>
 			</tr>
 			<tr>
 				<td width="25%" style="padding-left: 10px; padding-bottom: 10px;">
