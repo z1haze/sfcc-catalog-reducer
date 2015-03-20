@@ -81,12 +81,22 @@
               <join-node/>
               <node-display x="1" y="0"/>
             </node>
-            <transition target-connector="in1" target-path="./+1"/>
+            <transition target-connector="in1" target-path="../b3.1"/>
           </segment>
+        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="RunJobNow" pipelet-set-identifier="bc_api">
+          <key-binding alias="&quot;CatalogReducerExport&quot;" key="JobName"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b3" source-connector="error">
+          <transition target-connector="in1"/>
           <segment>
             <node>
               <join-node/>
-              <node-display x="0" y="1"/>
+              <node-display x="1" y="0"/>
             </node>
             <simple-transition>
               <transition-display>
@@ -102,16 +112,12 @@
           </segment>
         </branch>
       </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="target" x="0" y="-1"/>
-        </transition-display>
-      </simple-transition>
+      <simple-transition/>
       <node>
         <interaction-node transaction-required="false">
           <template buffered="true" dynamic="false" name="application/UI/exportSuccess.isml"/>
         </interaction-node>
-        <node-display x="0" y="2"/>
+        <node-display x="0" y="1"/>
       </node>
     </segment>
   </branch>
@@ -163,16 +169,6 @@
           <template buffered="true" dynamic="false" name="application/UI/catalogfiles.isml"/>
         </interaction-node>
         <node-display x="0" y="1"/>
-      </node>
-    </segment>
-  </branch>
-  <branch basename="_ANONYMOUS_BRANCH_4">
-    <segment>
-      <node>
-        <pipelet-node pipelet-name="RunJobNow" pipelet-set-identifier="bc_api">
-          <key-binding alias="&quot;CatalogReducerExport&quot;" key="JobName"/>
-        </pipelet-node>
-        <node-display x="2" y="4"/>
       </node>
     </segment>
   </branch>
