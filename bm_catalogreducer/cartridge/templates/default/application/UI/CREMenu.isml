@@ -26,7 +26,10 @@
 			<iselseif condition="${pdict.CREMenu == 'CSV'}">
 			
 				<tr>
-					<td class="table_title_description">Input all product IDs, comma separated, to be exported</td>
+					<td class="table_title_description">
+						Input all product IDs, comma separated, to be exported
+						<div id="csv-error" style="color: red;"></div>
+					</td>
 				</tr>
 				<tr>
 					<td>

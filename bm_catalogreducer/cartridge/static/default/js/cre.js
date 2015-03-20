@@ -59,24 +59,7 @@
 			jQuery("form#catalogreducerform").submit(function (e) {
 				e.preventDefault();
 				var valid = false; // for form validation
-				
-				if (jQuery("#onlineprods").prop('checked')) {
-					var onlineprods = true;
-				} else {
-					var onlineprods = false;
-				}
-				
-				var noofprods = jQuery("#noofprods").val();
-				if (noofprods === "") {
-					jQuery("#noofprods").val(5);
-					noofprods = 5;
-				} else if (noofprods < 1) {
-					jQuery("#noofprods").val(1);
-					noofprods = 1;
-				} else if (noofprods > 20) {
-					jQuery("#noofprods").val(20);
-					noofprods = 20;
-				}
+				var expmethod = jQuery("#expmethod").val();
 				
 				//check for master and storefront catalog selection
 				if ((jQuery("input[name=mastercat]:checked").length > 0) && (jQuery("input[name=storefrontcat]:checked").length > 0)) {
@@ -100,10 +83,39 @@
 					}
 				}
 				
+				if (jQuery("#onlineprods").prop('checked')) {
+					var onlineprods = true;
+				} else {
+					var onlineprods = false;
+				}
+				
+				var noofprods = jQuery("#noofprods").val();
+				if (noofprods === "") {
+					jQuery("#noofprods").val(5);
+					noofprods = 5;
+				} else if (noofprods < 1) {
+					jQuery("#noofprods").val(1);
+					noofprods = 1;
+				} else if (noofprods > 20) {
+					jQuery("#noofprods").val(20);
+					noofprods = 20;
+				}
+				
+				var prodids = '';
+				if (expmethod == 'csv') {
+					if (jQuery("#prodids").val().length > 0) {
+						prodids = jQuery("#prodids").val();
+						jQuery("#csv-error").html('');
+					} else {
+						valid = false;
+						jQuery("#csv-error").html('Please input at least 1 product ID!');
+					}
+				}
+				
 				var $form = jQuery(this),
 					url = $form.attr('action'),
 					prodids = jQuery("#prodids").val(),
-					expmethod = jQuery("#expmethod").val(),
+					expmethod = expmethod,
 					storefrontcat = storefrontcat,
 					data = {
 						noofprods: noofprods,
