@@ -9,6 +9,13 @@
 			
 			//show exported catalogs in the Recent Catalog Export table
 			cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			setInterval(function() {
+				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			}, 10000);
+			//refresh exported catalog list on refresh button click
+			jQuery("body").on("click", "#catalog-list-refresh", function(e) {
+				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			});
 			
 			//show all catalogs in the menu and disable export catalog button until done
 			jQuery('button#export-catalog-btn').prop('disabled', true);
