@@ -7,6 +7,9 @@
 			var data = {cremenu: "Simple"}
 			cre.util.showCREMenu(cre.urls.showCREMenu, data);
 			
+			//show exported catalogs in the Recent Catalog Export table
+			cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			
 			//show all catalogs in the menu and disable export catalog button until done
 			jQuery('button#export-catalog-btn').prop('disabled', true);
 			cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
@@ -154,6 +157,13 @@
 				var $response = jQuery(jQuery.trim(response));
 				jQuery('#cre-catalogs-div').html($response);
 				jQuery('button#export-catalog-btn').prop('disabled', false);
+			});
+		},
+		showCatalogFileList : function (url) {
+			var u = url;
+			jQuery.post(u).done(function(response) {
+				var $response = jQuery(jQuery.trim(response));
+				jQuery('#cre-catalogfilelist-div').html($response);
 			});
 		},
 		runCREJob : function (url, data) {
