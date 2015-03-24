@@ -1,3 +1,39 @@
 <!--- TEMPLATENAME: catalogfiles.isml --->
+	
+<table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 30px;">
+	
+	<td class="table_header" width="100%" nowrap="nowrap">Recent Catalog Exports</td>
+		
+		<isloop var="CatalogFile" items="${pdict.CatalogFileList}">
+		
+			<isscript>
+	var fileSize : Number = CatalogFile.length();
+    var lastModified : Date = new Date(CatalogFile.lastModified());
+    var runningFiles : Array = pdict.RunningFiles;
+    var isRun : Boolean = false;
+                              
+     for(var x=0; runningFiles.length > x; x++ )
+      {
+         if(runningFiles[x] == file.name)
+          {
+              isRun = true;
+          }
+      }
+      
+ 	</isscript>
+		
+			<tr>
+				<td><isprint value="${CatalogFile.name}"/></td>
+			</tr>
+				<tr>
+				<td><isprint value="${lastModified}"/></td>
+			</tr>
+				<tr>
+				<td><isprint value="${fileSize}"/></td>
+			</tr>
+			
+ 		
+ 		</isloop>
+	
+</table>
 
-${pdict.CatalogFileList}
