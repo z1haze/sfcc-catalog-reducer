@@ -9,7 +9,7 @@ The Catalog Reducer Extension is a Business Manager Extension that was created t
 
 Documentation
 ----------------
-None
+Please reference the [Catalog Reducer Extension documentation](https://bitbucket.org/demandware/catalog-reducer-extension/wiki/Home) for detailed descriptions for installation and usage.
 
 Support / Contributing
 ----------------------
