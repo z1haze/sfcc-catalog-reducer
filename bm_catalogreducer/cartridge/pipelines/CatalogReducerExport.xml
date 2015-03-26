@@ -8,11 +8,26 @@
         <start-node call-mode="private" name="Export" secure="false"/>
         <node-display x="1" y="1"/>
       </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="source" x="0" y="1"/>
-        </transition-display>
-      </simple-transition>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="true"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="job/CatalogReducer_COValue.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="CatalogReducerInfo" key="CatalogReducerInfo"/>
+          <key-binding alias="CustomObjectValue" key="CustomObjectValue"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b2" source-connector="error">
+          <transition target-connector="in1" target-path="./b3.1">
+            <transition-display>
+              <bend-point relative-to="source" x="2" y="0"/>
+            </transition-display>
+          </transition>
+        </branch>
+      </node>
+      <simple-transition/>
       <node>
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
           <config-property key="Transactional" value="false"/>
@@ -24,14 +39,14 @@
           <key-binding alias="StorefrontCatalog" key="StorefrontCatalog"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
-        <branch basename="b2" source-connector="error">
+        <branch basename="b3" source-connector="error">
           <transition target-connector="in1"/>
           <segment>
             <node>
               <join-node/>
               <node-display x="1" y="0"/>
             </node>
-            <transition target-connector="in1" target-path="../b3.1"/>
+            <transition target-connector="in1" target-path="../b4.1"/>
           </segment>
         </branch>
       </node>
@@ -60,7 +75,7 @@
           <key-binding alias="ProductExportListIterator" key="Products"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
-        <branch basename="b3" source-connector="error">
+        <branch basename="b4" source-connector="error">
           <transition target-connector="in1"/>
           <segment>
             <node>

@@ -1,0 +1,28 @@
+/**
+* CatalogReducer_COValue Script
+* This is a script to capture Catalog Reducer Custom Object Value
+*
+*-	@input CatalogReducerInfo : Object
+*   @output CustomObjectValue : Object
+*/
+
+importPackage( dw.system );
+importPackage( dw.object );
+importPackage( dw.util );
+
+function execute( args : PipelineDictionary ) : Number
+{
+    var log : Logger = Logger.getLogger("BCM2","");
+   
+    var covalue : CustomObject = CustomObjectMgr.getCustomObject("CatalogReducerDefinition", "CatalogReducerInfo");
+      
+    log.error("Custom object value captured");
+    
+    args.CustomObjectValue = covalue;
+  
+
+   return PIPELET_NEXT;
+}
+
+
+
