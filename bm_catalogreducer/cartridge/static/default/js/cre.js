@@ -3,10 +3,6 @@
 	function init() {
 		jQuery(document).ready(function(){
 			
-			//show "Simple" menu on page load, pulls cre.urls from creresources.isml
-			var data = {cremenu: "Simple"}
-			cre.util.showCREMenu(cre.urls.showCREMenu, data);
-			
 			//show exported catalogs in the Recent Catalog Export table
 			cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 			setInterval(function() {
@@ -19,7 +15,17 @@
 			
 			//show all catalogs in the menu and disable export catalog button until done
 			jQuery('button#export-catalog-btn').prop('disabled', true);
-			cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+			if (localStorage && localStorage.getItem('creAllCatalogs')) {
+				jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
+				jQuery('button#export-catalog-btn').prop('disabled', false);
+			} else {
+				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+			}
+			
+			//Show CSV product ids textarea when specific products will be included 
+			jQuery("body").on("change", "input#csvprods", function(e) {
+				jQuery("#csv-prods-row").toggle();
+			});
 			
 			//check value of number of products input field
 			jQuery("body").on("keyup", "#noofprods", function(e) {
@@ -30,8 +36,8 @@
 					msg = "";
 				} else if (value < 1) {
 					msg = "Number of products cannot be less than 1";
-				} else if (value > 20) {
-					msg = "Number of products cannot be more than 20";
+				} else if (value > 10) {
+					msg = "Number of products cannot be more than 10";
 				} else {
 					msg = "";
 				}
@@ -46,30 +52,10 @@
 					jQuery("#noofprods-error").html("Number of products cannot be empty");
 				}
 			});
-		
-			jQuery("body").on("click", "a.switch_link", function(e) {
-				e.preventDefault();
-				var id = jQuery(this).attr("id");
-				var url = jQuery(this).attr('href');
-				jQuery(".switch_link_span").each(function(i, v) {
-					var iid = jQuery(this).attr('id').replace("infobox_item-","");
-					jQuery(this).html('<a href="'+url+'" class="switch_link" id="'+iid+'">'+iid+'</a>');
-					jQuery(this).removeClass("switch_link");
-				});
-				jQuery("#infobox_item-"+id).html(id).addClass("switch_link");
-				
-				var data = {
-					cremenu: id
-				};
-				
-				cre.util.showCREMenu(url, data);
-				
-			});
 			
 			jQuery("form#catalogreducerform").submit(function (e) {
 				e.preventDefault();
 				var valid = false; // for form validation
-				var expmethod = jQuery("#expmethod").val();
 				
 				//check for master and storefront catalog selection
 				if ((jQuery("input[name=mastercat]:checked").length > 0) && (jQuery("input[name=storefrontcat]:checked").length > 0)) {
@@ -106,13 +92,14 @@
 				} else if (noofprods < 1) {
 					jQuery("#noofprods").val(1);
 					noofprods = 1;
-				} else if (noofprods > 20) {
-					jQuery("#noofprods").val(20);
-					noofprods = 20;
+				} else if (noofprods > 10) {
+					jQuery("#noofprods").val(10);
+					noofprods = 10;
 				}
 				
+				//if specific products to be included set in prodids variable
 				var prodids = '';
-				if (expmethod == 'csv') {
+				if (jQuery("#csvprods").prop('checked')) {
 					if (jQuery("#prodids").val().length > 0) {
 						prodids = jQuery("#prodids").val();
 						jQuery("#csv-error").html('');
@@ -124,14 +111,12 @@
 				
 				var $form = jQuery(this),
 					url = $form.attr('action'),
-					prodids = jQuery("#prodids").val(),
-					expmethod = expmethod,
+					prodids = prodids,
 					storefrontcat = storefrontcat,
 					data = {
 						noofprods: noofprods,
 						onlineprods: onlineprods,
 						prodids: prodids,
-						expmethod: expmethod,
 						mastercat: mastercat,
 						storefrontcat: storefrontcat
 					}
@@ -150,19 +135,16 @@
 	
 	cre.util = {
 	
-		showCREMenu : function (url, data) {
-			var u = url,
-				d = data;
-			jQuery.post(u, d).done(function(response) {
-				var $response = jQuery(jQuery.trim(response));
-				jQuery('#cre-menu-div').html($response);
-			});
-		},
 		showAllCatalogs : function (url) {
 			var u = url;
 			jQuery.post(u).done(function(response) {
-				var $response = jQuery(jQuery.trim(response));
-				jQuery('#cre-catalogs-div').html($response);
+				var response = jQuery.trim(response);
+				if (localStorage) {
+					localStorage.setItem('creAllCatalogs', response);
+					jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
+				} else {
+					jQuery('#cre-catalogs-div').html(response);
+				}
 				jQuery('button#export-catalog-btn').prop('disabled', false);
 			});
 		},

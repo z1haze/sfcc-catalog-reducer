@@ -5,7 +5,6 @@
 *	@input NumberOfProducts : Number
 *	@input OnlineProducts : Boolean
 *	@input ProductIDs : String
-*	@input ExportMethod : String
 *	@input MasterCatalog : String
 *	@input StorefrontCatalog : String
 *   @output CatalogReducerInfo : Object
@@ -21,7 +20,6 @@ function execute( args : PipelineDictionary ) : Number
 	var numberofproducts : Number = args.NumberOfProducts;
 	var onlineproducts : Boolean = args.OnlineProducts;
 	var productids : String = args.ProductIDs;
-	var expmethod : String = args.ExportMethod;
 	var mastercat : String = args.MasterCatalog;
 	var storefrontcat : String = args.StorefrontCatalog;
 	
@@ -42,7 +40,6 @@ function execute( args : PipelineDictionary ) : Number
     co.custom.numberProducts = numberofproducts;
     co.custom.onlineProducts = onlineproducts;
     co.custom.productIDs = productids;
-    co.custom.expMethod = expmethod;
     co.custom.masterCatalogs = mastercat;
     co.custom.storefrontCatalog = storefrontcat;
     

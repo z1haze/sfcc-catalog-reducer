@@ -43,9 +43,12 @@
 			</tr>
 			<tr>
 				<td class="table_title_description">
-					<p>Select <b>Simple</b> to perform a quick reduced catalog export or <b>CSV</b> to input a CSV list of product IDs to export.</p>
-					<p><b>Simple</b> export allows you to quickly export a reduced catalog. You can select whether or not to include only online products, and how many products to include in each subcategory (minimum 1 product, maximum 20 products).</p>
-					<p><b>CSV</b> export allows you to input a comma-separated list of product IDs to export those products as your reduced catalog</p>
+					<p>The Catalog Reducer Extension allows you to quickly export a reduced catalog. You have a few options to control the export:</p>
+					<ul>
+						<li>Input how many products to include in each subcategory (minimum 1 product, maximum 10 products)</li>
+						<li>Select whether or not to include only online products</li>
+						<li>Input a comma-separated list of specific product IDs to be included in the export</li>
+					</ul>
 				</td>
 			</tr>
 		</tbody>
@@ -62,11 +65,7 @@
 	<table class="infobox w e" width="100%" cellspacing="0" style="border-top: 1px solid #DADADA;">
 		<tbody>
 			<tr>
-				<td class="infobox_title_search" nowrap="nowrap" colspan="3">Catalog Reducer Export</td>
-				<td class="infobox_item_search" nowrap="nowrap" align="right">
-					<span class="switch_link switch_link_span" id="infobox_item-Simple">Simple</span>
-					<span class="switch_link_span" id="infobox_item-CSV"><a href="${URLUtils.url('CatalogReducerUI-CREMenu')}" class="switch_link" id="CSV">CSV</a></span>
-				</td>
+				<td class="infobox_title_search" nowrap="nowrap" colspan="3" style="padding-top: 6px; padding-bottom: 6px;">Catalog Reducer Export</td>
 			</tr>
 		</tbody>
 	</table>
@@ -84,7 +83,44 @@
 			</table>
 		</div>		
 	
-		<div id="cre-menu-div"></div>
+		<div id="cre-menu-div">
+			<table class="w e s cre-table" width="100%" cellspacing="0" cellpadding="4" border="0">
+				<tbody>
+					<tr>
+						<td class="table_title_description">Simple Catalog Export Refinements</td>
+					</tr>
+					<tr>
+						<td>
+							<table width="100%" cellspacing="0" cellpadding="4">
+								<tr>
+									<td width="180px">Number of Products &#09;</td>
+									<td width="55px"><input value="5" name="noofprods" id="noofprods" type="text" size="5" maxlength="2" onpaste="return false" onkeydown="return isNumberKey(event)"></td>
+									<td class="table_title_description" style="padding: 0">Products per category <span id="noofprods-error" style="color: red;"></span></td>
+								</tr>
+								<tr>
+									<td>Online Products Only &#09;</td>
+									<td><input name="onlineprods" id="onlineprods" type="checkbox" checked></td>
+									<td></td>
+									<input type="hidden" name="expmethod" id="expmethod" value="simple">
+								</tr>
+								<tr>
+									<td>Include Specific Products</td>
+									<td><input type="checkbox" name="csvprods" id="csvprods"></td>
+									<td class="table_title_description" style="padding: 0">Select to input specific product IDs</td>
+								</tr>
+								<tr id="csv-prods-row" style="display: none;">
+									<td valign="top">Product IDs</td>
+									<td colspan="2">
+										<div id="csv-error" style="color: red; font-size: 11px;"></div>
+										<textarea rows="10" id="prodids" name="prodids" style="width: 100%"></textarea>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		
 		<table class="w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
 			<tbody>

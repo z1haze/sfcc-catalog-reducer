@@ -37,12 +37,8 @@
           <key-binding alias="OnlineProducts" key="To_1"/>
           <key-binding alias="CurrentHttpParameterMap.prodids.stringValue" key="From_2"/>
           <key-binding alias="ProductIDs" key="To_2"/>
-          <key-binding alias="CurrentHttpParameterMap.expmethod.stringValue" key="From_3"/>
-          <key-binding alias="ExportMethod" key="To_3"/>
-          <key-binding alias="CurrentHttpParameterMap.mastercat.stringValue" key="From_4"/>
-          <key-binding alias="MasterCatalog" key="To_4"/>
-          <key-binding alias="CurrentHttpParameterMap.storefrontcat.stringValue" key="From_5"/>
-          <key-binding alias="StorefrontCatalog" key="To_5"/>
+          <key-binding alias="CurrentHttpParameterMap.storefrontcat.stringValue" key="From_4"/>
+          <key-binding alias="StorefrontCatalog" key="To_4"/>
           <key-binding alias="null" key="From_6"/>
           <key-binding alias="null" key="To_6"/>
           <key-binding alias="null" key="From_7"/>
@@ -51,6 +47,8 @@
           <key-binding alias="null" key="To_8"/>
           <key-binding alias="null" key="From_9"/>
           <key-binding alias="null" key="To_9"/>
+          <key-binding alias="CurrentHttpParameterMap.mastercat.stringValue" key="From_3"/>
+          <key-binding alias="MasterCatalog" key="To_3"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
       </node>
@@ -172,101 +170,11 @@
       </node>
     </segment>
   </branch>
-  <branch basename="CREMenu">
-    <segment>
-      <node>
-        <start-node name="CREMenu" secure="false"/>
-        <node-display x="1" y="6"/>
-      </node>
-      <simple-transition/>
-      <node>
-        <pipelet-node pipelet-name="Assign" pipelet-set-identifier="bc_api">
-          <config-property key="Transactional" value="false"/>
-          <key-binding alias="CurrentHttpParameterMap.cremenu.stringValue" key="From_0"/>
-          <key-binding alias="CREMenu" key="To_0"/>
-          <key-binding alias="null" key="From_2"/>
-          <key-binding alias="null" key="To_2"/>
-          <key-binding alias="null" key="From_3"/>
-          <key-binding alias="null" key="To_3"/>
-          <key-binding alias="null" key="From_4"/>
-          <key-binding alias="null" key="To_4"/>
-          <key-binding alias="null" key="From_5"/>
-          <key-binding alias="null" key="To_5"/>
-          <key-binding alias="null" key="From_6"/>
-          <key-binding alias="null" key="To_6"/>
-          <key-binding alias="null" key="From_7"/>
-          <key-binding alias="null" key="To_7"/>
-          <key-binding alias="null" key="From_8"/>
-          <key-binding alias="null" key="To_8"/>
-          <key-binding alias="null" key="From_9"/>
-          <key-binding alias="null" key="To_9"/>
-        </pipelet-node>
-        <node-display x="0" y="1"/>
-      </node>
-      <simple-transition/>
-      <node>
-        <decision-node condition-key="!empty(CREMenu)" condition-operator="expr"/>
-        <node-display x="0" y="1"/>
-        <branch basename="b2" source-connector="yes">
-          <transition target-connector="in1" target-path="./+1"/>
-        </branch>
-      </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="source" x="2" y="0"/>
-        </transition-display>
-      </simple-transition>
-      <node>
-        <pipelet-node pipelet-name="Assign" pipelet-set-identifier="bc_api">
-          <config-property key="Transactional" value="false"/>
-          <key-binding alias="&quot;Simple&quot;" key="From_0"/>
-          <key-binding alias="CREMenu" key="To_0"/>
-          <key-binding alias="null" key="From_1"/>
-          <key-binding alias="null" key="To_1"/>
-          <key-binding alias="null" key="From_2"/>
-          <key-binding alias="null" key="To_2"/>
-          <key-binding alias="null" key="From_3"/>
-          <key-binding alias="null" key="To_3"/>
-          <key-binding alias="null" key="From_4"/>
-          <key-binding alias="null" key="To_4"/>
-          <key-binding alias="null" key="From_5"/>
-          <key-binding alias="null" key="To_5"/>
-          <key-binding alias="null" key="From_6"/>
-          <key-binding alias="null" key="To_6"/>
-          <key-binding alias="null" key="From_7"/>
-          <key-binding alias="null" key="To_7"/>
-          <key-binding alias="null" key="From_8"/>
-          <key-binding alias="null" key="To_8"/>
-          <key-binding alias="null" key="From_9"/>
-          <key-binding alias="null" key="To_9"/>
-        </pipelet-node>
-        <node-display x="1" y="1"/>
-      </node>
-      <transition target-connector="in1" target-path="./+1">
-        <transition-display>
-          <bend-point relative-to="source" x="0" y="2"/>
-        </transition-display>
-      </transition>
-    </segment>
-    <segment>
-      <node>
-        <join-node/>
-        <node-display x="-1" y="1"/>
-      </node>
-      <simple-transition/>
-      <node>
-        <interaction-node transaction-required="false">
-          <template buffered="true" dynamic="false" name="application/UI/CREMenu"/>
-        </interaction-node>
-        <node-display x="0" y="1"/>
-      </node>
-    </segment>
-  </branch>
   <branch basename="GetAllCatalogs">
     <segment>
       <node>
         <start-node name="GetAllCatalogs" secure="false"/>
-        <node-display x="4" y="6"/>
+        <node-display x="8" y="1"/>
       </node>
       <simple-transition>
         <transition-display>
