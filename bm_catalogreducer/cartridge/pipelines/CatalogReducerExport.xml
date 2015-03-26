@@ -11,20 +11,22 @@
       <simple-transition/>
       <node>
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
-          <config-property key="Transactional" value="true"/>
+          <config-property key="Transactional" value="false"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
-          <config-property key="ScriptFile" value="job/CatalogReducer_COValue.ds"/>
+          <config-property key="ScriptFile" value="job/GetCatalogReducerCO.ds"/>
           <key-binding alias="null" key="ScriptLog"/>
           <key-binding alias="CatalogReducerInfo" key="CatalogReducerInfo"/>
-          <key-binding alias="CustomObjectValue" key="CustomObjectValue"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b2" source-connector="error">
-          <transition target-connector="in1" target-path="./b3.1">
-            <transition-display>
-              <bend-point relative-to="source" x="2" y="0"/>
-            </transition-display>
-          </transition>
+          <transition target-connector="in1"/>
+          <segment>
+            <node>
+              <join-node/>
+              <node-display x="1" y="0"/>
+            </node>
+            <transition target-connector="in1" target-path="../b3.1"/>
+          </segment>
         </branch>
       </node>
       <simple-transition/>
