@@ -14,11 +14,14 @@
 					</isloop>
 
 				</td>
-				<td valign="top">	
+				<td width="275px" valign="top">	
 					<p><b>Storefront Catalog</b></p>
 					<isloop items="${pdict.CatalogNames}" alias="catalogName">
 						<input type="radio" name="storefrontcat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
 					</isloop>
+				</td>
+				<td align="right" valign="bottom">
+					<p><span style="font-size: 11px;"><a href="#" id="all-catalogs-refresh">Refresh Catalogs</a></span></p>
 				</td>
 			</tr>
 		</tbody>

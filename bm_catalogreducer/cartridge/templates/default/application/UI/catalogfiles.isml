@@ -14,19 +14,25 @@
 			<td class="table_header e s" nowrap="nowrap" style="border-top: 1px solid #DADADA; text-align:right;" width="10%">File Size</td>
 		</tr>
 		
-		<isloop var="CatalogFile" items="${pdict.CatalogFileList}">
-			<isscript>
-				var fileSize : Number = CatalogFile.length();
-				fileSize = fileSize/1000;
-				fileSize = fileSize.toFixed(1);
-				var lastModified : Date = new Date(CatalogFile.lastModified());
-      		</isscript>
-			<tr>
-				<td class="w e s"><isprint value="${CatalogFile.name}"/></td>
-				<td class="e s" style="text-align:right;"><isprint value="${lastModified}"/></td>
-				<td class="e s" style="text-align:right;"><isprint value="${fileSize}"/> kb</td>
-			</tr>
- 		</isloop>
+		<isif condition="${pdict.CatalogFileList.length > 0}">
+			<isloop var="CatalogFile" items="${pdict.CatalogFileList}">
+				<isscript>
+					var fileSize : Number = CatalogFile.length();
+					fileSize = fileSize/1000;
+					fileSize = fileSize.toFixed(1);
+					var lastModified : Date = new Date(CatalogFile.lastModified());
+	      		</isscript>
+				<tr>
+					<td class="w e s"><isprint value="${CatalogFile.name}"/></td>
+					<td class="e s" style="text-align:right;"><isprint value="${lastModified}"/></td>
+					<td class="e s" style="text-align:right;"><isprint value="${fileSize}"/> kb</td>
+				</tr>
+	 		</isloop>
+	 	<iselse>
+	 		<tr>
+	 			<td colspan="3">No catalog exports</td>
+	 		</tr>
+	 	</isif>
  		
 	</tbody>
 </table>

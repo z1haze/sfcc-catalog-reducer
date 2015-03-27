@@ -13,6 +13,9 @@
 				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 			});
 			
+			//grab initial cre-catalogs-div HTML content for refresh purpose
+			var loadingCatalogsHTML = jQuery('#cre-catalogs-div').html();
+			
 			//show all catalogs in the menu and disable export catalog button until done
 			jQuery('button#export-catalog-btn').prop('disabled', true);
 			if (localStorage && localStorage.getItem('creAllCatalogs')) {
@@ -21,6 +24,12 @@
 			} else {
 				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
 			}
+			//refresh all catalogs on refresh catalogs link click
+			jQuery("body").on("click", "#all-catalogs-refresh", function(e) {
+				jQuery('#cre-catalogs-div').html(loadingCatalogsHTML);
+				jQuery('button#export-catalog-btn').prop('disabled', true);
+				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+			});
 			
 			//Show CSV product ids textarea when specific products will be included 
 			jQuery("body").on("change", "input#csvprods", function(e) {
