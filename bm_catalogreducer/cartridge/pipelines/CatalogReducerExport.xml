@@ -11,7 +11,7 @@
       <simple-transition/>
       <node>
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
-          <config-property key="Transactional" value="false"/>
+          <config-property key="Transactional" value="true"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
           <config-property key="ScriptFile" value="job/GetCatalogReducerCO.ds"/>
           <key-binding alias="null" key="ScriptLog"/>

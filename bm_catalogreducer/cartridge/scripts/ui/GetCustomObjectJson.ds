@@ -1,0 +1,20 @@
+/**
+* GetCustomObjectJson.ds file
+* To define input and output parameters, create entries of the form:
+*
+*   @output CatalogReducerInfo : Object
+*
+*/
+importPackage( dw.system );
+importPackage( dw.object );
+importPackage( dw.util );
+
+function execute( args : PipelineDictionary ) : Number
+{
+
+	var co : CustomObject = CustomObjectMgr.getCustomObject("CatalogReducerDefinition", "CatalogReducerInfo");
+	args.CatalogReducerInfo = co;
+
+   	return PIPELET_NEXT;
+   	
+}

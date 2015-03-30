@@ -42,6 +42,8 @@ function execute( args : PipelineDictionary ) : Number
     co.custom.productIDs = productids;
     co.custom.masterCatalogs = mastercat;
     co.custom.storefrontCatalog = storefrontcat;
+    co.custom.running = true; //mark CO as running
+    co.custom.progress = 10; //mark export at 10 percent progression
     
     args.CatalogReducerInfo = co;
 

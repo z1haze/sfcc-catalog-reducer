@@ -23,7 +23,8 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button class="button" id="all-catalogs-refresh">Refresh Catalogs</button>
+					<button class="button" id="all-catalogs-refresh">Refresh Catalogs</button> 
+					<span style="font-size: 11px; color: #666;">Manually refresh if catalog list is outdated</span>
 				</td>
 			</tr>
 		</tbody>

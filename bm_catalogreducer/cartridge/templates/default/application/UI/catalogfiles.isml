@@ -3,7 +3,7 @@
 <table width="100%" cellspacing="0" cellpadding="4" border="0" style="margin-top: 30px;">
 	<tbody>
 		<tr>
-			<td class="table_header" width="100%" nowrap="nowrap" colspan="3" style="color: #444;">Recent Catalog Exports</td>
+			<td class="table_header w e" width="100%" nowrap="nowrap" colspan="3" style="color: #444; padding-top: 6px; padding-bottom: 6px; border-top: 1px solid #DADADA;">Recent Catalog Exports</td>
 		</tr>
 		<tr>
 			<td class="table_header e s" nowrap="nowrap" style="border-top: 1px solid #DADADA;" width="80%">File Name</td>

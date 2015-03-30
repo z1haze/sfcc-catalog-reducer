@@ -132,6 +132,10 @@
 				
 				if (valid) {
 					cre.util.runCREJob(url, data);
+					jQuery('#export-catalog-btn').prop('disabled', true);
+					jQuery.getJSON(cre.urls.getCustomObjectJson, function(data) {
+						co = data;
+					});
 				}
 			});
 		});
@@ -172,7 +176,7 @@
 				var $response = jQuery(jQuery.trim(response));
 				jQuery('#exportFinishMessage').html($response);
 			});
-		}	
+		}
 	};
 	
 }( window.cre = window.cre || {}, jQuery ));
