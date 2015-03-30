@@ -1,14 +1,14 @@
 <!--- TEMPLATENAME: catalogfiles.isml --->
 
-<table width="100%" cellspacing="0" cellpadding="4" border="0" style="margin-top: 30px;">
+<table id="cat-files-table" width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tbody>
 		<tr>
-			<td class="table_header w e" width="100%" nowrap="nowrap" colspan="3" style="color: #444; padding-top: 6px; padding-bottom: 6px; border-top: 1px solid #DADADA;">Recent Catalog Exports</td>
+			<td class="table_header w e" id="recent-cat-exports" width="100%" nowrap="nowrap" colspan="3">Recent Catalog Exports</td>
 		</tr>
 		<tr>
-			<td class="table_header e s" nowrap="nowrap" style="border-top: 1px solid #DADADA;" width="80%">File Name</td>
-			<td class="table_header e s" nowrap="nowrap" style="border-top: 1px solid #DADADA; text-align:right;" width="10%">Last Modified</td>
-			<td class="table_header e s" nowrap="nowrap" style="border-top: 1px solid #DADADA; text-align:right;" width="10%">File Size</td>
+			<td class="table_header e s th-left" nowrap="nowrap" width="80%">File Name</td>
+			<td class="table_header e s th-right" nowrap="nowrap" width="10%">Last Modified</td>
+			<td class="table_header e s th-right" nowrap="nowrap" width="10%">File Size</td>
 		</tr>
 		
 		<isif condition="${pdict.CatalogFileList.length > 0}">
@@ -21,8 +21,8 @@
 	      		</isscript>
 				<tr>
 					<td class="w e s"><isprint value="${CatalogFile.name}"/></td>
-					<td class="e s" style="text-align:right;"><isprint value="${lastModified}"/></td>
-					<td class="e s" style="text-align:right;"><isprint value="${fileSize}"/> kb</td>
+					<td class="e s text-align-right"><isprint value="${lastModified}"/></td>
+					<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
 				</tr>
 	 		</isloop>
 	 	<iselse>

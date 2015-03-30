@@ -3,11 +3,11 @@
 			<tr>
 				<td class="table_title_description" colspan="2">
 					Select all master catalogs that apply, as well as the storefront catalog of the site
-					<div id="catalogs-error" style="color: red;"></div>
+					<div id="catalogs-error"></div>
 				</td>
 			</tr>
 			<tr>
-				<td width="275px" valign="top" style="padding-left: 10px; padding-bottom: 10px;">
+				<td width="275px" id="master-cat-td" valign="top">
 					<p><b>Master Catalog(s)</b></p>
 					<isloop items="${pdict.CatalogNames}" alias="catalogName">
 						<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
@@ -24,7 +24,7 @@
 			<tr>
 				<td colspan="2">
 					<button class="button" id="all-catalogs-refresh">Refresh Catalogs</button> 
-					<span style="font-size: 11px; color: #666;">Manually refresh if catalog list is outdated</span>
+					<span class="small-grey-info-text">Manually refresh if catalog list is outdated</span>
 				</td>
 			</tr>
 		</tbody>
