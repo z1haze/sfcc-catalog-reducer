@@ -1,6 +1,7 @@
 /**
 * CreateProductIterator Script File
 *
+*   @input CatalogReducerDefinition: dw.object.CustomObject
 *	@output ProductExportList : dw.util.ArrayList
 *   @output ProductExportListIterator : dw.util.Iterator
 *   @output StorefrontCatalog : dw.catalog.Catalog
@@ -11,7 +12,7 @@
 importPackage( dw.system );
 importPackage( dw.util );
 importPackage( dw.catalog );
-importPackage( dw.system );
+importPackage( dw.object );
 
 function execute( args : PipelineDictionary ) : Number
 {
@@ -20,17 +21,23 @@ function execute( args : PipelineDictionary ) : Number
 	var siteCatalog : Catalog = CatalogMgr.getSiteCatalog();
 	var rootCategory : Category = siteCatalog.getRoot();
 	var rootSubCategories :  Collection  = rootCategory.getSubCategories();
-    var log : Logger = Logger.getLogger("BCM2","");
+	var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
+	var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
+    var log : Logger = Logger.getLogger("BCM12","");
     var productExportList : ArrayList = new ArrayList();
-   
-   
+    
+    //Create Object
+    var listHolderObject : Object = new Object();
+    listHolderObject.storeFrontCatalog = new ArrayList();
+    listHolderObject.masterCatalog = new ArrayList();
+
     //Loop through main catgeories 
     for each (var category : Category in rootSubCategories) {
-    	log.error(category.ID);
+    	//log.error(category.ID);
     	
     	if(category.getSubCategories().length > 0)
     	{
-    		productExportList.add(getProductsfromSubCategories(category, productExportList, log));
+    		productExportList.add(getProductsfromSubCategories(category, productExportList, numberofProducts, onlineProducts, log));	
     	}
 
     }
@@ -46,38 +53,41 @@ function execute( args : PipelineDictionary ) : Number
 
 
 // function will recursively call itself to get through all subcategories
-function getProductsfromSubCategories(category : Category, productExportList : ArrayList, log : Logger)
+function getProductsfromSubCategories(category : Category, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
 {
 	var subCategories : Collection = category.getSubCategories();
 	
 		for each (var subCategory : Category in  subCategories)
  		{
- 			log.error(subCategory.ID);
     		if (subCategory.getSubCategories().length > 0)
     		{
-    			productExportList.add(getProductsfromSubCategories(subCategory, productExportList, log));
+    			productExportList.add(getProductsfromSubCategories(subCategory, productExportList, numberofProducts, onlineProducts, log));
     		}
     		else
     	 	{
-    	 		var test: Collection = subCategory.getProducts();
-    	 		
-    	 		for each( var tProduct : Product in test)
+    	 		if(onlineProducts == true)
     	 		{
-    	 			//log.error(tProduct.ID + "-" + tProduct.isAssignedToSiteCatalog());
-    	 			var count2 = count2++;
+    	 			var products: Iterator = subCategory.getOnlineProducts().iterator();
     	 		}
-    			var onlineProducts: Iterator = subCategory.getOnlineProducts().iterator();
-    			var numberofProducts : Number = 5;
+    	 		else
+    	 		{
+    	 			var products: Iterator = subCategory.getOnlineProducts().iterator();
+    	 		}
+    			
     			var count: Number = 0;
     			
-    			if(onlineProducts.hasNext() && (numberofProducts > count))
+    			if(products.hasNext() && (numberofProducts > count))
     			{
-    				var product : Product = onlineProducts.next();
-    				//log.error(product.ID);
+    				var product : Product = products.next();
+    				log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
+    				
+    				if(product.isAssignedToSiteCatalog() == true)
+    				{
+    					
+    				} 
     				productExportList.add(product);
     				count = count++;   				
-    			}
-    			 
+    		    }
     		}
  		}
 

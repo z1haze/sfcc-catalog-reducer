@@ -10,24 +10,39 @@
       </node>
       <simple-transition/>
       <node>
-        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
-          <config-property key="Transactional" value="true"/>
-          <config-property key="OnError" value="PIPELET_ERROR"/>
-          <config-property key="ScriptFile" value="job/GetCatalogReducerCO.ds"/>
-          <key-binding alias="null" key="ScriptLog"/>
-          <key-binding alias="CatalogReducerInfo" key="CatalogReducerInfo"/>
+        <pipelet-node pipelet-name="SearchCustomObject" pipelet-set-identifier="bc_api">
+          <config-property key="CaseSensitive" value="false"/>
+          <config-property key="CustomObjectType" value="CatalogReducerDefinition"/>
+          <key-binding alias="SearchResult" key="SearchResult"/>
+          <key-binding alias="SearchResultCount" key="SearchResultCount"/>
+          <key-binding alias="null" key="Search1Key"/>
+          <key-binding alias="null" key="Search2Key"/>
+          <key-binding alias="null" key="Search3Key"/>
+          <key-binding alias="null" key="Search4Key"/>
+          <key-binding alias="null" key="Search5Key"/>
+          <key-binding alias="null" key="Search1Value"/>
+          <key-binding alias="null" key="Search2Value"/>
+          <key-binding alias="null" key="Search3Value"/>
+          <key-binding alias="null" key="Search4Value"/>
+          <key-binding alias="null" key="Search5Value"/>
+          <key-binding alias="null" key="SortBy1"/>
+          <key-binding alias="null" key="SortBy1Direction"/>
+          <key-binding alias="null" key="SortBy2"/>
+          <key-binding alias="null" key="SortBy2Direction"/>
+          <key-binding alias="null" key="SortBy3"/>
+          <key-binding alias="null" key="SortBy3Direction"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
-        <branch basename="b2" source-connector="error">
-          <transition target-connector="in1"/>
-          <segment>
-            <node>
-              <join-node/>
-              <node-display x="1" y="0"/>
-            </node>
-            <transition target-connector="in1" target-path="../b3.1"/>
-          </segment>
-        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+          <config-property key="OnError" value="Exception"/>
+          <config-property key="Transactional" value="false"/>
+          <config-property key="Expression" value="SearchResult.next();"/>
+          <key-binding alias="CatalogReducerDefinition" key="Result"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
       </node>
       <simple-transition/>
       <node>
@@ -39,16 +54,18 @@
           <key-binding alias="ProductExportList" key="ProductExportList"/>
           <key-binding alias="ProductExportListIterator" key="ProductExportListIterator"/>
           <key-binding alias="StorefrontCatalog" key="StorefrontCatalog"/>
+          <key-binding alias="CatalogReducerDefinition" key="CatalogReducerDefinition"/>
+          <key-binding alias="ScriptLog" key="ScriptLog"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
-        <branch basename="b3" source-connector="error">
+        <branch basename="b2" source-connector="error">
           <transition target-connector="in1"/>
           <segment>
             <node>
               <join-node/>
               <node-display x="1" y="0"/>
             </node>
-            <transition target-connector="in1" target-path="../b4.1"/>
+            <transition target-connector="in1" target-path="../b3.1"/>
           </segment>
         </branch>
       </node>
@@ -77,7 +94,7 @@
           <key-binding alias="ProductExportListIterator" key="Products"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
-        <branch basename="b4" source-connector="error">
+        <branch basename="b3" source-connector="error">
           <transition target-connector="in1"/>
           <segment>
             <node>
