@@ -132,10 +132,10 @@
 				
 				if (valid) {
 					cre.util.runCREJob(url, data);
-					jQuery('#export-catalog-btn').prop('disabled', true);
-					jQuery.getJSON(cre.urls.getCustomObjectJson, function(data) {
-						co = data;
-					});
+					cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
+					setInterval(function() {
+						cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
+					}, 5000);
 				}
 			});
 		});
@@ -171,10 +171,21 @@
 		runCREJob : function (url, data) {
 			var u = url,
 				d = data;
-			jQuery.post(u, d).done(function(response) {
-				jQuery('#exportFinishMessageTbl').show();
-				var $response = jQuery(jQuery.trim(response));
-				jQuery('#exportFinishMessage').html($response);
+			jQuery.post(u, d).done(function(response) {});
+		},
+		getCustomObjectStatus : function (url) {
+			var u = url;
+			jQuery.getJSON(cre.urls.getCustomObjectJson, function(data) {
+				jQuery('#export-progress-div').show();
+				if (data.running) {
+					var progress = data.progress;
+					jQuery('#export-catalog-btn').prop('disabled', true);
+					jQuery('#export-progress-text').html('Running');
+					jQuery('#export-progress-complete').css('width', progress+'%');
+					jQuery('#export-progress-complete').html(progress + '%');
+				} else {
+					jQuery('#export-catalog-btn').prop('disabled', false);
+				}
 			});
 		}
 	};
