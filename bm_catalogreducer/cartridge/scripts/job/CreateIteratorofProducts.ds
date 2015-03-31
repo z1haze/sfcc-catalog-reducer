@@ -2,8 +2,8 @@
 * CreateProductIterator Script File
 *
 *   @input CatalogReducerDefinition: dw.object.CustomObject
-*   @output ProductExportList : dw.util.ArrayList
-*   @output ProductExportListIterator : dw.util.Iterator
+*   @output StoreFrontProductIterator : dw.util.Iterator
+*   @output MasterProductArray : dw.util.ArrayList
 *   @output StorefrontCatalog : dw.catalog.Catalog
 *
 */
@@ -16,36 +16,42 @@ importPackage( dw.object );
 
 function execute( args : PipelineDictionary ) : Number
 {
-
-
-    var siteCatalog : Catalog = CatalogMgr.getSiteCatalog();
-    var rootCategory : Category = siteCatalog.getRoot();
-    var rootSubCategories :  Collection  = rootCategory.getSubCategories();
+    //Retrived from Custom Object
     var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
     var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
+    var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
+    var storefrontCatalog : Catalog = CatalogMgr.getCatalog(args.CatalogReducerDefinition.custom.storefrontCatalog);
+
+    var rootCategory : Category = storefrontCatalog.getRoot();
+    var rootSubCategories :  Collection  = rootCategory.getSubCategories();
     var log : Logger = Logger.getLogger("BCM","");
     var productExportList : ArrayList = new ArrayList();
     
-    //Initializing Arrays
+ 
+    
+    //Initializing Array
     productExportList[0] = new ArrayList();
     productExportList[1] = new ArrayList();
 
-
+    //Get Products to fill out Catalog
     productExportList = getProductsfromSubCategories(rootSubCategories, productExportList, numberofProducts, onlineProducts, log);  
+    
+    //Assign User defined Products to correct Array for Exporting
+    assignspecificProductstoArrays(specificProductIDArrayList, productExportList);
     
     var test : Number = productExportList[0].size();
     var test2 : Number = productExportList[1].size();
-    
-   args.ProductExportList = productExportList;
-   args.ProductExportListIterator = productExportList.iterator();
-   args.StorefrontCatalog = siteCatalog;    
+   
+   args.StorefrontCatalog =  storefrontCatalog;
+   args.MasterProductArray  = productExportList[1];
+   args.StoreFrontProductIterator = productExportList[0].iterator();  
    
    return PIPELET_NEXT;
 }
 
 
 
-// function will recursively call itself to get through all subcategories
+// Function will recursively call itself to get through all subcategories of a catalog and grab Products for each category
 function getProductsfromSubCategories(rootSubCategories : Collection, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
 {   
         for each (var subCategory : Category in  rootSubCategories)
@@ -86,7 +92,25 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
                 }
             }
         }
-//need to return the 2 arrays of productids
 return productExportList
+}
+
+//Function takes the user inputted ProductIDS and adds the product object to the right array if it is not already added.
+function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, productExportList : ArrayList)
+{
+    for each(var productID : String in specificProductIDArrayList)
+    {
+        var product : Product = ProductMgr.getProduct(productID);
+        
+        if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
+        {
+            productExportList[0].push(product);
+        }
+        else if(product.isAssignedToSiteCatalog() == false && productExportList[1].contains(product) != true)
+        { 
+            productExportList[1].push(product);
+        }
+    }
+    
 }
 

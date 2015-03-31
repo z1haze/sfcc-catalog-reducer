@@ -83,6 +83,8 @@
           <key-binding alias="StorefrontCatalog" key="StorefrontCatalog"/>
           <key-binding alias="CatalogReducerDefinition" key="CatalogReducerDefinition"/>
           <key-binding alias="ScriptLog" key="ScriptLog"/>
+          <key-binding alias="MasterProductArray" key="MasterProductArray"/>
+          <key-binding alias="StoreFrontProductIterator" key="StoreFrontProductIterator"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b2" source-connector="error">
@@ -141,7 +143,7 @@
           <key-binding alias="null" key="ExportRecommendations"/>
           <key-binding alias="null" key="ExportProductOptions"/>
           <key-binding alias="null" key="ExportVariationAttributes"/>
-          <key-binding alias="ProductExportListIterator" key="Products"/>
+          <key-binding alias="StoreFrontProductIterator" key="Products"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b3" source-connector="error">
