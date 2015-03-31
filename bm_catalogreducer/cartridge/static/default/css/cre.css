@@ -52,7 +52,7 @@
 }
 
 #export-progress-complete {
-	width: 50%; 
+	width: 0%; 
 	height: 100%; 
 	background: #84BD00; 
 	float: left; 

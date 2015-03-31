@@ -257,4 +257,83 @@
       </node>
     </segment>
   </branch>
+  <branch basename="TestExport">
+    <segment>
+      <node>
+        <start-node name="TestExport" secure="false"/>
+        <node-display x="1" y="4"/>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+          <config-property key="Transactional" value="false"/>
+          <config-property key="OnError" value="PIPELET_ERROR"/>
+          <config-property key="ScriptFile" value="ui/TestExport.ds"/>
+          <key-binding alias="null" key="ScriptLog"/>
+          <key-binding alias="ProductListExportIter" key="ProductListExportIter"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b2" source-connector="error">
+          <transition target-connector="in1"/>
+          <segment>
+            <node>
+              <join-node/>
+              <node-display x="1" y="0"/>
+            </node>
+            <transition target-connector="in1" target-path="../b3.1"/>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
+          <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;electronics-catalog&quot;)" key="Catalog"/>
+          <key-binding alias="null" key="Categories"/>
+          <key-binding alias="null" key="ExportProducts"/>
+          <key-binding alias="null" key="ExportCategories"/>
+          <key-binding alias="null" key="ExportSubCategories"/>
+          <key-binding alias="null" key="OverwriteExportFile"/>
+          <key-binding alias="null" key="ErrorCode"/>
+          <key-binding alias="null" key="ErrorMsg"/>
+          <key-binding alias="null" key="LogFileName"/>
+          <key-binding alias="null" key="Status"/>
+          <key-binding alias="null" key="ExportCategoryAssignments"/>
+          <key-binding alias="null" key="ExportRecommendations"/>
+          <key-binding alias="null" key="ExportProductOptions"/>
+          <key-binding alias="null" key="ExportVariationAttributes"/>
+          <key-binding alias="ProductListExportIter" key="Products"/>
+          <key-binding alias="&quot;/catalog/optionproduct-export.xml&quot;" key="ExportFile"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+        <branch basename="b3" source-connector="error">
+          <transition target-connector="in1"/>
+          <segment>
+            <node>
+              <join-node/>
+              <node-display x="1" y="0"/>
+            </node>
+            <transition target-connector="in1" target-path="../+1">
+              <transition-display>
+                <bend-point relative-to="source" x="0" y="2"/>
+              </transition-display>
+            </transition>
+          </segment>
+        </branch>
+      </node>
+      <transition target-connector="in1" target-path="./+1"/>
+    </segment>
+    <segment>
+      <node>
+        <join-node/>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition/>
+      <node>
+        <interaction-node transaction-required="false">
+          <template buffered="true" dynamic="false" name="application/UI/testexport"/>
+        </interaction-node>
+        <node-display x="0" y="1"/>
+      </node>
+    </segment>
+  </branch>
 </pipeline>
