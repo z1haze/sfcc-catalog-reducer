@@ -2,7 +2,7 @@
 * CreateProductIterator Script File
 *
 *   @input CatalogReducerDefinition: dw.object.CustomObject
-*	@output ProductExportList : dw.util.ArrayList
+*   @output ProductExportList : dw.util.ArrayList
 *   @output ProductExportListIterator : dw.util.Iterator
 *   @output StorefrontCatalog : dw.catalog.Catalog
 *
@@ -18,34 +18,27 @@ function execute( args : PipelineDictionary ) : Number
 {
 
 
-	var siteCatalog : Catalog = CatalogMgr.getSiteCatalog();
-	var rootCategory : Category = siteCatalog.getRoot();
-	var rootSubCategories :  Collection  = rootCategory.getSubCategories();
-	var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
-	var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
-    var log : Logger = Logger.getLogger("BCM12","");
+    var siteCatalog : Catalog = CatalogMgr.getSiteCatalog();
+    var rootCategory : Category = siteCatalog.getRoot();
+    var rootSubCategories :  Collection  = rootCategory.getSubCategories();
+    var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
+    var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
+    var log : Logger = Logger.getLogger("BCM","");
     var productExportList : ArrayList = new ArrayList();
     
-    //Create Object
-    var listHolderObject : Object = new Object();
-    listHolderObject.storeFrontCatalog = new ArrayList();
-    listHolderObject.masterCatalog = new ArrayList();
+    //Initializing Arrays
+    productExportList[0] = new ArrayList();
+    productExportList[1] = new ArrayList();
 
-    //Loop through main catgeories 
-    for each (var category : Category in rootSubCategories) {
-    	//log.error(category.ID);
-    	
-    	if(category.getSubCategories().length > 0)
-    	{
-    		productExportList.add(getProductsfromSubCategories(category, productExportList, numberofProducts, onlineProducts, log));	
-    	}
 
-    }
-   
+    productExportList = getProductsfromSubCategories(rootSubCategories, productExportList, numberofProducts, onlineProducts, log);  
+    
+    var test : Number = productExportList[0].size();
+    var test2 : Number = productExportList[1].size();
     
    args.ProductExportList = productExportList;
    args.ProductExportListIterator = productExportList.iterator();
-   args.StorefrontCatalog = siteCatalog; 	
+   args.StorefrontCatalog = siteCatalog;    
    
    return PIPELET_NEXT;
 }
@@ -53,43 +46,47 @@ function execute( args : PipelineDictionary ) : Number
 
 
 // function will recursively call itself to get through all subcategories
-function getProductsfromSubCategories(category : Category, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
-{
-	var subCategories : Collection = category.getSubCategories();
-	
-		for each (var subCategory : Category in  subCategories)
- 		{
-    		if (subCategory.getSubCategories().length > 0)
-    		{
-    			productExportList.add(getProductsfromSubCategories(subCategory, productExportList, numberofProducts, onlineProducts, log));
-    		}
-    		else
-    	 	{
-    	 		if(onlineProducts == true)
-    	 		{
-    	 			var products: Iterator = subCategory.getOnlineProducts().iterator();
-    	 		}
-    	 		else
-    	 		{
-    	 			var products: Iterator = subCategory.getOnlineProducts().iterator();
-    	 		}
-    			
-    			var count: Number = 0;
-    			
-    			if(products.hasNext() && (numberofProducts > count))
-    			{
-    				var product : Product = products.next();
-    				log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
-    				
-    				if(product.isAssignedToSiteCatalog() == true)
-    				{
-    					
-    				} 
-    				productExportList.add(product);
-    				count = count++;   				
-    		    }
-    		}
- 		}
-
+function getProductsfromSubCategories(rootSubCategories : Collection, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
+{   
+        for each (var subCategory : Category in  rootSubCategories)
+        {
+            log.error(subCategory.ID);
+            if (subCategory.getSubCategories().length > 0)
+            {
+                getProductsfromSubCategories(subCategory.getSubCategories(), productExportList, numberofProducts, onlineProducts, log);
+            }
+            else
+            {
+                if(onlineProducts == true)
+                {
+                    var products: Iterator = subCategory.getOnlineProducts().iterator();
+                }
+                else
+                {
+                    var products: Iterator = subCategory.getProducts().iterator();
+                }
+                
+                var count: Number = 0;
+                
+                if(products.hasNext() && (numberofProducts > count))
+                {
+                    var product : Product = products.next();
+                    //log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
+                    
+                    if(product.isAssignedToSiteCatalog() == true)
+                    {
+                        productExportList[0].push(product);
+                    }
+                    else
+                    { 
+                        productExportList[1].push(product);
+                    }
+                    
+                    count = count++;                
+                }
+            }
+        }
+//need to return the 2 arrays of productids
 return productExportList
 }
+
