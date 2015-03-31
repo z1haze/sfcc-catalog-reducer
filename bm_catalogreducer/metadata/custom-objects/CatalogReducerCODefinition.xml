@@ -41,6 +41,16 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="progress">
+                <display-name xml:lang="x-default">Progress</display-name>
+                <description xml:lang="x-default">Percentage value representing progress of export process</description>
+                <type>int</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-value>1.0</min-value>
+                <max-value>100.0</max-value>
+            </attribute-definition>
             <attribute-definition attribute-id="running">
                 <display-name xml:lang="x-default">Running</display-name>
                 <type>boolean</type>
@@ -68,6 +78,7 @@
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="running"/>
+                <attribute attribute-id="progress"/>
             </attribute-group>
         </group-definitions>
     </custom-type>
