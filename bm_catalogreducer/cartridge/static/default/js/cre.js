@@ -174,11 +174,13 @@
 		runCREJob : function (url, data) {
 			var u = url,
 				d = data;
-			jQuery.post(u, d).done(function(response) {});
+			jQuery.post(u, d).done(function(response) {
+				jQuery('#export-catalog-btn').prop('disabled', true);
+			});
 		},
 		getCustomObjectStatus : function (url) {
 			var u = url;
-			jQuery.getJSON(cre.urls.getCustomObjectJson, function(data) {
+			jQuery.getJSON(u, function(data) {
 				if (data.running) {
 					var progress = data.progress;
 					jQuery('#export-progress-div').fadeIn(500);
@@ -188,9 +190,7 @@
 					}, 500);
 					jQuery('#export-progress-complete').html(progress + '%');
 					if (data.progress == 100) {
-						setTimeout(function() {
-							jQuery('#export-progress-text').html('Complete');
-						}, 500);
+						jQuery('#export-progress-text').html('Complete');
 					} else {
 						jQuery('#export-progress-text').html('Running');
 					}
