@@ -31,6 +31,9 @@
 				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
 			});
 			
+			//ensure custom object is not already running
+			cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
+			
 			//Show CSV product ids textarea when specific products will be included 
 			jQuery("body").on("change", "input#csvprods", function(e) {
 				jQuery("#csv-prods-row").toggle();
@@ -176,9 +179,9 @@
 		getCustomObjectStatus : function (url) {
 			var u = url;
 			jQuery.getJSON(cre.urls.getCustomObjectJson, function(data) {
-				jQuery('#export-progress-div').fadeIn(500);
 				if (data.running) {
 					var progress = data.progress;
+					jQuery('#export-progress-div').fadeIn(500);
 					jQuery('#export-catalog-btn').prop('disabled', true);
 					jQuery('#export-progress-complete').animate({
 						width: progress+'%'
@@ -193,6 +196,7 @@
 					}
 				} else {
 					jQuery('#export-catalog-btn').prop('disabled', false);
+					jQuery('#export-progress-div').fadeOut(500);
 				}
 			});
 		}
