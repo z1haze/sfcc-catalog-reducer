@@ -19,8 +19,15 @@
 			//show all catalogs in the menu and disable export catalog button until done
 			jQuery('button#export-catalog-btn').prop('disabled', true);
 			if (localStorage && localStorage.getItem('creAllCatalogs')) {
-				jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
-				jQuery('button#export-catalog-btn').prop('disabled', false);
+				//check if 10 minutes has passed to retrieve catalog list again
+				var oldDate = Date.parse(localStorage.getItem('creAllCatalogsDate'));
+				var newDate = new Date();
+				if ((newDate - oldDate) > 600000) {
+					cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+				} else {
+					jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
+					jQuery('button#export-catalog-btn').prop('disabled', false);
+				}
 			} else {
 				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
 			}
@@ -157,6 +164,8 @@
 				var response = jQuery.trim(response);
 				if (localStorage) {
 					localStorage.setItem('creAllCatalogs', response);
+					var date = new Date();
+					localStorage.setItem('creAllCatalogsDate', date);
 					jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
 				} else {
 					jQuery('#cre-catalogs-div').html(response);

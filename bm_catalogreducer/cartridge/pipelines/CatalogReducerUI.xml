@@ -287,7 +287,7 @@
       <simple-transition/>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
-          <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;electronics-catalog&quot;)" key="Catalog"/>
+          <key-binding alias="dw.catalog.CatalogMgr.getCatalog(&quot;storefront-catalog-en&quot;)" key="Catalog"/>
           <key-binding alias="null" key="Categories"/>
           <key-binding alias="null" key="ExportProducts"/>
           <key-binding alias="null" key="ExportCategories"/>
@@ -302,7 +302,7 @@
           <key-binding alias="null" key="ExportProductOptions"/>
           <key-binding alias="null" key="ExportVariationAttributes"/>
           <key-binding alias="ProductListExportIter" key="Products"/>
-          <key-binding alias="&quot;/catalog/optionproduct-export.xml&quot;" key="ExportFile"/>
+          <key-binding alias="&quot;/catalog/storefront-master-export.xml&quot;" key="ExportFile"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
         <branch basename="b3" source-connector="error">
