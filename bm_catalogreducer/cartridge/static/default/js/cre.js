@@ -13,6 +13,12 @@
 				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 			});
 			
+			//declare global in progress variable for job
+			var inProgress = false;
+			
+			//ensure custom object is not already running
+			cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
+			
 			//grab initial cre-catalogs-div HTML content for refresh purpose
 			var loadingCatalogsHTML = jQuery('#cre-catalogs-div').html();
 			
@@ -37,9 +43,6 @@
 				jQuery('button#export-catalog-btn').prop('disabled', true);
 				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
 			});
-			
-			//ensure custom object is not already running
-			cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
 			
 			//Show CSV product ids textarea when specific products will be included 
 			jQuery("body").on("change", "input#csvprods", function(e) {
@@ -139,13 +142,14 @@
 						mastercat: mastercat,
 						storefrontcat: storefrontcat
 					}
+					console.log(data.prodids);
 				
 				if (valid) {
 					cre.util.runCREJob(url, data);
 					cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
 					setInterval(function() {
 						cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
-					}, 5000);
+					}, 10000);
 				}
 			});
 		});
@@ -190,23 +194,37 @@
 		getCustomObjectStatus : function (url) {
 			var u = url;
 			jQuery.getJSON(u, function(data) {
+				inProgress = true;
+				jQuery('#export-progress-div').fadeIn(500);
+				var progress = data.progress;
+				jQuery('#export-progress-complete').animate({
+					width: progress+'%'
+				}, 500);
+				jQuery('#export-progress-complete').html(progress + '%');
+				if (data.progress == 100) {
+					jQuery('#export-progress-text').html('Complete');
+				} else {
+					jQuery('#export-progress-text').html('Running');
+				}
+				//if job is still running then disable further export button
 				if (data.running) {
-					var progress = data.progress;
-					jQuery('#export-progress-div').fadeIn(500);
 					jQuery('#export-catalog-btn').prop('disabled', true);
-					jQuery('#export-progress-complete').animate({
-						width: progress+'%'
-					}, 500);
-					jQuery('#export-progress-complete').html(progress + '%');
-					if (data.progress == 100) {
-						jQuery('#export-progress-text').html('Complete');
-					} else {
-						jQuery('#export-progress-text').html('Running');
-					}
 				} else {
 					jQuery('#export-catalog-btn').prop('disabled', false);
 					jQuery('#export-progress-div').fadeOut(500);
 				}
+			})
+			.error(function() { 
+				if (inProgress) {
+					jQuery('#export-progress-complete').animate({
+						width: '100%'
+					}, 500);
+					jQuery('#export-progress-complete').html('100%');
+					jQuery('#export-progress-text').html('Complete');
+					jQuery('#export-progress-div').fadeOut(500);
+					jQuery('#export-catalog-btn').prop('disabled', false);
+				}
+				console.log("No Custom Object Exists"); 
 			});
 		}
 	};

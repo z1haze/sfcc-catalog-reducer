@@ -174,8 +174,8 @@
           <config-property key="Transactional" value="true"/>
           <key-binding alias="100" key="From_0"/>
           <key-binding alias="CatalogReducerDefinition.custom.progress" key="To_0"/>
-          <key-binding alias="null" key="From_1"/>
-          <key-binding alias="null" key="To_1"/>
+          <key-binding alias="false" key="From_1"/>
+          <key-binding alias="CatalogReducerDefinition.custom.running" key="To_1"/>
           <key-binding alias="null" key="From_2"/>
           <key-binding alias="null" key="To_2"/>
           <key-binding alias="null" key="From_3"/>
