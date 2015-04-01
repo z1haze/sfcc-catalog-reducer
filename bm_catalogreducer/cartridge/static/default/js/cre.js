@@ -142,7 +142,6 @@
 						mastercat: mastercat,
 						storefrontcat: storefrontcat
 					}
-					console.log(data.prodids);
 				
 				if (valid) {
 					cre.util.runCREJob(url, data);
@@ -189,6 +188,7 @@
 				d = data;
 			jQuery.post(u, d).done(function(response) {
 				jQuery('#export-catalog-btn').prop('disabled', true);
+				jQuery('#export-progress-div').fadeIn(500);
 			});
 		},
 		getCustomObjectStatus : function (url) {

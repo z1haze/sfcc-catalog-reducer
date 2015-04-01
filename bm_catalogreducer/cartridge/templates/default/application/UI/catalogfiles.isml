@@ -6,8 +6,8 @@
 			<td class="table_header w e" id="recent-cat-exports" width="100%" nowrap="nowrap" colspan="3">Recent Catalog Exports</td>
 		</tr>
 		<tr>
-			<td class="table_header e s th-left" nowrap="nowrap" width="80%">File Name</td>
-			<td class="table_header e s th-right" nowrap="nowrap" width="10%">Last Modified</td>
+			<td class="table_header e s th-left" nowrap="nowrap" width="70%">File Name</td>
+			<td class="table_header e s th-right" nowrap="nowrap" width="20%">Last Modified</td>
 			<td class="table_header e s th-right" nowrap="nowrap" width="10%">File Size</td>
 		</tr>
 		
@@ -21,7 +21,10 @@
 	      		</isscript>
 				<tr>
 					<td class="w e s"><isprint value="${CatalogFile.name}"/></td>
-					<td class="e s text-align-right"><isprint value="${lastModified}"/></td>
+					<td class="e s text-align-right">
+						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
+						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+					</td>
 					<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
 				</tr>
 	 		</isloop>
