@@ -19,12 +19,7 @@ function execute( args : PipelineDictionary ) : Number
     //Retrived from Custom Object
     var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
     var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
-    if (args.CatalogReducerDefinition.custom.productIDs != null) {
-    	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
-    }
-    else {
-    	var specificProductIDArrayList : ArrayList = new ArrayList();
-    }
+    var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
     var storefrontCatalog : Catalog = CatalogMgr.getCatalog(args.CatalogReducerDefinition.custom.storefrontCatalog);
 
     var rootCategory : Category = storefrontCatalog.getRoot();
@@ -48,8 +43,8 @@ function execute( args : PipelineDictionary ) : Number
     var test2 : Number = productExportList[1].size();
    
    args.StorefrontCatalog =  storefrontCatalog;
-   args.MasterProductArray  = productExportList[1];
-   args.StoreFrontProductIterator = productExportList[0].iterator();  
+   args.MasterProductArray  = productExportList[0];
+   args.StoreFrontProductIterator = productExportList[1].iterator();  
    
    return PIPELET_NEXT;
 }

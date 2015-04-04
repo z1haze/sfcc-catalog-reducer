@@ -76,7 +76,7 @@
         <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
           <config-property key="Transactional" value="false"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
-          <config-property key="ScriptFile" value="job/CreateIteratorofProducts.ds"/>
+          <config-property key="ScriptFile" value="job/CreateCatalogStructureIterators.ds"/>
           <key-binding alias="RootSubCategories" key="RootSubCategories"/>
           <key-binding alias="ProductExportList" key="ProductExportList"/>
           <key-binding alias="ProductExportListIterator" key="ProductExportListIterator"/>
@@ -125,7 +125,20 @@
         </pipelet-node>
         <node-display x="0" y="1"/>
       </node>
-      <simple-transition/>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
+      <node>
+        <call-node start-name-ref="CatalogReducerExport-MasterCatalogsLoop"/>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="0" y="1"/>
+        </transition-display>
+      </simple-transition>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
           <key-binding alias="StorefrontCatalog" key="Catalog"/>
@@ -295,9 +308,42 @@
             </node>
             <simple-transition/>
             <node>
+              <pipelet-node pipelet-name="Script" pipelet-set-identifier="bc_api">
+                <config-property key="Transactional" value="false"/>
+                <config-property key="OnError" value="PIPELET_ERROR"/>
+                <config-property key="ScriptFile" value="job/CreateMasterCatalogIterator.ds"/>
+                <key-binding alias="null" key="ScriptLog"/>
+                <key-binding alias="MasterCatalogIterator" key="MasterCatalogIterator"/>
+                <key-binding alias="MasterProductArray" key="MasterProductArray"/>
+                <key-binding alias="MasterCatalogExportIterator" key="MasterCatalogExportIterator"/>
+              </pipelet-node>
+              <node-display x="0" y="1"/>
+              <branch basename="b2" source-connector="error">
+                <transition target-connector="in1"/>
+                <segment>
+                  <node>
+                    <join-node/>
+                    <node-display x="1" y="0"/>
+                  </node>
+                  <transition target-connector="in1" target-path="../b3.1"/>
+                </segment>
+              </branch>
+            </node>
+            <simple-transition/>
+            <node>
+              <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+                <config-property key="OnError" value="Exception"/>
+                <config-property key="Transactional" value="false"/>
+                <config-property key="Expression" value="&quot;/catalog/ &quot; + MasterCatalogID + &quot;.xml&quot;"/>
+                <key-binding alias="CatalogExportName" key="Result"/>
+              </pipelet-node>
+              <node-display x="0" y="1"/>
+            </node>
+            <simple-transition/>
+            <node>
               <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
                 <key-binding alias="MasterCatalog" key="Catalog"/>
-                <key-binding alias="&quot;/catalog/ &quot; + MasterCatalogID + &quot;.xml&quot;" key="ExportFile"/>
+                <key-binding alias="CatalogExportName" key="ExportFile"/>
                 <key-binding alias="null" key="Categories"/>
                 <key-binding alias="null" key="ExportProducts"/>
                 <key-binding alias="null" key="ExportCategories"/>
@@ -311,16 +357,22 @@
                 <key-binding alias="null" key="ExportRecommendations"/>
                 <key-binding alias="null" key="ExportProductOptions"/>
                 <key-binding alias="null" key="ExportVariationAttributes"/>
-                <key-binding alias="MasterCatalogIterator" key="Products"/>
+                <key-binding alias="MasterCatalogExportIterator" key="Products"/>
               </pipelet-node>
               <node-display x="0" y="1"/>
-              <branch basename="b2" source-connector="error">
-                <transition target-connector="in1" target-path="./+1">
-                  <transition-display>
-                    <bend-point relative-to="source" x="1" y="0"/>
-                    <bend-point relative-to="target" x="1" y="0"/>
-                  </transition-display>
-                </transition>
+              <branch basename="b3" source-connector="error">
+                <transition target-connector="in1"/>
+                <segment>
+                  <node>
+                    <join-node/>
+                    <node-display x="1" y="0"/>
+                  </node>
+                  <transition target-connector="in1" target-path="../+1">
+                    <transition-display>
+                      <bend-point relative-to="source" x="0" y="2"/>
+                    </transition-display>
+                  </transition>
+                </segment>
               </branch>
             </node>
             <transition target-connector="in1" target-path="./+1"/>
@@ -328,7 +380,7 @@
           <segment>
             <node>
               <join-node/>
-              <node-display x="0" y="2"/>
+              <node-display x="0" y="1"/>
             </node>
             <transition target-connector="loop" target-path="..">
               <transition-display>
