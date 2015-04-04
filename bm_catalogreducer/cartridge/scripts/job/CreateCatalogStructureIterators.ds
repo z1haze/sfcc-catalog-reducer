@@ -19,7 +19,11 @@ function execute( args : PipelineDictionary ) : Number
     //Retrived from Custom Object
     var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
     var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
-    var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
+    if (args.CatalogReducerDefinition.custom.productIDs != null) {
+    	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
+    } else {
+    	var specificProductIDArrayList : ArrayList = new ArrayList();	
+    }
     var storefrontCatalog : Catalog = CatalogMgr.getCatalog(args.CatalogReducerDefinition.custom.storefrontCatalog);
 
     var rootCategory : Category = storefrontCatalog.getRoot();

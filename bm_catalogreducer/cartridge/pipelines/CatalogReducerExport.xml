@@ -134,15 +134,21 @@
         <call-node start-name-ref="CatalogReducerExport-MasterCatalogsLoop"/>
         <node-display x="0" y="1"/>
       </node>
-      <simple-transition>
-        <transition-display>
-          <bend-point relative-to="source" x="0" y="1"/>
-        </transition-display>
-      </simple-transition>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+          <config-property key="OnError" value="null"/>
+          <config-property key="Transactional" value="false"/>
+          <config-property key="Expression" value="&quot;/catalog/reduced-catalog/&quot; + CatalogReducerDefinition.custom.storefrontCatalog + &quot;.xml&quot;"/>
+          <key-binding alias="StorefrontCatalogName" key="Result"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition/>
       <node>
         <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
           <key-binding alias="StorefrontCatalog" key="Catalog"/>
-          <key-binding alias="&quot;/catalog/reduced-storefront.xml&quot;" key="ExportFile"/>
+          <key-binding alias="StorefrontCatalogName" key="ExportFile"/>
           <key-binding alias="null" key="Categories"/>
           <key-binding alias="null" key="ExportProducts"/>
           <key-binding alias="null" key="ExportCategories"/>
@@ -334,7 +340,7 @@
               <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
                 <config-property key="OnError" value="Exception"/>
                 <config-property key="Transactional" value="false"/>
-                <config-property key="Expression" value="&quot;/catalog/ &quot; + MasterCatalogID + &quot;.xml&quot;"/>
+                <config-property key="Expression" value="&quot;/catalog/reduced-catalog/&quot; + MasterCatalogID + &quot;.xml&quot;"/>
                 <key-binding alias="CatalogExportName" key="Result"/>
               </pipelet-node>
               <node-display x="0" y="1"/>

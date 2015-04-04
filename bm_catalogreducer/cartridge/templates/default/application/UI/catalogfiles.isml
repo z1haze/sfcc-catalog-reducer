@@ -3,7 +3,7 @@
 <table id="cat-files-table" width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tbody>
 		<tr>
-			<td class="table_header w e" id="recent-cat-exports" width="100%" nowrap="nowrap" colspan="3">Recent Catalog Exports</td>
+			<td class="table_header w e" id="recent-cat-exports" width="100%" nowrap="nowrap" colspan="3">Recent Reduced Catalog Exports</td>
 		</tr>
 		<tr>
 			<td class="table_header e s th-left" nowrap="nowrap" width="70%">File Name</td>

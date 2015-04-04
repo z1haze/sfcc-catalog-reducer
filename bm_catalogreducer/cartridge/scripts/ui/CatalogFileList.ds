@@ -11,7 +11,7 @@ importPackage( dw.io );
 importPackage( dw.util );
 function execute( args : PipelineDictionary ) : Number
 {
-	var catalogDirectory : File = new File(File.IMPEX + File.SEPARATOR + "src" + File.SEPARATOR + "catalog" + File.SEPARATOR );
+	var catalogDirectory : File = new File(File.IMPEX + File.SEPARATOR + "src" + File.SEPARATOR + "catalog" + File.SEPARATOR + "reduced-catalog" + File.SEPARATOR );
 	var catalogFileList : List = catalogDirectory.listFiles();
 	
 	args.CatalogFileList = catalogFileList;
