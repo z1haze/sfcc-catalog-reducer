@@ -209,4 +209,145 @@
       </node>
     </segment>
   </branch>
+  <branch basename="MasterCatalogsLoop">
+    <segment>
+      <node>
+        <start-node call-mode="private" name="MasterCatalogsLoop" secure="false"/>
+        <node-display x="4" y="1"/>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="SearchCustomObject" pipelet-set-identifier="bc_api">
+          <config-property key="CaseSensitive" value="false"/>
+          <config-property key="CustomObjectType" value="CatalogReducerDefinition"/>
+          <key-binding alias="SearchResult" key="SearchResult"/>
+          <key-binding alias="SearchResultCount" key="SearchResultCount"/>
+          <key-binding alias="null" key="Search1Key"/>
+          <key-binding alias="null" key="Search2Key"/>
+          <key-binding alias="null" key="Search3Key"/>
+          <key-binding alias="null" key="Search4Key"/>
+          <key-binding alias="null" key="Search5Key"/>
+          <key-binding alias="null" key="Search1Value"/>
+          <key-binding alias="null" key="Search2Value"/>
+          <key-binding alias="null" key="Search3Value"/>
+          <key-binding alias="null" key="Search4Value"/>
+          <key-binding alias="null" key="Search5Value"/>
+          <key-binding alias="null" key="SortBy1"/>
+          <key-binding alias="null" key="SortBy1Direction"/>
+          <key-binding alias="null" key="SortBy2"/>
+          <key-binding alias="null" key="SortBy2Direction"/>
+          <key-binding alias="null" key="SortBy3"/>
+          <key-binding alias="null" key="SortBy3Direction"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+          <config-property key="OnError" value="Exception"/>
+          <config-property key="Transactional" value="false"/>
+          <config-property key="Expression" value="SearchResult.next();"/>
+          <key-binding alias="CatalogReducerDefinition" key="Result"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+      </node>
+      <simple-transition/>
+      <node>
+        <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+          <config-property key="OnError" value="Exception"/>
+          <config-property key="Transactional" value="false"/>
+          <config-property key="Expression" value="CatalogReducerDefinition.custom.masterCatalogs.split(&quot;,&quot;);"/>
+          <key-binding alias="MasterCatalogs" key="Result"/>
+        </pipelet-node>
+        <node-display x="0" y="1"/>
+      </node>
+      <transition target-connector="in" target-path="./+1"/>
+    </segment>
+    <segment>
+      <node>
+        <loop-node element-key="MasterCatalogID" iterator-key="MasterCatalogs"/>
+        <node-display x="0" y="1"/>
+        <branch basename="b2" source-connector="do">
+          <transition target-connector="in">
+            <transition-display>
+              <bend-point relative-to="source" x="0" y="1"/>
+            </transition-display>
+          </transition>
+          <segment>
+            <node>
+              <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+                <config-property key="OnError" value="Exception"/>
+                <config-property key="Transactional" value="false"/>
+                <config-property key="Expression" value="dw.catalog.CatalogMgr.getCatalog(MasterCatalogID);"/>
+                <key-binding alias="MasterCatalog" key="Result"/>
+              </pipelet-node>
+              <node-display x="0" y="1"/>
+            </node>
+            <simple-transition/>
+            <node>
+              <pipelet-node pipelet-name="Eval" pipelet-set-identifier="bc_api">
+                <config-property key="OnError" value="Exception"/>
+                <config-property key="Transactional" value="false"/>
+                <config-property key="Expression" value="dw.catalog.ProductMgr.queryProductsInCatalog(MasterCatalog);"/>
+                <key-binding alias="MasterCatalogIterator" key="Result"/>
+              </pipelet-node>
+              <node-display x="0" y="1"/>
+            </node>
+            <simple-transition/>
+            <node>
+              <pipelet-node pipelet-name="ExportCatalog" pipelet-set-identifier="bc_api">
+                <key-binding alias="MasterCatalog" key="Catalog"/>
+                <key-binding alias="&quot;/catalog/ &quot; + MasterCatalogID + &quot;.xml&quot;" key="ExportFile"/>
+                <key-binding alias="null" key="Categories"/>
+                <key-binding alias="null" key="ExportProducts"/>
+                <key-binding alias="null" key="ExportCategories"/>
+                <key-binding alias="null" key="ExportSubCategories"/>
+                <key-binding alias="null" key="OverwriteExportFile"/>
+                <key-binding alias="null" key="ErrorCode"/>
+                <key-binding alias="null" key="ErrorMsg"/>
+                <key-binding alias="null" key="LogFileName"/>
+                <key-binding alias="null" key="Status"/>
+                <key-binding alias="null" key="ExportCategoryAssignments"/>
+                <key-binding alias="null" key="ExportRecommendations"/>
+                <key-binding alias="null" key="ExportProductOptions"/>
+                <key-binding alias="null" key="ExportVariationAttributes"/>
+                <key-binding alias="MasterCatalogIterator" key="Products"/>
+              </pipelet-node>
+              <node-display x="0" y="1"/>
+              <branch basename="b2" source-connector="error">
+                <transition target-connector="in1" target-path="./+1">
+                  <transition-display>
+                    <bend-point relative-to="source" x="1" y="0"/>
+                    <bend-point relative-to="target" x="1" y="0"/>
+                  </transition-display>
+                </transition>
+              </branch>
+            </node>
+            <transition target-connector="in1" target-path="./+1"/>
+          </segment>
+          <segment>
+            <node>
+              <join-node/>
+              <node-display x="0" y="2"/>
+            </node>
+            <transition target-connector="loop" target-path="..">
+              <transition-display>
+                <bend-point relative-to="source" x="-1" y="0"/>
+                <bend-point relative-to="target" x="-1" y="0"/>
+              </transition-display>
+            </transition>
+          </segment>
+        </branch>
+      </node>
+      <simple-transition>
+        <transition-display>
+          <bend-point relative-to="source" x="1" y="0"/>
+        </transition-display>
+      </simple-transition>
+      <node>
+        <end-node/>
+        <node-display orientation="horizontal" x="1" y="0"/>
+      </node>
+    </segment>
+  </branch>
 </pipeline>
