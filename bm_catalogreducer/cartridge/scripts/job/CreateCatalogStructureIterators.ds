@@ -59,51 +59,53 @@ function execute( args : PipelineDictionary ) : Number
 // Function will recursively call itself to get through all subcategories of a catalog and grab Products for each category
 function getProductsfromSubCategories(rootSubCategories : Collection, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
 {   
-        for each (var subCategory : Category in  rootSubCategories)
+	for each (var subCategory : Category in  rootSubCategories)
+    {
+    	if (subCategory.getSubCategories().length > 0)
         {
-            log.error(subCategory.ID);
-            if (subCategory.getSubCategories().length > 0)
-            {
-                getProductsfromSubCategories(subCategory.getSubCategories(), productExportList, numberofProducts, onlineProducts, log);
+        	getProductsfromSubCategories(subCategory.getSubCategories(), productExportList, numberofProducts, onlineProducts, log);
+        }
+        else
+        {
+        	if(onlineProducts == true)
+        	{
+            	var products: Iterator = subCategory.getOnlineProducts().iterator();
             }
             else
             {
-                if(onlineProducts == true)
-                {
-                    var products: Iterator = subCategory.getOnlineProducts().iterator();
-                }
-                else
-                {
-                    var products: Iterator = subCategory.getProducts().iterator();
-                }
-                
-                var count: Number = 0;
-                
-                if(products.hasNext() && (numberofProducts > count))
-                {
-                    var product : Product = products.next();
-                    //log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
-                    
-          			
-                    if(product.isMaster() == true)
-                    {   
-                    	//Handle Master's Variations
-                    	getVariants(product, productExportList, onlineProducts);
-                    }
-                    	
-                    if(product.isAssignedToSiteCatalog() == true)
-                    {
-                        productExportList[0].push(product);
-                    }
-                    else
-                    { 
-                        productExportList[1].push(product);
-                    }
-                    
-                    count = count++;                
-                }
+            	var products: Iterator = subCategory.getProducts().iterator();
             }
-        }
+                
+         	var count: Number = 0;
+                
+            while(products.hasNext() && numberofProducts > count)
+            {
+            	var product : Product = products.next();
+            	//log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
+                
+                	if(product.ID == "fall-look")
+					{
+						var watch = true;
+					}	    
+           		if(product.isMaster() == true || product.isProductSet() || product.isBundle)
+            	{   
+            		//Handle Master's Variations
+            		getAllProductsofComplexType(product, productExportList, onlineProducts);
+            	}
+            		
+            	if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
+            	{
+            		productExportList[0].push(product);
+           		}
+            	else if(product.isAssignedToSiteCatalog() == false && productExportList[1].contains(product) != true)
+            	{ 
+            		productExportList[1].push(product);
+            	}
+            	
+            	count = count++;                
+            }
+       }
+	}
 return productExportList
 }
 
@@ -114,12 +116,12 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
     {
         var product : Product = ProductMgr.getProduct(productID);
         
-        if(product.isMaster() == true)
+        if(product.isMaster() == true || product.isProductSet() || product.isBundle)
         {   
         	//Handle Master's Variations
-            getVariants(product, productExportList, false);
+            getAllProductsofComplexType(product, productExportList, false);
         }
-        
+              
         if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
         {
             productExportList[0].push(product);
@@ -132,34 +134,38 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
     
 }
 
-//This function gets all the variants of a Master Product and adds them to the correct export Array
-function getVariants(product : Product, productExportList : ArrayList, onlineProducts : Boolean )
+//This function gets all the products for complex Product Types(Masters,ProductSets,Bundles) and adds them to the correct export Array
+function getAllProductsofComplexType(product : Product, productExportList : ArrayList, onlineProducts : Boolean )
 {
-	var variants : Collection = product.variants;
+	if(product.ID == "fall-look")
+	{
+		var watch = true;
+	}
+	var productCollection : Collection = productTypeCollection(product);
 	
-	for each( var variantProduct : Product in variants)
+	for each( var supportingProduct : Product in productCollection)
 	{
 		if(onlineProducts == true)
 		{
-			if(variantProduct.isOnline() == true && variantProduct.isAssignedToSiteCatalog() == true)
+			if(supportingProduct.isOnline() == true && supportingProduct.isAssignedToSiteCatalog() == true && productExportList[0].contains(supportingProduct) != true)
 			{
-				  	productExportList[0].push(variantProduct);
+				  	productExportList[0].push(supportingProduct);
             }
-            else if(variantProduct.isOnline() == true && variantProduct.isAssignedToSiteCatalog() == false)
+            else if(supportingProduct.isOnline() == true && supportingProduct.isAssignedToSiteCatalog() == false && productExportList[1].contains(supportingProduct) != true)
             { 
-              		productExportList[1].push(variantProduct);
+              		productExportList[1].push(supportingProduct);
             }
 					
 		}
 		else
 		{
-			if(variantProduct.isAssignedToSiteCatalog() == true)
+			if(supportingProduct.isAssignedToSiteCatalog() == true && productExportList[0].contains(supportingProduct) != true)
 			{
-				  	productExportList[0].push(variantProduct);
+				  	productExportList[0].push(supportingProduct);
             }
-            else
+            else if(supportingProduct.isAssignedToSiteCatalog() == false && productExportList[0].contains(supportingProduct) != true)
             { 
-              		productExportList[1].push(variantProduct);
+              		productExportList[1].push(supportingProduct);
             }
 			
 		}		
@@ -167,3 +173,21 @@ function getVariants(product : Product, productExportList : ArrayList, onlinePro
 	
 }
 
+function productTypeCollection(product : Product) : Collection
+{
+	 if(product.isMaster() == true)
+	 {
+	 	var  productCollection : Collection = product.getVariants();
+	 } 
+	 else if (product.isProductSet() == true)
+	 {
+	 	var  productCollection : Collection = product.getProductSetProducts();
+	 }
+	 else if(product.isBundle() == true)
+	 {
+	 	
+	 	var  productCollection : Collection = product.getBundledProducts();
+	 }
+	 
+return productCollection;
+}
