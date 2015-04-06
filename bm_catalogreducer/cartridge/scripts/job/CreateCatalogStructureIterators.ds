@@ -82,11 +82,7 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             {
             	var product : Product = products.next();
             	//log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
-                
-                	if(product.ID == "fall-look")
-					{
-						var watch = true;
-					}	    
+                    
            		if(product.isMaster() == true || product.isProductSet() || product.isBundle)
             	{   
             		//Handle Master's Variations
@@ -137,10 +133,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
 //This function gets all the products for complex Product Types(Masters,ProductSets,Bundles) and adds them to the correct export Array
 function getAllProductsofComplexType(product : Product, productExportList : ArrayList, onlineProducts : Boolean )
 {
-	if(product.ID == "fall-look")
-	{
-		var watch = true;
-	}
+
 	var productCollection : Collection = productTypeCollection(product);
 	
 	for each( var supportingProduct : Product in productCollection)
