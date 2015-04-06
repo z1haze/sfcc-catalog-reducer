@@ -13,9 +13,6 @@
 				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 			});
 			
-			//declare global in progress variable for job
-			var inProgress = false;
-			
 			//ensure custom object is not already running
 			cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
 			
@@ -161,6 +158,9 @@
 	
 	cre.util = {
 	
+		//to monitor progress of job if already started
+		inProgress : false,
+	
 		showAllCatalogs : function (url) {
 			var u = url;
 			jQuery.post(u).done(function(response) {
@@ -194,38 +194,33 @@
 		getCustomObjectStatus : function (url) {
 			var u = url;
 			jQuery.getJSON(u, function(data) {
-				inProgress = true;
-				jQuery('#export-progress-div').fadeIn(500);
-				var progress = data.progress;
-				jQuery('#export-progress-complete').animate({
-					width: progress+'%'
-				}, 500);
-				jQuery('#export-progress-complete').html(progress + '%');
-				if (data.progress == 100) {
-					jQuery('#export-progress-text').html('Complete');
-				} else {
-					jQuery('#export-progress-text').html('Running');
-				}
-				//if job is still running then disable further export button
 				if (data.running) {
+					cre.util.inProgress = true;
+					var progress = data.progress;
+					jQuery('#export-progress-div').fadeIn(500);
+					jQuery('#export-progress-complete').animate({
+						width: progress+'%'
+					}, 500);
+					jQuery('#export-progress-complete').html(progress + '%');
+					if (data.progress == 100) {
+						jQuery('#export-progress-text').html('Complete');
+					} else {
+						jQuery('#export-progress-text').html('Running');
+					}
 					jQuery('#export-catalog-btn').prop('disabled', true);
 				} else {
-					jQuery('#export-catalog-btn').prop('disabled', false);
-					jQuery('#export-progress-div').fadeOut(500);
+					if (cre.util.inProgress == true) {
+						jQuery('#export-progress-complete').animate({
+							width: '100%'
+						}, 500);
+						jQuery('#export-progress-complete').html('100%');
+						jQuery('#export-progress-text').html('Complete');
+						jQuery('#export-progress-div').fadeOut(500);
+						jQuery('#export-catalog-btn').prop('disabled', false);
+						cre.util.inProgress = false;
+					}
 				}
 			})
-			.error(function() { 
-				if (inProgress) {
-					jQuery('#export-progress-complete').animate({
-						width: '100%'
-					}, 500);
-					jQuery('#export-progress-complete').html('100%');
-					jQuery('#export-progress-text').html('Complete');
-					jQuery('#export-progress-div').fadeOut(500);
-					jQuery('#export-catalog-btn').prop('disabled', false);
-				}
-				console.log("No Custom Object Exists"); 
-			});
 		}
 	};
 	

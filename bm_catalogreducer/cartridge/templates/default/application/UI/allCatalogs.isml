@@ -16,9 +16,7 @@
 				</td>
 				<td valign="top">	
 					<p><b>Storefront Catalog</b></p>
-					<isloop items="${pdict.CatalogNames}" alias="catalogName">
-						<input type="radio" name="storefrontcat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
-					</isloop>
+					<input type="radio" name="storefrontcat" value="${pdict.StorefrontCatalogID}" checked disabled/> <isprint value="${pdict.StorefrontCatalogID}"/>
 				</td>
 			</tr>
 			<tr>

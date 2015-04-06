@@ -3,12 +3,14 @@
 *
 *   @input Request : dw.system.Request
 *	@output CatalogNames : Array
+*	@output StorefrontCatalogID : String
 *
 */
 importPackage( dw.system );
 importPackage( dw.net );
 importPackage( dw.web );
 importPackage( dw.util );
+importPackage( dw.catalog );
 
 function execute( args : PipelineDictionary ) : Number
 {
@@ -59,7 +61,10 @@ function execute( args : PipelineDictionary ) : Number
     	catalogNames.push(catalogName);
     }	
     
+    var storefrontCatalogID : String = CatalogMgr.getSiteCatalog().getID();
+    
     args.CatalogNames = catalogNames;
+    args.StorefrontCatalogID = storefrontCatalogID;
 
     return PIPELET_NEXT;
 }
