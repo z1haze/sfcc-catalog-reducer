@@ -19,11 +19,6 @@ function execute( args : PipelineDictionary ) : Number
     //Retrived from Custom Object
     var numberofProducts : Number = args.CatalogReducerDefinition.custom.numberProducts;
     var onlineProducts : Boolean = args.CatalogReducerDefinition.custom.onlineProducts;
-    if (args.CatalogReducerDefinition.custom.productIDs != null) {
-    	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
-    } else {
-    	var specificProductIDArrayList : ArrayList = new ArrayList();	
-    }
     var storefrontCatalog : Catalog = CatalogMgr.getCatalog(args.CatalogReducerDefinition.custom.storefrontCatalog);
 
     var rootCategory : Category = storefrontCatalog.getRoot();
@@ -31,20 +26,25 @@ function execute( args : PipelineDictionary ) : Number
     var log : Logger = Logger.getLogger("BCM","");
     var productExportList : ArrayList = new ArrayList();
     
- 
-    
     //Initializing Array
     productExportList[0] = new ArrayList();
     productExportList[1] = new ArrayList();
 
-    //Get Products to fill out Catalog
+    //Calls Recursive function to work through Catalog Structure to get products of all categories
     productExportList = getProductsfromSubCategories(rootSubCategories, productExportList, numberofProducts, onlineProducts, log);  
-    
-    //Assign User defined Products to correct Array for Exporting
-    assignspecificProductstoArrays(specificProductIDArrayList, productExportList);
     
     var test : Number = productExportList[0].size();
     var test2 : Number = productExportList[1].size();
+    
+    //Assign User defined Products to correct Array for Exporting
+     if (args.CatalogReducerDefinition.custom.productIDs != null)
+     {
+     	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
+    	assignspecificProductstoArrays(specificProductIDArrayList, productExportList);
+     }
+    
+    test = productExportList[0].size();
+    test2 = productExportList[1].size();
    
    args.StorefrontCatalog =  storefrontCatalog;
    args.MasterProductArray  = productExportList[0];
@@ -52,6 +52,7 @@ function execute( args : PipelineDictionary ) : Number
    
    return PIPELET_NEXT;
 }
+
 
 
 
@@ -83,6 +84,13 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
                     var product : Product = products.next();
                     //log.error(subCategory.ID + "," + product.ID + "," + product.isAssignedToSiteCatalog());
                     
+          			
+                    if(product.isMaster() == true)
+                    {   
+                    	//Handle Master's Variations
+                    	getVariants(product, productExportList, onlineProducts);
+                    }
+                    	
                     if(product.isAssignedToSiteCatalog() == true)
                     {
                         productExportList[0].push(product);
@@ -106,6 +114,12 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
     {
         var product : Product = ProductMgr.getProduct(productID);
         
+        if(product.isMaster() == true)
+        {   
+        	//Handle Master's Variations
+            getVariants(product, productExportList, false);
+        }
+        
         if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
         {
             productExportList[0].push(product);
@@ -116,5 +130,40 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
         }
     }
     
+}
+
+//This function gets all the variants of a Master Product and adds them to the correct export Array
+function getVariants(product : Product, productExportList : ArrayList, onlineProducts : Boolean )
+{
+	var variants : Collection = product.variants;
+	
+	for each( var variantProduct : Product in variants)
+	{
+		if(onlineProducts == true)
+		{
+			if(variantProduct.isOnline() == true && variantProduct.isAssignedToSiteCatalog() == true)
+			{
+				  	productExportList[0].push(variantProduct);
+            }
+            else if(variantProduct.isOnline() == true && variantProduct.isAssignedToSiteCatalog() == false)
+            { 
+              		productExportList[1].push(variantProduct);
+            }
+					
+		}
+		else
+		{
+			if(variantProduct.isAssignedToSiteCatalog() == true)
+			{
+				  	productExportList[0].push(variantProduct);
+            }
+            else
+            { 
+              		productExportList[1].push(variantProduct);
+            }
+			
+		}		
+	}
+	
 }
 
