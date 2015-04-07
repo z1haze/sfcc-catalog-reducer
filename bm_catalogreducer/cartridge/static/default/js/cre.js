@@ -69,9 +69,11 @@
 			
 			//if number of products is blank or zero, on change of adding a product ID, it should be valid
 			jQuery("body").on("keyup", "#prodids", function(e) {
-				if (jQuery("#prodids").val().length > 0) {
-					jQuery("#noofprods-error").html(''); //remove any message
-					jQuery("#noofprods").val(0); //replace value to 0
+				if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 1)) {
+					if (jQuery("#prodids").val().length > 0) {
+						jQuery("#noofprods-error").html(''); //remove any message
+						jQuery("#noofprods").val(0); //replace value to 0
+					}
 				}
 			});
 			
@@ -79,7 +81,7 @@
 			jQuery("body").on("blur", "#noofprods", function(e) {
 				e.preventDefault();
 				var value = jQuery(this).val();
-				if (value === "") {
+				if ((value === "") && (jQuery("#prodids").val().length < 1)) {
 					jQuery("#noofprods-error").html("Number of products cannot be empty");
 				}
 			});
