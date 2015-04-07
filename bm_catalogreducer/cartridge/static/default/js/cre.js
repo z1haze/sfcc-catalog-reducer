@@ -54,13 +54,25 @@
 				if (value === "") {
 					msg = "";
 				} else if (value < 1) {
-					msg = "Number of products cannot be less than 1";
+					if (jQuery("#prodids").val().length > 0) {
+						msg = "";
+					} else {
+						msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
+					}
 				} else if (value > 10) {
 					msg = "Number of products cannot be more than 10";
 				} else {
 					msg = "";
 				}
 				jQuery("#noofprods-error").html(msg);
+			});
+			
+			//if number of products is blank or zero, on change of adding a product ID, it should be valid
+			jQuery("body").on("keyup", "#prodids", function(e) {
+				if (jQuery("#prodids").val().length > 0) {
+					jQuery("#noofprods-error").html(''); //remove any message
+					jQuery("#noofprods").val(0); //replace value to 0
+				}
 			});
 			
 			//if number of products input field is blank
@@ -106,11 +118,21 @@
 				
 				var noofprods = jQuery("#noofprods").val();
 				if (noofprods === "") {
-					jQuery("#noofprods").val(5);
-					noofprods = 5;
+					if (jQuery("#prodids").val().length > 0) {
+						jQuery("#noofprods").val(0);
+						noofprods = 0;
+					} else {
+						jQuery("#noofprods").val(5);
+						noofprods = 5;
+					}
 				} else if (noofprods < 1) {
-					jQuery("#noofprods").val(1);
-					noofprods = 1;
+					if (jQuery("#prodids").val().length > 0) {
+						jQuery("#noofprods").val(0);
+						noofprods = 0;
+					} else {
+						jQuery("#noofprods").val(1);
+						noofprods = 1;
+					}
 				} else if (noofprods > 10) {
 					jQuery("#noofprods").val(10);
 					noofprods = 10;

@@ -46,7 +46,8 @@
 				<td class="table_title_description">
 					<p>The Catalog Reducer Extension allows you to quickly export a reduced catalog. You have a few options to control the export:</p>
 					<ul>
-						<li>Input how many products to include in each subcategory (minimum 1 product, maximum 10 products)</li>
+						<li>Input how many products to include in each subcategory (minimum 1 product, maximum 10 products) <br />
+						    This value can be 0, if at least 1 specific product ID is provided</li>
 						<li>Select whether or not to include only online products</li>
 						<li>Input a comma-separated list of specific product IDs to be included in the export</li>
 					</ul>
@@ -148,7 +149,7 @@
 	</div>
 	
 	<div id="version-div">
-		<span class="small-grey-info-text">Version: v0.4.1</span>
+		<span class="small-grey-info-text">Version: v0.5.1</span>
 	</div>
     
 </isdecorate>
