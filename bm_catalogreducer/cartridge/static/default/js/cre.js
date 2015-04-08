@@ -53,11 +53,15 @@
 				var msg = "";
 				if (value === "") {
 					msg = "";
+					if (jQuery("#prodids").val().length < 1) {
+						jQuery('button#export-catalog-btn').prop('disabled', true);
+					}
 				} else if (value < 1) {
 					if (jQuery("#prodids").val().length > 0) {
 						msg = "";
 					} else {
 						msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
+						jQuery('button#export-catalog-btn').prop('disabled', true);
 					}
 				} else if (value > 10) {
 					msg = "Number of products cannot be more than 10";
@@ -69,10 +73,14 @@
 			
 			//if number of products is blank or zero, on change of adding a product ID, it should be valid
 			jQuery("body").on("keyup", "#prodids", function(e) {
-				if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 1)) {
+				if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 0)) {
 					if (jQuery("#prodids").val().length > 0) {
 						jQuery("#noofprods-error").html(''); //remove any message
 						jQuery("#noofprods").val(0); //replace value to 0
+						jQuery('button#export-catalog-btn').prop('disabled', false);
+					} else {
+						jQuery('button#export-catalog-btn').prop('disabled', true);
+						jQuery("#noofprods-error").html('Number of products cannot be less than 1, unless at least 1 product ID is provided');
 					}
 				}
 			});
