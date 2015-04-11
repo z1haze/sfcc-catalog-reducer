@@ -2,7 +2,7 @@
 		<tbody>
 			<tr>
 				<td class="table_title_description" colspan="2">
-					Select all master catalogs that apply, as well as the storefront catalog of the site
+					Select all master catalogs that own products assigned to the storefront catalog below
 					<div id="catalogs-error"></div>
 				</td>
 			</tr>
@@ -10,7 +10,9 @@
 				<td width="275px" id="master-cat-td" valign="top">
 					<p><b>Master Catalog(s)</b></p>
 					<isloop items="${pdict.CatalogNames}" alias="catalogName">
-						<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
+						<isif condition="${catalogName != pdict.StorefrontCatalogID}">
+							<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
+						</isif>
 					</isloop>
 
 				</td>
