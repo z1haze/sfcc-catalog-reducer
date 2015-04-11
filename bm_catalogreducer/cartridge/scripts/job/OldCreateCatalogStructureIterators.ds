@@ -3,6 +3,7 @@
 *
 *   @input CatalogReducerDefinition: dw.object.CustomObject
 *   @output StoreFrontProductIterator : dw.util.Iterator
+*   @output MasterProductArray : dw.util.ArrayList
 *   @output StorefrontCatalog : dw.catalog.Catalog
 *
 */
@@ -24,21 +25,30 @@ function execute( args : PipelineDictionary ) : Number
     var rootSubCategories :  Collection  = rootCategory.getSubCategories();
     var log : Logger = Logger.getLogger("BCM","");
     var productExportList : ArrayList = new ArrayList();
+    
+    //Initializing Array
+    productExportList[0] = new ArrayList();
+    productExportList[1] = new ArrayList();
 
     //Calls Recursive function to work through Catalog Structure to get products of all categories
     productExportList = getProductsfromSubCategories(rootSubCategories, productExportList, numberofProducts, onlineProducts, log);  
     
-   
+    var test : Number = productExportList[0].size();
+    var test2 : Number = productExportList[1].size();
+    
     //Assign User defined Products to correct Array for Exporting
      if (args.CatalogReducerDefinition.custom.productIDs != null)
      {
      	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
     	assignspecificProductstoArrays(specificProductIDArrayList, productExportList);
      }
-
+    
+    test = productExportList[0].size();
+    test2 = productExportList[1].size();
    
    args.StorefrontCatalog =  storefrontCatalog;
-   args.StoreFrontProductIterator = productExportList.iterator();  
+   args.MasterProductArray  = productExportList[0];
+   args.StoreFrontProductIterator = productExportList[1].iterator();  
    
    return PIPELET_NEXT;
 }
@@ -78,11 +88,15 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             		getAllProductsofComplexType(product, productExportList, onlineProducts);
             	}
             		
-            	if(productExportList.contains(product) != true)
+            	if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
             	{
-            		productExportList.push(product);
+            		productExportList[0].push(product);
+           		}
+            	else if(product.isAssignedToSiteCatalog() == false && productExportList[1].contains(product) != true)
+            	{ 
+            		productExportList[1].push(product);
             	}
-           	
+            	
             	count = count++;                
             }
        }
@@ -97,21 +111,20 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
     {
         var product : Product = ProductMgr.getProduct(productID);
         
-        if(product.ID == "Spring-look-2")
-    	{
-    		var rob : Boolean = true;
-    	}
-        
         if(product.isMaster() == true || product.isProductSet() == true || product.isBundle() == true)
         {   
         	//Handle Master's Variations
             getAllProductsofComplexType(product, productExportList, false);
         }
               
-        if(productExportList.contains(product) != true)
+        if(product.isAssignedToSiteCatalog() == true && productExportList[0].contains(product) != true)
         {
-            productExportList.push(product);
-        }    
+            productExportList[0].push(product);
+        }
+        else if(product.isAssignedToSiteCatalog() == false && productExportList[1].contains(product) != true)
+        { 
+            productExportList[1].push(product);
+        }
     }
     
 }
@@ -123,27 +136,29 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 	
 	for each( var supportingProduct : Product in productCollection)
 	{
-		if(supportingProduct.isMaster() == true || supportingProduct.isProductSet() == true || supportingProduct.isBundle() == true)
-        {   
-        		//Handle Master's Variations
-            	getAllProductsofComplexType(supportingProduct, productExportList, onlineProducts);
-        }
-        else
-        {	
-			if(onlineProducts == true)
+		if(onlineProducts == true)
+		{
+			if(supportingProduct.isOnline() == true && supportingProduct.isAssignedToSiteCatalog() == true && productExportList[0].contains(supportingProduct) != true)
 			{
-				if(supportingProduct.isOnline() == true && productExportList.contains(supportingProduct) != true)
-				{
-					  	productExportList.push(supportingProduct);
-           	 	}		
-			}
-			else
+				  	productExportList[0].push(supportingProduct);
+            }
+            else if(supportingProduct.isOnline() == true && supportingProduct.isAssignedToSiteCatalog() == false && productExportList[1].contains(supportingProduct) != true)
+            { 
+              		productExportList[1].push(supportingProduct);
+            }
+					
+		}
+		else
+		{
+			if(supportingProduct.isAssignedToSiteCatalog() == true && productExportList[0].contains(supportingProduct) != true)
 			{
-				if(productExportList.contains(supportingProduct) != true)
-				{
-					  	productExportList.push(supportingProduct);
-            	}			
-			}
+				  	productExportList[0].push(supportingProduct);
+            }
+            else if(supportingProduct.isAssignedToSiteCatalog() == false && productExportList[0].contains(supportingProduct) != true)
+            { 
+              		productExportList[1].push(supportingProduct);
+            }
+			
 		}		
 	}
 	
