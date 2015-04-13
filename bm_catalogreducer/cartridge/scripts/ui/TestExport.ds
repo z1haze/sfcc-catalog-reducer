@@ -12,7 +12,7 @@ function execute( args : PipelineDictionary ) : Number
 {
 
     var productExportList : ArrayList = new ArrayList();
-    var product : Product = ProductMgr.getProduct("25752986");
+    var product : Product = ProductMgr.getProduct("Spring-look-2");
     
     productExportList.add(product);
     
