@@ -2,7 +2,7 @@
 		<tbody>
 			<tr>
 				<td class="table_title_description" colspan="2">
-					Select all master catalogs that own products assigned to the storefront catalog below
+					Select all master catalogs (if applicable) that own products assigned to the storefront catalog below
 					<div id="catalogs-error"></div>
 				</td>
 			</tr>

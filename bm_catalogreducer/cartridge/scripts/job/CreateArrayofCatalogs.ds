@@ -14,11 +14,16 @@ importPackage( dw.object );
 function execute( args : PipelineDictionary ) : Number
 {
 
-	var arrayofCatalogIDs : Array = arrayofCatalogIDs = args.CatalogReducerDefinition.custom.masterCatalogs.split(",");
+	var arrayofCatalogIDs : Array = new Array();
 	var storefrontCatalogID : String = args.CatalogReducerDefinition.custom.storefrontCatalog;
 	
-	arrayofCatalogIDs.push(storefrontCatalogID);
+	if (args.CatalogReducerDefinition.custom.masterCatalogs != null) {
+		arrayofCatalogIDs = args.CatalogReducerDefinition.custom.masterCatalogs.split(",");
+		arrayofCatalogIDs.push(storefrontCatalogID);	
+	} else {
+		arrayofCatalogIDs.push(storefrontCatalogID);
+	}	
 
-args.ArrayofCatalogIDs = arrayofCatalogIDs;
-   return PIPELET_NEXT;
+	args.ArrayofCatalogIDs = arrayofCatalogIDs;
+   	return PIPELET_NEXT;
 }

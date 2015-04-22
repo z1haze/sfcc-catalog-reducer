@@ -96,29 +96,22 @@
 			
 			jQuery("form#catalogreducerform").submit(function (e) {
 				e.preventDefault();
-				var valid = false; // for form validation
+				var valid = true; //for form validation
 				
-				//check for master and storefront catalog selection
-				if ((jQuery("input[name=mastercat]:checked").length > 0) && (jQuery("input[name=storefrontcat]:checked").length > 0)) {
+				//check for master catalog selection
+				if ((jQuery("input[name=mastercat]:checked").length > 0)) {
 					var mastercat = "";
 					jQuery("input[name=mastercat]:checked").each(function() {
 						mastercat += $(this).val() + ",";
 					});
 					//remove last comma on master category list
 					mastercat = mastercat.slice(0, -1);
-					
-					var storefrontcat = jQuery("input[name=storefrontcat]:checked").val();
-					jQuery("#catalogs-error").html('');
-					valid = true;
 				} else {
-					if ((jQuery("input[name=mastercat]:checked").length < 1) && (jQuery("input[name=storefrontcat]:checked").length < 1)) {
-						jQuery("#catalogs-error").html('Please select at least 1 master catalog and the storefront catalog!');
-					} else if (jQuery("input[name=mastercat]:checked").length < 1) {
-						jQuery("#catalogs-error").html('Please select at least 1 master catalog!');
-					} else if (jQuery("input[name=storefrontcat]:checked").length < 1) {
-						jQuery("#catalogs-error").html('Please select the storefront catalog!');
-					}
+					var mastercat = "";
 				}
+				
+				//mark storefront catalog id
+				var storefrontcat = jQuery("input[name=storefrontcat]:checked").val();
 				
 				if (jQuery("#onlineprods").prop('checked')) {
 					var onlineprods = true;
