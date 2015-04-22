@@ -66,6 +66,9 @@
 				} else if (value > 10) {
 					msg = "Number of products cannot be more than 10";
 				} else {
+					if (!jQuery("#csvprods").prop('checked')) {
+						jQuery('button#export-catalog-btn').prop('disabled', false);
+					}
 					msg = "";
 				}
 				jQuery("#noofprods-error").html(msg);
