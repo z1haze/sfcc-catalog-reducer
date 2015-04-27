@@ -23,7 +23,7 @@ function execute( args : PipelineDictionary ) : Number
 	var mastercat : String = args.MasterCatalog;
 	var storefrontcat : String = args.StorefrontCatalog;
 	
-	var log : Logger = Logger.getLogger("BCM2","");
+	var log : Logger = Logger.getLogger("CatalogReducer","");
 	log.error("Searching for previous custom objects");
 	
 	var prevCOs : SeekableIterator = CustomObjectMgr.getAllCustomObjects("CatalogReducerDefinition");

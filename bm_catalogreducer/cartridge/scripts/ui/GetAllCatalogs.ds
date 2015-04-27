@@ -16,7 +16,7 @@ function execute( args : PipelineDictionary ) : Number
 {
 		var request : Request = args.Request;
 		var cookies : Cookies = request.getHttpCookies();
-		var log : Logger = Logger.getLogger("BCM2","");
+		var log : Logger = Logger.getLogger("CatalogReducer","");
 		var newCookies : String = "";
 
 		

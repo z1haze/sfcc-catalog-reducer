@@ -22,25 +22,23 @@ function execute( args : PipelineDictionary ) : Number
 
     var rootCategory : Category = storefrontCatalog.getRoot();
     var rootSubCategories :  Collection  = rootCategory.getSubCategories();
-    var log : Logger = Logger.getLogger("BCM","");
+    var log : Logger = Logger.getLogger("CatalogReducer","");
     var productExportList : ArrayList = new ArrayList();
 
     //Calls Recursive function to work through Catalog Structure to get products of all categories
     productExportList = getProductsfromSubCategories(rootSubCategories, productExportList, numberofProducts, onlineProducts, log);  
-    
    
     //Assign User defined Products to correct Array for Exporting
-     if (args.CatalogReducerDefinition.custom.productIDs != null)
-     {
-     	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
-    	assignspecificProductstoArrays(specificProductIDArrayList, productExportList);
-     }
-
+    if (args.CatalogReducerDefinition.custom.productIDs != null)
+    {
+    	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
+    	assignspecificProductstoArrays(specificProductIDArrayList, productExportList, log);
+    }
    
-   args.StorefrontCatalog =  storefrontCatalog;
-   args.StoreFrontProductIterator = productExportList.iterator();  
+	args.StorefrontCatalog =  storefrontCatalog;
+	args.StoreFrontProductIterator = productExportList.iterator();  
    
-   return PIPELET_NEXT;
+	return PIPELET_NEXT;
 }
 
 
@@ -66,16 +64,15 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             	var products: Iterator = subCategory.getProducts().iterator();
             }
                 
-         	var count: Number = 0;
+         	var count : Number = 0;
                 
             while(products.hasNext() && numberofProducts > count)
             {
             	var product : Product = products.next();
-   
            		if(product.isMaster() == true || product.isProductSet() == true || product.isBundle() == true)
             	{   
             		//Handle Master's Variations
-            		getAllProductsofComplexType(product, productExportList, onlineProducts);
+            		getAllProductsofComplexType(product, productExportList, onlineProducts, log);
             	}
             		
             	if(productExportList.contains(product) != true)
@@ -83,15 +80,15 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             		productExportList.push(product);
             	}
            	
-            	count = count++;                
+            	count++;                
             }
        }
 	}
-return productExportList
+return productExportList;
 }
 
 //Function takes the user inputted ProductIDS and adds the product object to the right array if it is not already added.
-function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, productExportList : ArrayList)
+function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, productExportList : ArrayList, log : Logger)
 {
     for each(var productID : String in specificProductIDArrayList)
     {
@@ -105,7 +102,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
         if(product.isMaster() == true || product.isProductSet() == true || product.isBundle() == true)
         {   
         	//Handle Master's Variations
-            getAllProductsofComplexType(product, productExportList, false);
+            getAllProductsofComplexType(product, productExportList, false, log);
         }
               
         if(productExportList.contains(product) != true)
@@ -117,7 +114,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
 }
 
 //This function gets all the products for complex Product Types(Masters,ProductSets,Bundles) and adds them to the correct export Array
-function getAllProductsofComplexType(product : Product, productExportList : ArrayList, onlineProducts : Boolean )
+function getAllProductsofComplexType(product : Product, productExportList : ArrayList, onlineProducts : Boolean, log : Logger)
 {
 	var productCollection : Collection = productTypeCollection(product);
 	
@@ -126,7 +123,7 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 		if(supportingProduct.isMaster() == true || supportingProduct.isProductSet() == true || supportingProduct.isBundle() == true)
         {   
         		//Handle Master's Variations
-            	getAllProductsofComplexType(supportingProduct, productExportList, onlineProducts);
+            	getAllProductsofComplexType(supportingProduct, productExportList, onlineProducts, log);
         }
         else
         {	
@@ -134,14 +131,14 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 			{
 				if(supportingProduct.isOnline() == true && productExportList.contains(supportingProduct) != true)
 				{
-					  	productExportList.push(supportingProduct);
+					  productExportList.push(supportingProduct);
            	 	}		
 			}
 			else
 			{
 				if(productExportList.contains(supportingProduct) != true)
 				{
-					  	productExportList.push(supportingProduct);
+					 productExportList.push(supportingProduct);
             	}			
 			}
 		}		

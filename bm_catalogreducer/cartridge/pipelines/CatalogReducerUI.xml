@@ -15,7 +15,7 @@
       </simple-transition>
       <node>
         <interaction-node transaction-required="false">
-          <template buffered="true" dynamic="false" name="application/UI/Menu.isml"/>
+          <template buffered="true" dynamic="false" name="application/UI/menu"/>
         </interaction-node>
         <node-display x="0" y="1"/>
       </node>
@@ -211,7 +211,7 @@
       <simple-transition/>
       <node>
         <interaction-node transaction-required="false">
-          <template buffered="true" dynamic="false" name="application/UI/allCatalogs"/>
+          <template buffered="true" dynamic="false" name="application/UI/allcatalogs"/>
         </interaction-node>
         <node-display x="0" y="1"/>
       </node>
