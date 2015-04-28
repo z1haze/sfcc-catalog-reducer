@@ -12,7 +12,9 @@ function execute( args : PipelineDictionary ) : Number
 	/** Setup variables for the catalog zip and deletion */
     var catalog : File = new File(File.IMPEX + File.SEPARATOR + "src" + File.SEPARATOR + "catalog" + File.SEPARATOR + "reduced-catalog" + File.SEPARATOR );
     var catalogFileList : List = catalog.listFiles();
-  	var catalogZip : File = new File(File.IMPEX + File.SEPARATOR + "src" + File.SEPARATOR + "catalog" + File.SEPARATOR + "reduced_catalog.zip");
+    var currentDate : Calendar = System.getCalendar();
+    var formattedDate : String = StringUtils.formatCalendar(currentDate, "MMddYYYYhhmmss");
+  	var catalogZip : File = new File(File.IMPEX + File.SEPARATOR + "src" + File.SEPARATOR + "catalog" + File.SEPARATOR + "reduced_catalog_" + formattedDate + ".zip");
   
 	
 	
