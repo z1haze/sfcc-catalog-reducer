@@ -19,14 +19,16 @@
 					fileSize = fileSize.toFixed(1);
 					var lastModified : Date = new Date(CatalogFile.lastModified());
 	      		</isscript>
-				<tr>
-					<td class="w e s"><a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${CatalogFile.name}" download>${CatalogFile.name}</a></td>
-					<td class="e s text-align-right">
-						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
-						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
-					</td>
-					<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
-				</tr>
+	      		<isif condition="${CatalogFile.name.indexOf('.zip') != -1}">
+					<tr>
+						<td class="w e s"><a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${CatalogFile.name}" download>${CatalogFile.name}</a></td>
+						<td class="e s text-align-right">
+							<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
+							<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+						</td>
+						<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
+					</tr>
+				</isif>
 	 		</isloop>
 	 	<iselse>
 	 		<tr>
