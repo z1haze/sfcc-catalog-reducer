@@ -30,7 +30,7 @@
 	 		</isloop>
 	 	<iselse>
 	 		<tr>
-	 			<td colspan="3">No catalog exports</td>
+	 			<td class="w e s" colspan="3">No catalog exports</td>
 	 		</tr>
 	 	</isif>
 	 	
