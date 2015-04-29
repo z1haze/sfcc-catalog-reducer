@@ -1,0 +1,27 @@
+<!--- TEMPLATENAME: catalogdirectoryfiles.isml --->
+<table width="100%" cellspacing="0" cellpadding="4" border="0">
+	<tbody>
+		<isif condition="${pdict.CatalogDirectoryFiles.length > 0}">
+			<isloop var="CatalogFile" items="${pdict.CatalogDirectoryFiles}" status="status">
+				<isscript>
+					var fileSize : Number = CatalogFile.length();
+					fileSize = fileSize/1000;
+					fileSize = fileSize.toFixed(1);
+					var lastModified : Date = new Date(CatalogFile.lastModified());
+	      		</isscript>
+				<tr>
+					<td class="e s" width="70%"><a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${CatalogFile.name}" download>${CatalogFile.name}</a></td>
+					<td class="e s text-align-right" width="20%">
+						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
+						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+					</td>
+					<td class="s text-align-right" width="10%"><isprint value="${fileSize}"/> kb</td>
+				</tr>
+	 		</isloop>
+	 	<iselse>
+	 		<tr>
+	 			<td class="s" colspan="3">No catalog files</td>
+	 		</tr>
+	 	</isif>
+	</tbody>
+</table>

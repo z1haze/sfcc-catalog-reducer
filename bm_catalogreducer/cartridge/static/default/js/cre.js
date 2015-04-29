@@ -5,12 +5,20 @@
 			
 			//show exported catalogs in the Recent Catalog Export table
 			cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-			setInterval(function() {
-				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-			}, 10000);
+			//removed code here
+			
 			//refresh exported catalog list on refresh button click
 			jQuery("body").on("click", "#catalog-list-refresh", function(e) {
 				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			});
+			
+			//expand catalog directory to show all catalog XML files
+			jQuery("body").on("click", ".catalog-directory", function(e) {
+				e.preventDefault();
+				var count = jQuery(this).attr('id');
+				jQuery("#directory-files-"+count).slideToggle();
+				var dir = jQuery(this).text();
+				cre.util.showCatalogDirectoryFiles(cre.urls.showCatalogDirectoryFiles, dir, count);
 			});
 			
 			//ensure custom object is not already running
@@ -225,6 +233,15 @@
 			jQuery.post(u).done(function(response) {
 				var $response = jQuery(jQuery.trim(response));
 				jQuery('#cre-catalogfilelist-div').html($response);
+			});
+		},
+		showCatalogDirectoryFiles : function (url, dir, i) {
+			var u = url,
+				d = dir,
+				i = i;
+			jQuery.post(u, d).done(function(response) {
+				var response = jQuery.trim(response);
+				jQuery('#directory-files-cell-'+i).html(response);
 			});
 		},
 		runCREJob : function (url, data) {

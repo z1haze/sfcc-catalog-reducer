@@ -12,23 +12,24 @@
 		</tr>
 		
 		<isif condition="${pdict.CatalogFileList.length > 0}">
-			<isloop var="CatalogFile" items="${pdict.CatalogFileList}">
+			<isloop var="CatalogFile" items="${pdict.CatalogFileList}" status="status">
 				<isscript>
 					var fileSize : Number = CatalogFile.length();
 					fileSize = fileSize/1000;
 					fileSize = fileSize.toFixed(1);
 					var lastModified : Date = new Date(CatalogFile.lastModified());
 	      		</isscript>
-	      		<isif condition="${CatalogFile.name.indexOf('.zip') != -1}">
-					<tr>
-						<td class="w e s"><a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${CatalogFile.name}" download>${CatalogFile.name}</a></td>
-						<td class="e s text-align-right">
-							<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
-							<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
-						</td>
-						<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
-					</tr>
-				</isif>
+				<tr>
+					<td class="w e s"><a href="#" class="catalog-directory" id="${status.count}">${CatalogFile.name}</a></td>
+					<td class="e s text-align-right">
+						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
+						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+					</td>
+					<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
+				</tr>
+				<tr id="directory-files-${status.count}" style="display:none;">
+					<td class="w e s" id="directory-files-cell-${status.count}" colspan="3"></td>
+				</tr>
 	 		</isloop>
 	 	<iselse>
 	 		<tr>

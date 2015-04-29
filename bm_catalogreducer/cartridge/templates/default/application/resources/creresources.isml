@@ -9,6 +9,7 @@
 	var urls = {
 		showCREMenu : URLUtils.url('CatalogReducerUI-CREMenu').toString(),
 		showAllCatalogs : URLUtils.url('CatalogReducerUI-GetAllCatalogs').toString(),
+		showCatalogDirectoryFiles : URLUtils.url('CatalogReducerUI-GetCatalogDirectoryFiles').toString(),
 		showCatalogFileList : URLUtils.url('CatalogReducerUI-CatalogFileList').toString(),
 		getCustomObjectJson : URLUtils.url('CatalogReducerUI-GetCOJson').toString()
 	};
