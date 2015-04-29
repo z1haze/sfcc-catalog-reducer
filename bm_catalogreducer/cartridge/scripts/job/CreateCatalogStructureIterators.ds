@@ -93,12 +93,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
     for each(var productID : String in specificProductIDArrayList)
     {
         var product : Product = ProductMgr.getProduct(productID);
-        
-        if(product.ID == "Spring-look-2")
-    	{
-    		var rob : Boolean = true;
-    	}
-        
+
         if(product.isMaster() == true || product.isProductSet() == true || product.isBundle() == true)
         {   
         	//Handle Master's Variations
