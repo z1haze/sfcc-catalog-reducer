@@ -235,7 +235,12 @@
 				} else {
 					jQuery('#cre-catalogs-div').html(response);
 				}
-				jQuery('button#export-catalog-btn').prop('disabled', false);
+				// check if export job is currently running
+				if (cre.util.inProgress) {
+					jQuery('button#export-catalog-btn').prop('disabled', true);
+				} else {
+					jQuery('button#export-catalog-btn').prop('disabled', false);
+				}
 			});
 		},
 		showCatalogFileList : function (url) {
