@@ -289,6 +289,7 @@
 						jQuery('#export-progress-div').fadeOut(500);
 						jQuery('#export-catalog-btn').prop('disabled', false);
 						cre.util.inProgress = false;
+						cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 					}
 				}
 			})
