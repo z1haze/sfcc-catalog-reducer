@@ -7,16 +7,13 @@
 		</tr>
 		<tr>
 			<td class="table_header e s th-left" nowrap="nowrap" width="70%">File Name</td>
-			<td class="table_header e s th-right" nowrap="nowrap" width="20%">Last Modified</td>
-			<td class="table_header e s th-right" nowrap="nowrap" width="10%">File Size</td>
+			<td class="table_header e s th-right" nowrap="nowrap" width="20%">File Size</td>
+			<td class="table_header e s th-right" nowrap="nowrap" width="10%">Last Modified</td>
 		</tr>
 		
 		<isif condition="${pdict.CatalogFileList.length > 0}">
 			<isloop var="CatalogFile" items="${pdict.CatalogFileList}" status="status">
 				<isscript>
-					var fileSize : Number = CatalogFile.length();
-					fileSize = fileSize/1000;
-					fileSize = fileSize.toFixed(1);
 					var lastModified : Date = new Date(CatalogFile.lastModified());
 	      		</isscript>
 				<tr>
@@ -26,11 +23,11 @@
 						<span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span> 
 						<span class="delete-directory-folder" id="${CatalogFile.name}">Delete <i class="fa fa-trash"></i></span>
 					</td>
+					<td class="e s text-align-right"></td>
 					<td class="e s text-align-right">
 						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
 						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
 					</td>
-					<td class="e s text-align-right"><isprint value="${fileSize}"/> kb</td>
 				</tr>
 				<tr id="directory-files-${status.count}" style="display:none;">
 					<td class="w e s" id="directory-files-cell-${status.count}" colspan="3" style="padding: 0px;"></td>
