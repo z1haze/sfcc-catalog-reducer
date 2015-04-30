@@ -59,6 +59,32 @@
 				cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
 			});
 			
+			//Delete a catalog directory
+			jQuery("body").on("click", ".delete-directory-folder", function(e) {
+				var dir = jQuery(this).attr('id');
+				var del = confirm("Are you sure you want to delete " + dir + "?");
+				if (del == true) {
+					var data = {
+						dir: dir
+					}
+					cre.util.deleteDirectoryFolder(cre.urls.deleteDirectoryFolder, data);
+				}
+			});
+			
+			//Delete a catalog file
+			jQuery("body").on("click", ".delete-directory-file", function(e) {
+				var dirfile = jQuery(this).attr('id');
+				var directoryfile = dirfile.split('/');
+				var del = confirm("Are you sure you want to delete " + directoryfile[1] + "?");
+				if (del == true) {
+					var data = {
+						dir: directoryfile[0],
+						file: directoryfile[1]
+					}
+					cre.util.deleteDirectoryFile(cre.urls.deleteDirectoryFile, data);
+				}
+			});
+			
 			//Show CSV product ids textarea when specific products will be included 
 			jQuery("body").on("change", "input#csvprods", function(e) {
 				jQuery("#csv-prods-row").toggle();
@@ -269,6 +295,20 @@
 			jQuery.post(u, d).done(function(response) {
 				var response = jQuery.trim(response);
 				jQuery('#directory-files-cell-'+i).html(response);
+			});
+		},
+		deleteDirectoryFolder : function (url, data) {
+			var u = url,
+				d = data;
+			jQuery.post(u, d).done(function(response) {
+				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
+			});
+		},
+		deleteDirectoryFile : function (url, data) {
+			var u = url,
+				d = data;
+			jQuery.post(u, d).done(function(response) {
+				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
 			});
 		},
 		runCREJob : function (url, data) {

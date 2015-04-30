@@ -108,3 +108,15 @@
 a.catalog-directory-arrow {
 	text-decoration: none;
 }
+
+.delete-directory-folder {
+	color: #B80000;
+	float: right;
+	cursor: pointer;
+}
+
+.delete-directory-file {
+	color: #B80000;
+	float: right;
+	cursor: pointer;
+}

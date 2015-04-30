@@ -11,6 +11,8 @@
 		showAllCatalogs : URLUtils.url('CatalogReducerUI-GetAllCatalogs').toString(),
 		showCatalogDirectoryFiles : URLUtils.url('CatalogReducerUI-GetCatalogDirectoryFiles').toString(),
 		showCatalogFileList : URLUtils.url('CatalogReducerUI-CatalogFileList').toString(),
+		deleteDirectoryFolder : URLUtils.url('CatalogReducerUI-DeleteDirectoryFolder').toString(),
+		deleteDirectoryFile : URLUtils.url('CatalogReducerUI-DeleteDirectoryFile').toString(),
 		getCustomObjectJson : URLUtils.url('CatalogReducerUI-GetCOJson').toString()
 	};
 </isscript>
