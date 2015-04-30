@@ -16,9 +16,19 @@
 			jQuery("body").on("click", ".catalog-directory", function(e) {
 				e.preventDefault();
 				var count = jQuery(this).attr('id');
+				//change the arrow direction
+				if (jQuery("#directory-files-"+count).is(':visible')) {
+					jQuery("#catalog-directory-arrow-"+count).html('&#9658;');
+				} else {
+					jQuery("#catalog-directory-arrow-"+count).html('&#9660;');
+				}
+				//get directory value for the catalog directory
 				jQuery("#directory-files-"+count).slideToggle();
 				var dir = jQuery(this).text();
-				cre.util.showCatalogDirectoryFiles(cre.urls.showCatalogDirectoryFiles, dir, count);
+				var data = {
+					dir : dir
+				}
+				cre.util.showCatalogDirectoryFiles(cre.urls.showCatalogDirectoryFiles, data, count);
 			});
 			
 			//ensure custom object is not already running
@@ -235,9 +245,9 @@
 				jQuery('#cre-catalogfilelist-div').html($response);
 			});
 		},
-		showCatalogDirectoryFiles : function (url, dir, i) {
+		showCatalogDirectoryFiles : function (url, data, i) {
 			var u = url,
-				d = dir,
+				d = data,
 				i = i;
 			jQuery.post(u, d).done(function(response) {
 				var response = jQuery.trim(response);
