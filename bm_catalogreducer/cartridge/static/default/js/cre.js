@@ -70,9 +70,13 @@
 						jQuery("#noofprods-error").html("Number of products cannot be less than 1, unless at least 1 product ID is provided");
 					}
 				} else if (jQuery("#csvprods").prop('checked')) {
-					if (((value === "") || (value < 1)) && (jQuery("#prodids").val().length > 0)) {
-						jQuery('button#export-catalog-btn').prop('disabled', false);
-						jQuery("#noofprods-error").html("");
+					if (cre.util.inProgress) {
+						jQuery('button#export-catalog-btn').prop('disabled', true);
+					} else {
+						if (((value === "") || (value < 1)) && (jQuery("#prodids").val().length > 0)) {
+							jQuery('button#export-catalog-btn').prop('disabled', false);
+							jQuery("#noofprods-error").html("");
+						}
 					}
 				}
 			});
@@ -82,42 +86,50 @@
 				e.preventDefault();
 				var value = jQuery(this).val();
 				var msg = "";
-				if (value === "") {
-					msg = "";
-					if (jQuery("#prodids").val().length < 1) {
-						jQuery('button#export-catalog-btn').prop('disabled', true);
-					}
-				} else if (value < 1) {
-					if (jQuery("#csvprods").prop('checked')) {
-						if (jQuery("#prodids").val().length > 0) {
-							msg = "";
+				if (cre.util.inProgress) {
+					jQuery('button#export-catalog-btn').prop('disabled', true);
+				} else {
+					if (value === "") {
+						msg = "";
+						if (jQuery("#prodids").val().length < 1) {
+							jQuery('button#export-catalog-btn').prop('disabled', true);
+						}
+					} else if (value < 1) {
+						if (jQuery("#csvprods").prop('checked')) {
+							if (jQuery("#prodids").val().length > 0) {
+								msg = "";
+							} else {
+								msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
+								jQuery('button#export-catalog-btn').prop('disabled', true);
+							}
 						} else {
 							msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
 							jQuery('button#export-catalog-btn').prop('disabled', true);
-						}
+						}	
+					} else if (value > 10) {
+						msg = "Number of products cannot be more than 10";
 					} else {
-						msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
-						jQuery('button#export-catalog-btn').prop('disabled', true);
-					}	
-				} else if (value > 10) {
-					msg = "Number of products cannot be more than 10";
-				} else {
-					jQuery('button#export-catalog-btn').prop('disabled', false);
-					msg = "";
+						jQuery('button#export-catalog-btn').prop('disabled', false);
+						msg = "";
+					}
+					jQuery("#noofprods-error").html(msg);
 				}
-				jQuery("#noofprods-error").html(msg);
 			});
 			
 			//if number of products is blank or zero, on change of adding a product ID, it should be valid
 			jQuery("body").on("keyup", "#prodids", function(e) {
-				if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 0)) {
-					if (jQuery("#prodids").val().length > 0) {
-						jQuery("#noofprods-error").html(''); //remove any message
-						jQuery("#noofprods").val(0); //replace value to 0
-						jQuery('button#export-catalog-btn').prop('disabled', false);
-					} else {
-						jQuery('button#export-catalog-btn').prop('disabled', true);
-						jQuery("#noofprods-error").html('Number of products cannot be less than 1, unless at least 1 product ID is provided');
+				if (cre.util.inProgress) {
+					jQuery('button#export-catalog-btn').prop('disabled', true);
+				} else {
+					if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 0)) {
+						if (jQuery("#prodids").val().length > 0) {
+							jQuery("#noofprods-error").html(''); //remove any message
+							jQuery("#noofprods").val(0); //replace value to 0
+							jQuery('button#export-catalog-btn').prop('disabled', false);
+						} else {
+							jQuery('button#export-catalog-btn').prop('disabled', true);
+							jQuery("#noofprods-error").html('Number of products cannot be less than 1, unless at least 1 product ID is provided');
+						}
 					}
 				}
 			});
