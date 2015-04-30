@@ -20,7 +20,7 @@
 					var lastModified : Date = new Date(CatalogFile.lastModified());
 	      		</isscript>
 				<tr>
-					<td class="w e s"><span id="catalog-directory-arrow-${status.count}">&#9658;</span> <a href="#" class="catalog-directory" id="${status.count}">${CatalogFile.name}</a></td>
+					<td class="w e s"><a href="#" class="catalog-directory-arrow" id="${status.count}">&#9658;</a> <i class="fa fa-folder-open"></i> <span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span></td>
 					<td class="e s text-align-right">
 						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
 						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>

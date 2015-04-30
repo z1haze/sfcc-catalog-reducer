@@ -18,6 +18,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript"><isinclude template="application/resources/creresources"/></script>
 <script src="${URLUtils.staticURL('/js/cre.js')}"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="${URLUtils.staticURL('/css/cre.css')}">
 
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -149,7 +150,7 @@
 	</div>
 	
 	<div id="version-div">
-		<span class="small-grey-info-text">Version: v0.7.5</span>
+		<span class="small-grey-info-text">Version: v0.7.6</span>
 	</div>
     
 </isdecorate>

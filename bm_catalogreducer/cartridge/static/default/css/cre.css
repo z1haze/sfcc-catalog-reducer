@@ -104,3 +104,7 @@
 	border-top: 1px solid #DADADA; 
 	text-align:right;
 }
+
+a.catalog-directory-arrow {
+	text-decoration: none;
+}
