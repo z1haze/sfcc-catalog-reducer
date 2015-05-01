@@ -62,7 +62,7 @@
 	padding-right: 3px;
 }
 
-#version-div {
+#version-div, #load-catalog-exports-div {
 	margin-top: 30px; 
 	border: 1px solid #DADADA; 
 	background: #F5F5F5; 
