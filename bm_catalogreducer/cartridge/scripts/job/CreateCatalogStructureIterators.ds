@@ -73,7 +73,7 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             	var product : Product = products.next();
            		if(product.isMaster() == true || product.isProductSet() == true || product.isBundle() == true)
             	{   
-            		//Handle Master's Variations
+            		//Called to get all products that make up a complexs type
             		getAllProductsofComplexType(product, productExportList, onlineProducts, log);
             	}
             		
@@ -89,7 +89,7 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
 return productExportList;
 }
 
-//Function takes the user inputted ProductIDS and adds the product object to the right array if it is not already added.
+//Function takes the user inputted ProductIDS and adds the product object to the array if it is not already added.
 function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, productExportList : ArrayList, log : Logger)
 {
     for each(var productID : String in specificProductIDArrayList)
@@ -151,6 +151,7 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 	
 }
 
+// Get the collection of Products for Complex Product Types
 function productTypeCollection(product : Product) : Collection
 {
 	 if(product.isMaster() == true)
