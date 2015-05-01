@@ -13,14 +13,16 @@
 			});
 			
 			//expand catalog directory to show all catalog XML files
-			jQuery("body").on("click", ".catalog-directory-arrow", function(e) {
+			jQuery("body").on("click", ".catalog-directory-link", function(e) {
 				e.preventDefault();
 				var count = jQuery(this).attr('id');
 				//change the arrow direction
 				if (jQuery("#directory-files-"+count).is(':visible')) {
-					jQuery(this).html('&#9658;');
+					jQuery(this).find("i").removeClass('fa-folder-open');
+					jQuery(this).find("i").addClass('fa-folder');
 				} else {
-					jQuery(this).html('&#9660;');
+					jQuery(this).find("i").removeClass('fa-folder');
+					jQuery(this).find("i").addClass('fa-folder-open');
 				}
 				//get directory value for the catalog directory
 				jQuery("#directory-files-"+count).slideToggle();

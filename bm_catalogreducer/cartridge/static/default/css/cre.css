@@ -111,12 +111,10 @@ a.catalog-directory-arrow {
 
 .delete-directory-folder {
 	color: #B80000;
-	float: right;
 	cursor: pointer;
 }
 
 .delete-directory-file {
 	color: #B80000;
-	float: right;
 	cursor: pointer;
 }
