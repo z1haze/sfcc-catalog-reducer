@@ -25,7 +25,7 @@
 					jQuery(this).find("i").addClass('fa-folder-open');
 				}
 				//get directory value for the catalog directory
-				jQuery("#directory-files-"+count).slideToggle();
+				jQuery("#directory-files-"+count).toggle();
 				var dir = jQuery("#catalog-directory-"+count).text();
 				var data = {
 					dir : dir
