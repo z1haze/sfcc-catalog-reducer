@@ -34,10 +34,12 @@ function execute( args : PipelineDictionary ) : Number
     	var specificProductIDArrayList : ArrayList = args.CatalogReducerDefinition.custom.productIDs.split(",");
     	assignspecificProductstoArrays(specificProductIDArrayList, productExportList, log);
     }
+    
+    log.error("Found " + productExportList.size() + " Products to export");
    
 	args.StorefrontCatalog =  storefrontCatalog;
-	args.StoreFrontProductIterator = productExportList.iterator();  
-   
+	args.StoreFrontProductIterator = productExportList.iterator();
+	
 	return PIPELET_NEXT;
 }
 
@@ -112,6 +114,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
 function getAllProductsofComplexType(product : Product, productExportList : ArrayList, onlineProducts : Boolean, log : Logger)
 {
 	var productCollection : Collection = productTypeCollection(product);
+	var count : Number = 0;
 	
 	for each( var supportingProduct : Product in productCollection)
 	{
@@ -136,6 +139,13 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 					 productExportList.push(supportingProduct);
             	}			
 			}
+		}
+		
+		count++;
+		//This limits variations of a master to 50 variations
+		if(product.isMaster() == true && count == 50)
+		{
+			break;
 		}		
 	}
 	
