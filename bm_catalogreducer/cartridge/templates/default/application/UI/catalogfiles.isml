@@ -16,21 +16,23 @@
 				<isscript>
 					var lastModified : Date = new Date(CatalogFile.lastModified());
 	      		</isscript>
-				<tr>
-					<td class="w e s">
-						<span class="delete-directory-folder" id="${CatalogFile.name}"><i class="fa fa-trash"></i></span> 
-						<a href="#" class="catalog-directory-link" id="${status.count}"><i class="fa fa-folder"></i></a> 
-						<span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span> 
-					</td>
-					<td class="e s text-align-right">&nbsp;</td>
-					<td class="e s text-align-right">
-						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
-						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
-					</td>
-				</tr>
-				<tr id="directory-files-${status.count}" style="display:none;">
-					<td class="w e s" id="directory-files-cell-${status.count}" colspan="3" style="padding: 0px;"></td>
-				</tr>
+	      		<isif condition="${CatalogFile.isDirectory() == true}">
+					<tr>
+						<td class="w e s">
+							<span class="delete-directory-folder" id="${CatalogFile.name}"><i class="fa fa-lg fa-trash"></i></span> 
+							<a href="#" class="catalog-directory-link" id="${status.count}"><i class="fa fa-lg fa-folder"></i></a> 
+							<span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span> 
+						</td>
+						<td class="e s text-align-right">&nbsp;</td>
+						<td class="e s text-align-right">
+							<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
+							<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+						</td>
+					</tr>
+					<tr id="directory-files-${status.count}" style="display:none;">
+						<td class="w e s" id="directory-files-cell-${status.count}" colspan="3" style="padding: 0px;"></td>
+					</tr>
+				</isif>
 	 		</isloop>
 	 	<iselse>
 	 		<tr>
