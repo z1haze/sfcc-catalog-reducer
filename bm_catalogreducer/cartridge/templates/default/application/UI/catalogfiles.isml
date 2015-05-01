@@ -18,9 +18,9 @@
 	      		</isscript>
 				<tr>
 					<td class="w e s">
+						<span class="delete-directory-folder" id="${CatalogFile.name}"><i class="fa fa-trash"></i></span> 
 						<a href="#" class="catalog-directory-link" id="${status.count}"><i class="fa fa-folder"></i></a> 
 						<span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span> 
-						<span class="delete-directory-folder" id="${CatalogFile.name}"><i class="fa fa-trash"></i></span>
 					</td>
 					<td class="e s text-align-right">&nbsp;</td>
 					<td class="e s text-align-right">
