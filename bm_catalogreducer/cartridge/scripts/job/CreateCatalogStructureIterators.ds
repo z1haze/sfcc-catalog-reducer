@@ -48,7 +48,8 @@ function execute( args : PipelineDictionary ) : Number
 
 // Function will recursively call itself to get through all subcategories of a catalog and grab Products for each category
 function getProductsfromSubCategories(rootSubCategories : Collection, productExportList : ArrayList, numberofProducts : Number, onlineProducts : boolean, log : Logger)
-{   
+{
+	   
 	for each (var subCategory : Category in  rootSubCategories)
     {
     	if (subCategory.getSubCategories().length > 0)
@@ -142,11 +143,11 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 		}
 		
 		count++;
-		//This limits variations of a master to 50 variations
-		if(product.isMaster() == true && count == 50)
+		//This limits variations of a master to 25 variations
+		if(product.isMaster() == true && count == 25)
 		{
 			break;
-		}		
+		}	
 	}
 	
 }

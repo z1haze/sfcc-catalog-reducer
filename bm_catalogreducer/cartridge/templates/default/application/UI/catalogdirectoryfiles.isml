@@ -11,7 +11,6 @@
 	      		</isscript>
 				<tr>
 					<td class="e s" width="70%" style="padding-left: 50px;">
-						<span class="delete-directory-file" id="${pdict.Directory}/${CatalogFile.name}"><i class="fa fa-lg fa-trash"></i></span> 
 						<a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${pdict.Directory}/${CatalogFile.name}" download>${CatalogFile.name}</a>
 					</td>
 					<td class="e s text-align-right" width="20%"><isprint value="${fileSize}"/> kb</td>

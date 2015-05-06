@@ -73,20 +73,6 @@
 				}
 			});
 			
-			//Delete a catalog file
-			jQuery("body").on("click", ".delete-directory-file", function(e) {
-				var dirfile = jQuery(this).attr('id');
-				var directoryfile = dirfile.split('/');
-				var del = confirm("Are you sure you want to delete " + directoryfile[1] + "?");
-				if (del == true) {
-					var data = {
-						dir: directoryfile[0],
-						file: directoryfile[1]
-					}
-					cre.util.deleteDirectoryFile(cre.urls.deleteDirectoryFile, data);
-				}
-			});
-			
 			//Show CSV product ids textarea when specific products will be included 
 			jQuery("body").on("change", "input#csvprods", function(e) {
 				jQuery("#csv-prods-row").toggle();
@@ -300,13 +286,6 @@
 			});
 		},
 		deleteDirectoryFolder : function (url, data) {
-			var u = url,
-				d = data;
-			jQuery.post(u, d).done(function(response) {
-				cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-			});
-		},
-		deleteDirectoryFile : function (url, data) {
 			var u = url,
 				d = data;
 			jQuery.post(u, d).done(function(response) {
