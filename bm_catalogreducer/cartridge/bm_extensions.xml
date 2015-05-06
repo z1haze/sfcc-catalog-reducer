@@ -35,12 +35,16 @@
   </description>
   <exec pipeline="CatalogReducerUI" node="Menu"/>
   <sub-pipelines>
-     <pipeline name="custom_extensionsactions-SiteAction" />
+     <pipeline name="CatalogReducerUI-Menu" />
+     <pipeline name="CatalogReducerUI-ExportJob" />
+     <pipeline name="CatalogReducerUI-CatalogFileList" />
+     <pipeline name="CatalogReducerUI-GetAllCatalogs" />
+     <pipeline name="CatalogReducerUI-GetCOJson" />
+     <pipeline name="CatalogReducerUI-GetCatalogDirectoryFiles" />
+     <pipeline name="CatalogReducerUI-DeleteDirectoryFolder" />
+     <pipeline name="CatalogReducerUI-DeleteDirectoryFile" />
   </sub-pipelines>
   <parameters>
-	 <parameter name="menuname" value="CR"/>
-	 <parameter name="menupath" value="cr"/>
-	 <parameter name="mainmenuname" value="CR1"/>
   </parameters>
   <icon>icons/shrink.png</icon>
 </menuaction>
