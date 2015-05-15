@@ -1,5 +1,5 @@
 /**
-* CreateProductIterator Script File
+* CreateCatalogStructureIterator Script File
 *
 *   @input CatalogReducerDefinition: dw.object.CustomObject
 *   @output StoreFrontProductIterator : dw.util.Iterator
@@ -80,7 +80,7 @@ function getProductsfromSubCategories(rootSubCategories : Collection, productExp
             		
             	if(productExportList.contains(product) != true)
             	{
-            		productExportList.push(product);
+            		quotaProtection(productExportList, product);
             	}
            	
             	count++;                
@@ -105,7 +105,7 @@ function assignspecificProductstoArrays(specificProductIDArrayList : ArrayList, 
               
         if(productExportList.contains(product) != true)
         {
-            productExportList.push(product);
+           quotaProtection(productExportList, product);
         }    
     }
     
@@ -130,14 +130,14 @@ function getAllProductsofComplexType(product : Product, productExportList : Arra
 			{
 				if(supportingProduct.isOnline() == true && productExportList.contains(supportingProduct) != true)
 				{
-					  productExportList.push(supportingProduct);
+					  quotaProtection(productExportList, supportingProduct);
            	 	}		
 			}
 			else
 			{
 				if(productExportList.contains(supportingProduct) != true)
 				{
-					 productExportList.push(supportingProduct);
+					 quotaProtection(productExportList, supportingProduct);
             	}			
 			}
 		}
@@ -170,4 +170,18 @@ function productTypeCollection(product : Product) : Collection
 	 }
 	 
 return productCollection;
+}
+
+// Function ensures 20000 collection size quota limit is not violated, will stop at 20k regardless
+function quotaProtection(productExportList : ArrayList, product : Product, log : Logger)
+{
+	if(productExportList.size() == 20000)
+	{
+		log.error("20000 quota limit reached for api.dw.util.collectionSize. Stopping product collection");
+		return PIPELET_NEXT;
+	}
+	else
+	{
+		productExportList.push(product);
+	} 
 }

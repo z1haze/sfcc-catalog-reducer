@@ -374,7 +374,6 @@
           <config-property key="Transactional" value="false"/>
           <config-property key="OnError" value="PIPELET_ERROR"/>
           <config-property key="ScriptFile" value="ui/DeleteDirectoryFolder.ds"/>
-          <key-binding alias="null" key="ScriptLog"/>
           <key-binding alias="Directory" key="Directory"/>
         </pipelet-node>
         <node-display x="0" y="1"/>
