@@ -33,6 +33,8 @@ function execute( args : PipelineDictionary ) : Number
 		CustomObjectMgr.remove(prevCO);
 		log.error("Deleted previous custom object");
 	}
+	
+	prevCOs.close();
 
     var co : CustomObject = CustomObjectMgr.createCustomObject("CatalogReducerDefinition", "CatalogReducerInfo");
     log.error("Created new custom object");
