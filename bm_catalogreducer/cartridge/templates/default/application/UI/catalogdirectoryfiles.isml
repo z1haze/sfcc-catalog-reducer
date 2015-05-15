@@ -11,14 +11,14 @@
 	      		</isscript>
 				<tr>
 					<td class="e s" width="70%" style="padding-left: 50px;">
-						<a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${pdict.Directory}/${CatalogFile.name}" download>${CatalogFile.name}</a>
+						<a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${pdict.Directory}/${CatalogFile.name}?download=true"><i class="fa fa-lg fa-download"></i></a> 
+						<a href="/on/demandware.servlet/webdav/Sites/Impex/src/catalog/${pdict.Directory}/${CatalogFile.name}" target="_blank">${CatalogFile.name}</a>
 					</td>
 					<td class="e s text-align-right" width="20%"><isprint value="${fileSize}"/> kb</td>
 					<td class="s text-align-right" width="10%">
 						<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
 						<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
 					</td>
-					
 				</tr>
 	 		</isloop>
 	 	<iselse>
