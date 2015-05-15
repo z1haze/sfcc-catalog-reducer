@@ -16,6 +16,7 @@
 <isdecorate template = "application/MenuFrame.isml">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>jQuery.noConflict();</script>
 <script type="text/javascript"><isinclude template="application/resources/creresources"/></script>
 <script src="${URLUtils.staticURL('/js/cre.js')}"></script>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -36,7 +37,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
 			<tr>
-				<td class="table_title">${Resource.msg("cre.title", "cre", "Catalog Reducer")}</td>
+				<td class="table_title">Catalog Reducer</td>
 			</tr>
 			<tr>
 				<td class="w s e">
@@ -66,7 +67,7 @@
 	</table>
 	
 	
-	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" name="${pdict.CurrentForms.catalogreducer.htmlName}" id="catalogreducerform">
+	<form action="${URLUtils.url('CatalogReducerUI-ExportJob')}" method="post" name="catalogreducerform" id="catalogreducerform">
 	
 		<div id="cre-catalogs-div">
 			<table class="infobox w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
@@ -124,8 +125,8 @@
 						<table width="100%">
 							<tr>
 								<td>
-									<button class="button" type="submit" id="export-catalog-btn" value="${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}" name="${pdict.CurrentForms.catalogreducer.export.htmlName}">
-							    		<span>${Resource.msg('forms.cre.export.submit','forms','Export Catalog')}</span>
+									<button class="button" type="submit" id="export-catalog-btn" value="Export Catalog" name="catalogreducerform_submit">
+							    		<span>Export Catalog</span>
 							    	</button>
 								</td>
 								<td align="right">
@@ -152,7 +153,7 @@
 	</div>
 	
 	<div id="version-div">
-		<span class="small-grey-info-text">Version: v0.7.13</span>
+		<span class="small-grey-info-text">Version: v1.0.1</span>
 	</div>
     
 </isdecorate>
