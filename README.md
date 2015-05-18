@@ -17,7 +17,7 @@ Feel free to create issues and enhancement requests or discuss/comment on existi
 
 Release History
 ---------------
-None
+May 6, 2015 - version 0.7.13
 
 Creators:
 --------------- 
