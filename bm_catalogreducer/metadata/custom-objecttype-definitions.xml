@@ -4,13 +4,27 @@
         <display-name xml:lang="x-default">Catalog Reducer Definition</display-name>
         <description xml:lang="x-default">A definition for a catalog reduction, specifying necessary elements of the reduction job</description>
         <staging-mode>no-staging</staging-mode>
-        <storage-scope>organization</storage-scope>
+        <storage-scope>site</storage-scope>
         <key-definition attribute-id="ID">
             <display-name xml:lang="x-default">Definition ID</display-name>
             <type>string</type>
             <min-length>0</min-length>
         </key-definition>
         <attribute-definitions>
+            <attribute-definition attribute-id="exportImages">
+                <display-name xml:lang="x-default">Export images</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="imageSizes">
+                <display-name xml:lang="x-default">Image Sizes</display-name>
+                <description xml:lang="x-default">List of image sizes to export with products</description>
+                <type>text</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
             <attribute-definition attribute-id="masterCatalogs">
                 <display-name xml:lang="x-default">Master Catalogs</display-name>
                 <type>string</type>
@@ -65,6 +79,13 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="zipAndMoveToInstance">
+                <display-name xml:lang="x-default">Zip and move</display-name>
+                <description xml:lang="x-default">Zip the result and move it in the "src/instance" folder (for instance import purpose)</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
         </attribute-definitions>
         <group-definitions>
             <attribute-group group-id="presentation">
@@ -75,6 +96,9 @@
                 <attribute attribute-id="ID"/>
                 <attribute attribute-id="onlineProducts"/>
                 <attribute attribute-id="productIDs"/>
+                <attribute attribute-id="exportImages"/>
+                <attribute attribute-id="imageSizes"/>
+                <attribute attribute-id="zipAndMoveToInstance"/>
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="running"/>

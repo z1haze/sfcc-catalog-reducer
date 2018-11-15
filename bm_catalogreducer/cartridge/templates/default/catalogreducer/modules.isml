@@ -1,0 +1,4 @@
+<ismodule template="application/UI/directorylist"
+    name="directorylist"
+    attribute="file"
+>
