@@ -19,16 +19,19 @@
 	color: red;
 }
 
-#csv-error {
+#csv-error,
+#imagesizes-error {
 	color: red;
 	font-size: 11px;
 }
 
-#csv-prods-row {
+#csv-prods-row,
+#images-size-row {
 	display: none;
 }
 
-#prodids {
+#prodids,
+#imagesizes {
 	width: 100%;
 }
 
@@ -121,4 +124,8 @@ a.catalog-directory-arrow {
 .delete-directory-file {
 	color: #B80000;
 	cursor: pointer;
+}
+
+.inner {
+	display: none;
 }

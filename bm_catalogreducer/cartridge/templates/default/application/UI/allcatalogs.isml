@@ -9,8 +9,8 @@
 			<tr>
 				<td width="275px" id="master-cat-td" valign="top">
 					<p><b>Master Catalog(s)</b></p>
-					<isloop items="${pdict.CatalogNames}" alias="catalogName">
-						<isif condition="${catalogName != pdict.StorefrontCatalogID}">
+					<isloop items="${pdict.CatalogDetails.catalogs}" alias="catalogName">
+						<isif condition="${catalogName != pdict.CatalogDetails.storefrontCatalogID}">
 							<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
 						</isif>
 					</isloop>
@@ -18,7 +18,7 @@
 				</td>
 				<td valign="top">	
 					<p><b>Storefront Catalog</b></p>
-					<input type="radio" name="storefrontcat" value="${pdict.StorefrontCatalogID}" checked disabled/> <isprint value="${pdict.StorefrontCatalogID}"/>
+					<input type="radio" name="storefrontcat" value="${pdict.CatalogDetails.storefrontCatalogID}" checked disabled/> <isprint value="${pdict.CatalogDetails.storefrontCatalogID}"/>
 				</td>
 			</tr>
 			<tr>

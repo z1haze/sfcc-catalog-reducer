@@ -1,0 +1,116 @@
+{
+    "step-types": {
+        "chunk-script-module-step": [{
+            "@type-id": "custom.CatalogReducer.ManualRunnable",
+            "@supports-organization-context": false,
+            "description": "This job is here for the UI. Please use the AutomaticRunnable job to work with automation.",
+            "before-step-function": "beforeStep",
+            "total-count-function": "getTotalCount",
+            "read-function": "read",
+            "process-function": "process",
+            "write-function": "write",
+            "after-step-function": "afterStep",
+            "chunk-size": 100,
+            "module": "bm_catalogreducer/cartridge/scripts/job/ManualRunnable.js",
+            "status-codes": {
+                "status": [{
+                        "@code": "ERROR",
+                        "description": "Used when an error occurred."
+                    },
+                    {
+                        "@code": "OK",
+                        "description": "Used when execution was successful."
+                    }
+                ]
+            }
+        }, {
+            "@type-id": "custom.CatalogReducer.AutomaticRunnable",
+            "@supports-organization-context": false,
+            "description": "Catalog Reducer job for automation.",
+            "before-step-function": "beforeStep",
+            "total-count-function": "getTotalCount",
+            "read-function": "read",
+            "process-function": "process",
+            "write-function": "write",
+            "after-step-function": "afterStep",
+            "chunk-size": 100,
+            "module": "bm_catalogreducer/cartridge/scripts/job/AutomaticRunnable.js",
+            "parameters": {
+                "parameter": [
+                    {
+                        "@name": "isDisabled",
+                        "description": "Mark the step as disabled. This will skip the step and returns a OK status.",
+                        "@type": "boolean",
+                        "@required": false,
+                        "@trim": true
+                    },
+                    {
+                        "@name": "numberProducts",
+                        "description": "Number of products to export.",
+                        "@type": "double",
+                        "@required": true,
+                        "@trim": true,
+                        "default-value": "5"
+                    },
+                    {
+                        "@name": "storefrontCatalogID",
+                        "description": "Storefront catalog ID to export. If not provided, the site catalog of the site is used.",
+                        "@type": "string",
+                        "@required": false,
+                        "@trim": true
+                    },
+                    {
+                        "@name": "masterCatalogIDs",
+                        "description": "Comma separated list of catalog IDs where to find the products.",
+                        "@type": "string",
+                        "@required": false,
+                        "@trim": true
+                    },
+                    {
+                        "@name": "onlineProducts",
+                        "description": "Only exports online products?",
+                        "@type": "boolean",
+                        "@required": false,
+                        "@trim": true,
+                        "default-value": "false"
+                    },
+                    {
+                        "@name": "productIDs",
+                        "description": "Comma separated list of product IDs to export.",
+                        "@type": "string",
+                        "@required": false,
+                        "@trim": true
+                    },
+                    {
+                        "@name": "imageSizes",
+                        "description": "Comma separated list of image view types to export. Leave empty to not export images.",
+                        "@type": "string",
+                        "@required": false,
+                        "@trim": true,
+                        "default-value": "large,medium,small"
+                    },
+                    {
+                        "@name": "zipAndMoveToInstance",
+                        "description": "Zip the catalogs and images (if exported) and move the archive to the /IMPEX/src/instance folder",
+                        "@type": "boolean",
+                        "@required": false,
+                        "@trim": true,
+                        "default-value": "false"
+                    }
+                ]
+            },
+            "status-codes": {
+                "status": [
+                    {
+                        "@code": "ERROR",
+                        "description": "Used when an error occurred."
+                    },
+                    {
+                        "@code": "OK",
+                        "description": "Used when execution was successful."
+                    }
+                ]
+            }
+        }]
+    }
+}

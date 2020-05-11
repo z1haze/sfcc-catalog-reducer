@@ -1,4 +1,5 @@
 <!--- TEMPLATENAME: catalogfiles.isml --->
+<isinclude template="catalogreducer/modules" />
 
 <table id="cat-files-table" width="100%" cellspacing="0" cellpadding="4" border="0">
 	<tbody>
@@ -11,29 +12,10 @@
 			<td class="table_header e s th-right" nowrap="nowrap" width="10%">Last Modified</td>
 		</tr>
 		
-		<isif condition="${pdict.CatalogFileList.length > 0}">
-			<isloop var="CatalogFile" items="${pdict.CatalogFileList}" status="status">
-				<isscript>
-					var lastModified : Date = new Date(CatalogFile.lastModified());
-	      		</isscript>
-	      		<isif condition="${CatalogFile.isDirectory() == true}">
-					<tr>
-						<td class="w e s">
-							<span class="delete-directory-folder" id="${CatalogFile.name}"><i class="fa fa-lg fa-trash"></i></span> 
-							<a href="#" class="catalog-directory-link" id="${status.count}"><i class="fa fa-lg fa-folder"></i></a> 
-							<span id="catalog-directory-${status.count}" style="font-weight: bold;">${CatalogFile.name}</span> 
-						</td>
-						<td class="e s text-align-right">&nbsp;</td>
-						<td class="e s text-align-right">
-							<isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/> 
-							<isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
-						</td>
-					</tr>
-					<tr id="directory-files-${status.count}" style="display:none;">
-						<td class="w e s" id="directory-files-cell-${status.count}" colspan="3" style="padding: 0px;"></td>
-					</tr>
-				</isif>
-	 		</isloop>
+		<isif condition="${!empty(pdict.RootDirectory) && !empty(pdict.RootDirectory.listFiles())}">
+    		<isloop var="file" items="${pdict.RootDirectory.listFiles()}" status="status">
+				<isdirectorylist file="${file}" />
+			</isloop>
 	 	<iselse>
 	 		<tr>
 	 			<td class="w e s" colspan="3">No catalog exports</td>

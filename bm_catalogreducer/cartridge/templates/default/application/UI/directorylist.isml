@@ -1,0 +1,35 @@
+<isif condition="${!empty(pdict.file)}">
+    <isset name="depth" value="${require('~/cartridge/scripts/lib/Directories').getFileDepth(pdict.file.getFullPath())}" scope="page" />
+    <isset name="lastModified" value="${require('~/cartridge/scripts/lib/Directories').getLastModifiedDate(pdict.file)}" scope="page" />
+    <isset name="parentFolderPath" value="${require('~/cartridge/scripts/lib/Directories').getParentFolderPath(pdict.file.getFullPath())}" scope="page" />
+
+      <isif condition="${pdict.file.isDirectory()}">
+          <tr class="directory ${depth > 1 ? 'inner' : ''}" data-filename="${pdict.file.getName()}" data-parentpath="${parentFolderPath}">
+              <td class="w e s" width="70%" style="${'padding-left: ' + (depth * 10) + 'px;'}">
+                <span class="delete-directory-folder" data-filepath="${pdict.file.getFullPath()}"><i class="fa fa-lg fa-trash"></i></span>
+                <a href="" class="catalog-directory-link"><i class="fa fa-lg fa-folder"></i></a>
+                <span id="catalog-directory" style="font-weight: bold;">${pdict.file.name}</span>
+            </td>
+            <td class="e s text-align-right">&nbsp;</td>
+            <td class="e s text-align-right">
+                <isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/>
+                <isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+            </td>
+        </tr>
+        <isloop var="file" items="${pdict.file.listFiles()}" status="status">
+            <isdirectorylist file="${file}" />
+        </isloop>
+    <iselse>
+        <tr class="${depth > 1 ? 'inner' : ''}" data-filename="${pdict.file.getName()}" data-parentpath="${parentFolderPath}">
+            <td class="w e s" width="70%" style="${'padding-left: ' + (depth * 10) + 'px;'}">
+                <a href="/on/demandware.servlet/webdav/Sites${pdict.file.getFullPath()}?download=true"><i class="fa fa-lg fa-download"></i></a>
+                <a href="/on/demandware.servlet/webdav/Sites${pdict.file.getFullPath()}" target="_blank">${pdict.file.getName()}</a>
+            </td>
+            <td class="e s text-align-right" width="20%"><isprint value="${require('~/cartridge/scripts/lib/Directories').getFileSize(pdict.file)}"/></td>
+            <td class="e s text-align-right" width="10%">
+                <isprint value="${lastModified}" style="DATE_SHORT" timezone="INSTANCE"/>
+                <isprint value="${lastModified}" style="DATE_TIME" timezone="INSTANCE"/>
+            </td>
+        </tr>
+    </isif>
+</isif>
