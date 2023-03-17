@@ -1,0 +1,72 @@
+:root {
+    --spacer: 5px;
+    --indent: 10px;
+}
+
+/**
+ * Global Overrides
+ */
+
+.infobox .table_title_description {
+    padding-left: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+}
+
+[type=radio],
+[type=checkbox] {
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+
+/**
+ * App Styles
+ */
+
+progress {
+    width: 100px;
+}
+
+#job-status strong {
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+/**
+ * Helpers/Utils
+ */
+
+.p-0 {
+    padding: 0;
+}
+
+.pl-0 {
+    padding-left: 0!important;
+}
+
+.p {
+    padding: var(--spacer);
+}
+
+.pb {
+    padding-bottom: var(--spacer);
+}
+
+.pl {
+    padding-left: var(--spacer);
+}
+
+.mb {
+    margin-bottom: var(--spacer);
+}
+
+.mb-4 {
+    margin-bottom: calc(var(--spacer) * 4);
+}

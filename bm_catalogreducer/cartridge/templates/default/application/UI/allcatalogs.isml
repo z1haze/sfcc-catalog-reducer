@@ -1,31 +1,43 @@
-	<table class="infobox w e s catalogs-table" width="100%" cellspacing="0" cellpadding="4" border="0">
-		<tbody>
-			<tr>
-				<td class="table_title_description" colspan="2">
-					Select all master catalogs (if applicable) that own products assigned to the storefront catalog below
-					<div id="catalogs-error"></div>
-				</td>
-			</tr>
-			<tr>
-				<td width="275px" id="master-cat-td" valign="top">
-					<p><b>Master Catalog(s)</b></p>
-					<isloop items="${pdict.CatalogDetails.catalogs}" alias="catalogName">
-						<isif condition="${catalogName != pdict.CatalogDetails.storefrontCatalogID}">
-							<input type="checkbox" name="mastercat" value="${catalogName}"/> <isprint value="${catalogName}"/> <br />
-						</isif>
-					</isloop>
+<table class="mb">
+    <tbody>
+    <tr>
+        <td class="table_title_description pl-0" colspan="2">
+            Select all master catalogs (if applicable) that own products assigned to the storefront catalog below
+        </td>
+    </tr>
 
-				</td>
-				<td valign="top">	
-					<p><b>Storefront Catalog</b></p>
-					<input type="radio" name="storefrontcat" value="${pdict.CatalogDetails.storefrontCatalogID}" checked disabled/> <isprint value="${pdict.CatalogDetails.storefrontCatalogID}"/>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button class="button" id="all-catalogs-refresh">Refresh Catalogs</button> 
-					<span class="small-grey-info-text">Manually refresh if catalog list is outdated</span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+    <tr>
+        <td width="275px" class="infobox_title_search pl-0" valign="top">
+            <p><strong>Master Catalog(s)</strong></p>
+
+            <isloop items="${pdict.CatalogDetails.catalogs}" alias="catalogName">
+                <isif condition="${catalogName != pdict.CatalogDetails.storefrontCatalogID}">
+                    <input id="${'catalog-' + catalogName}" type="checkbox" name="mastercat" value="${catalogName}"/>
+                    <label for="${'catalog-' + catalogName}"><isprint value="${catalogName}"/></label>
+                    <br/>
+                </isif>
+            </isloop>
+        </td>
+
+        <td valign="top">
+            <p><b>Storefront Catalog</b></p>
+            <input type="radio"
+                   name="storefrontcat"
+                   id="${'catalog-' + pdict.CatalogDetails.storefrontCatalogID}"
+                   value="${pdict.CatalogDetails.storefrontCatalogID}"
+                   checked
+            />
+            <label for="${'catalog-' + pdict.CatalogDetails.storefrontCatalogID}"><isprint value="${pdict.CatalogDetails.storefrontCatalogID}"/></label>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <button class="button" id="catalogs-refresh-btn">Refresh Catalogs</button>
+
+    <div class="table_title_description p-0" style="display:inline-block">
+        <span class="small-grey-info-text">Manually refresh if catalog list is outdated</span>
+    </div>
+
+</div>

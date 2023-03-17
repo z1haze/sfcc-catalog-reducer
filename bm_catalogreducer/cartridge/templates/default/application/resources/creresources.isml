@@ -1,16 +1,11 @@
 <iscontent type="text/javascript" charset="UTF-8" compact="true"/>
 
 <isscript>
-    //application urls
     var urls = {
-        showCREMenu: URLUtils.https('CatalogReducerUI-CREMenu').toString(),
         showAllCatalogs: URLUtils.https('CatalogReducerUI-GetAllCatalogs').toString(),
-        showCatalogDirectoryFiles: URLUtils.https('CatalogReducerUI-GetCatalogDirectoryFiles').toString(),
-        showCatalogFileList: URLUtils.https('CatalogReducerUI-CatalogFileList').toString(),
-        deleteDirectoryFolder: URLUtils.https('CatalogReducerUI-DeleteDirectoryFolder').toString(),
-        getCustomObjectJson: URLUtils.https('CatalogReducerUI-GetCOJson').toString()
+        showExports: URLUtils.https('CatalogReducerUI-ShowExports').toString(),
+        checkJobStatus: URLUtils.https('CatalogReducerUI-CheckJobStatus').toString(),
     };
 </isscript>
-(function(cre){
-    cre.urls = <isprint value="${JSON.stringify(urls)}" encoding="off"/>;
-}(window.cre = window.cre || {}));
+
+window.catalogReducerUrls = <isprint value="${JSON.stringify(urls)}" encoding="off"/>;

@@ -1,173 +1,147 @@
-<!--- TEMPLATENAME: menu.isml --->
+<isdecorate template="application/MenuFrame">
+    <link rel="stylesheet" type="text/css" href="${URLUtils.staticURL('/css/styles.css')}">
 
-<script type="text/javascript">
-      <!--
-      function isNumberKey(evt) {
-         var charCode = (evt.which) ? evt.which : event.keyCode
-         if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
+    <!--- Breadcrumbs --->
+    <div id="bm-breadcrumb">
+        <a class="breadcrumb"
+           href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Merchant
+            Tools</a>&nbsp;&gt;&nbsp;
 
-         return true;
-      }
-      //-->
-</script>
+        <a class="breadcrumb"
+           href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Products
+            and Catalogs</a>&nbsp;&gt;&nbsp;
+        Catalog Reducer
+    </div>
 
-<isdecorate template = "application/MenuFrame.isml">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script>jQuery.noConflict();</script>
-    <script type="text/javascript"><isinclude template="application/resources/creresources"/></script>
-    <script src="${URLUtils.staticURL('/js/cre.js')}"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="${URLUtils.staticURL('/css/cre.css')}">
+    <!--- Feature Description --->
+    <div>
+        <div class="table_title">Catalog Reducer</div>
 
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
-        <tbody>
-            <tr>
-                <td class="breadcrumb">
-                    <a href="${URLUtils.url('ViewApplication-ExpandMenuGroup', 'MenuGroupID', 'SiteMenu', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}">Site</a> >
-                    <a href="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'prod-cat', 'itemType', 'Site')}">Product and Catalogs</a>
-                    > Catalog Reducer
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
-        <tbody>
-            <tr>
-                <td class="table_title">Catalog Reducer</td>
-            </tr>
-            <tr>
-                <td class="w s e">
-                    <!-- <img width="1" height="2" src="${URLUtils.staticURL('/images/spacer.gif')}" /> -->
-                </td>
-            </tr>
-            <tr>
-                <td class="table_title_description">
-                    <p>The Catalog Reducer Extension allows you to quickly export a reduced catalog. You have a few options to control the export:</p>
-                    <ul>
-                        <li>Input how many products to include in each subcategory (minimum 1 product, maximum 10 products) <br />
-                            This value can be 0, if at least 1 specific product ID is provided</li>
-                        <li>Select whether or not to include only online products</li>
-                        <li>Input a comma-separated list of specific product IDs to be included in the export</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table class="infobox w e border-top-grey" width="100%" cellspacing="0">
-        <tbody>
-            <tr>
-                <td class="infobox_title_search" nowrap="nowrap" colspan="3" id="cre-table-title">Catalog Reducer Export</td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    <form action="${URLUtils.https('CatalogReducerUI-ExportJob')}" method="post" name="catalogreducerform" id="catalogreducerform">
-
-        <div id="cre-catalogs-div">
-            <table class="infobox w e s" width="100%" cellspacing="0" cellpadding="4" border="0">
-                <tbody>
-                    <tr>
-                        <td class="table_title_description">Loading all catalogs... <img src="${URLUtils.staticURL('icons/zoomloader.gif')}"/>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="s">
+            <img src="${URLUtils.staticURL('/images/space.gif')}"
+                 width="1"
+                 height="2"
+            >
         </div>
 
-        <div id="cre-menu-div">
-            <table class="w e s cre-table" width="100%" cellspacing="0" cellpadding="4" border="0">
-                <tbody>
+        <div class="table_title_description">
+            <p>Export a reduced catalog for import into sandboxes.</p>
+
+            <div>
+                <ul>
+                    <li>Determine how many products to be exported per category (minimum 1, maximum 10)<br/>
+                        This value can be 0 if at least 1 product ID is provided
+                    </li>
+                    <li>Select whether to include only online categories and products</li>
+                    <li>Input a comma-separated list of specific product IDs to be included in the export</li>
+                    <li>Select whether to include images in the export (images will be zipped into a site import and
+                        placed in IMPEX/src/instance)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--- Form/Controls --->
+    <form id="catalog-form" class="mb-4 n e s w" action="${URLUtils.https('CatalogReducerUI-ExportJob')}" method="post">
+        <div class="infobox p">
+            <div class="infobox_title_search p-0">Catalog Reducer Export</div>
+
+            <div id="all-catalogs">
+                <div class="table_title_description">Loading all catalogs... <img
+                        src="${URLUtils.staticURL('icons/zoomloader.gif')}"
+                        style="vertical-align: bottom"/>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="table_title_description">Catalog Export Refinements</div>
+
+            <div class="p">
+                <table>
+                    <tbody>
                     <tr>
-                        <td class="table_title_description">Simple Catalog Export Refinements</td>
-                    </tr>
-                    <tr>
+                        <td width="190px">Number of Products</td>
                         <td>
-                            <table width="100%" cellspacing="0" cellpadding="4">
-                                <tr>
-                                    <td width="180px">Number of Products &#09;</td>
-                                    <td width="55px"><input value="5" name="noofprods" id="noofprods" type="text" size="5" maxlength="2" onpaste="return false" onkeydown="return isNumberKey(event)"></td>
-                                    <td class="table_title_description no-padding">Products per category <span id="noofprods-error"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>Online Products Only &#09;</td>
-                                    <td><input name="onlineprods" id="onlineprods" type="checkbox" checked></td>
-                                    <td></td>
-                                    <input type="hidden" name="expmethod" id="expmethod" value="simple">
-                                </tr>
-                                <tr>
-                                    <td>Export product images &#09;</td>
-                                    <td><input name="exportimages" id="exportimages" type="checkbox" /></td>
-                                    <td></td>
-                                </tr>
-                                <tr id="images-size-row">
-                                    <td valign="top">Image sizes</td>
-                                    <td colspan="2">
-                                        <div id="imagesizes-error"></div>
-                                        <textarea rows="10" id="imagesizes" name="imagesizes">large,medium,small,swatch</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Zip the result and move it &#09;</td>
-                                    <td><input name="zipandmove" id="zipandmove" type="checkbox" /></td>
-                                    <td class="table_title_description no-padding">This will move all exported catalogs (and images if applies) to the "src/instance" folder and zip it (for instance import purpose)</td>
-                                </tr>
-                                <tr>
-                                    <td>Include Specific Products</td>
-                                    <td><input type="checkbox" name="csvprods" id="csvprods"></td>
-                                    <td class="table_title_description no-padding">Select to input specific product IDs</td>
-                                </tr>
-                                <tr id="csv-prods-row">
-                                    <td valign="top">Product IDs</td>
-                                    <td colspan="2">
-                                        <div id="csv-error"></div>
-                                        <textarea rows="10" id="prodids" name="prodids"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
+                            <input name="noofprods" value="5" type="number" min="1" max="10">
+                            <small>Products per category</small>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    <tr>
+                        <td>Online Products Only</td>
+                        <td><input name="onlineprods" type="checkbox" checked/></td>
+                    </tr>
+                    <tr>
+                        <td>Export Product Images</td>
+                        <td>
+                            <input name="exportimages" id="a" type="checkbox" class="field-toggle"/>
+                            <label for="a">
+                                <small>Select to input specific image sizes</small>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td valign="top">Image sizes</td>
+                        <td colspan="2">
+                            <textarea name="imagesizes" cols="40" rows="3">large=3,medium,small,swatch=1</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Include Specific Products</td>
+                        <td>
+                            <input id="b" type="checkbox" class="field-toggle"/>
+                            <label for="b">
+                                <small>Select to input specific product IDs</small>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td valign="top">Product IDs</td>
+                        <td colspan="2">
+                            <textarea name="prodids" cols="40" rows="3"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <table class="w e s" width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tbody>
-                <tr>
-                    <td>
-                        <table width="100%">
-                            <tr>
-                                <td>
-                                    <button class="button" type="submit" id="export-catalog-btn" value="Export Catalog" name="catalogreducerform_submit">
-                                        <span>Export Catalog</span>
-                                    </button>
-                                </td>
-                                <td align="right">
-                                    <div id="export-progress-div">
-                                        <span id="export-progress-text"></span>
-                                        <div id="export-progress-meter">
-                                            <div id="export-progress-complete"></div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
+        <table style="width: auto">
+            <tr>
+                <td class="p">
+                    <button class="button" type="submit" id="export-btn">
+                        <span>Export Catalog</span>
+                    </button>
+                </td>
+
+                <td class="p">
+                    <div id="job-status" style="display:none">
+                        <!--- TODO: ADD THING WHERE LIKE FLASHING . . . AFTER THE STATE --->
+                        <strong>STATE</strong>
+                        <progress max="100"></progress>
+                    </div>
+                </td>
+            </tr>
         </table>
     </form>
 
-    <div id="cre-catalogfilelist-div">
-        <div id="load-catalog-exports-div">
-            <span class="small-grey-info-text">Loading recent catalog exports... <img src="${URLUtils.staticURL('icons/zoomloader.gif')}"/></span>
+    <div class="mb-4">
+        <div class="p n e s w infobox">
+            <div class="infobox_title_search p-0">Recent Exports</div>
+        </div>
+
+        <div id="recent-exports">
+            <div class="p">
+                <span class="small-grey-info-text">Loading recent catalog exports... <img src="${URLUtils.staticURL('icons/zoomloader.gif')}"/></span>
+            </div>
         </div>
     </div>
 
-    <div id="version-div">
-        <span class="small-grey-info-text">Version: v1.0.3</span>
+    <div class="infobox n e s w p">
+        <small>Version: v2.0.0</small>
     </div>
 
+    <script type="text/javascript"><isinclude template="application/resources/creresources"/></script>
+    <script src="${URLUtils.staticURL('/js/cre.js')}"></script>
 </isdecorate>
