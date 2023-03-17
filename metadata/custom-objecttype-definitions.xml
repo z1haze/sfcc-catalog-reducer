@@ -83,7 +83,6 @@
                 <attribute attribute-id="productIDs"/>
                 <attribute attribute-id="exportImages"/>
                 <attribute attribute-id="imageSizes"/>
-                <attribute attribute-id="zipAndMoveToInstance"/>
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="state"/>
