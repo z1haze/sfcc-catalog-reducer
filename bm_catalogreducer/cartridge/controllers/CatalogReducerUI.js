@@ -1,73 +1,81 @@
-'use strict';
+/**
+ * Display the page
+ */
+module.exports.Menu = function () {
+    const ISML = require('dw/template/ISML');
 
-const File = require('dw/io/File');
-const Pipeline = require('dw/system/Pipeline');
-const Status = require('dw/system/Status');
+    ISML.renderTemplate('application/UI/menu');
+};
 
-const app = require('~/cartridge/scripts/app');
-const guard = require('~/cartridge/scripts/guard');
-const Catalogs = require('~/cartridge/scripts/lib/Catalogs');
-const COHelper = require('~/cartridge/scripts/lib/COHelper');
-const Directories = require('~/cartridge/scripts/lib/Directories');
+/**
+ * Display catalogs UI
+ */
+module.exports.GetAllCatalogs = function () {
+    const ISML = require('dw/template/ISML');
+    const Catalogs = require('~/cartridge/scripts/lib/Catalogs');
 
-function menu() {
-    app.getView().render('application/UI/menu');
-}
-
-function deleteDirectoryFolder() {
-    var httpParameterMap = request.httpParameterMap;
-
-    if (httpParameterMap.isParameterSubmitted('dir')) {
-        Directories.removeFile(httpParameterMap.dir.stringValue);
-    }
-
-    app.getView().render('application/UI/deletedirectory');
-}
-
-function catalogFileList() {
-    app.getView({
-        RootDirectory: new File(Directories.ROOT_FOLDER)
-    }).render('application/UI/catalogfiles');
-}
-
-function getAllCatalogs() {
-    app.getView({
+    ISML.renderTemplate('application/UI/allcatalogs', {
         CatalogDetails: Catalogs.getAllCatalogs()
-    }).render('application/UI/allcatalogs');
-}
+    });
+};
 
-function getCOJson() {
-    app.getView({
-        CatalogReducerInfo: COHelper.getCustomObject()
-    }).render('application/UI/customobjectjson');
-}
+/**
+ * Display the recent exports UI
+ */
+module.exports.ShowExports = function () {
+    const File = require('dw/io/File');
+    const ISML = require('dw/template/ISML');
+    const Directories = require('~/cartridge/scripts/lib/Directories');
 
-function exportJob() {
-    var httpParameterMap = request.httpParameterMap;
-    var parameters = {
+    ISML.renderTemplate('application/UI/catalogfiles', {
+        RootDirectory: new File(Directories.ROOT_FOLDER)
+    });
+};
+
+/**
+ * Execute the catalog reducer job
+ */
+module.exports.ExportJob = function () {
+    const COHelper = require('~/cartridge/scripts/lib/COHelper');
+    const httpParameterMap = request.httpParameterMap;
+
+    const parameters = {
         NumberOfProducts: httpParameterMap.noofprods.intValue,
         OnlineProducts: httpParameterMap.onlineprods.booleanValue,
         ProductIDs: httpParameterMap.prodids.stringValue,
         MasterCatalog: httpParameterMap.mastercat.stringValue,
         StorefrontCatalog: httpParameterMap.storefrontcat.stringValue,
         ExportImages: httpParameterMap.exportimages.booleanValue,
-        ZipAndMove: httpParameterMap.zipandmove.booleanValue,
         ImageSizes: httpParameterMap.imagesizes.stringValue
     };
 
-    COHelper.createCustomObject(parameters);
-    var result = Pipeline.execute('CatalogExporter-ExportJob');
-    if (result.hasOwnProperty('Status') && result.Status.getStatus() !== Status.OK) {
-        app.getView().render('application/UI/exportError');
-        return;
-    }
+    const co = COHelper.createCustomObject(parameters);
 
-    app.getView().render('application/UI/exportSuccess');
-}
+    /**
+     * Not documented, but it works to start the job
+     */
+    dw.system.Pipelet('RunJobNow').execute({
+        JobName: 'ManualCatalogReducerExport'
+    });
 
-exports.Menu = guard.httpsGet(menu);
-exports.DeleteDirectoryFolder = guard.httpsPost(deleteDirectoryFolder);
-exports.CatalogFileList = guard.httpsPost(catalogFileList);
-exports.GetAllCatalogs = guard.httpsPost(getAllCatalogs);
-exports.GetCOJson = guard.httpsGet(getCOJson);
-exports.ExportJob = guard.httpsPost(exportJob);
+    response.setStatus(200);
+    response.getWriter().print(co.custom.state);
+};
+
+
+/**
+ * Get the current state of an export job
+ */
+module.exports.CheckJobStatus = function () {
+    const COHelper = require('~/cartridge/scripts/lib/COHelper');
+    const co = COHelper.getCustomObject();
+
+    response.setStatus(200);
+    response.getWriter().print(co ? co.custom.state : '');
+};
+
+module.exports.Menu.public = true;
+module.exports.GetAllCatalogs.public = true;
+module.exports.ShowExports.public = true;
+module.exports.ExportJob.public = true;
+module.exports.CheckJobStatus.public = true;

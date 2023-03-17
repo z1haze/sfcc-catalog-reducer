@@ -1,31 +1,30 @@
-<!--- TEMPLATENAME: catalogfiles.isml --->
-<isinclude template="catalogreducer/modules" />
+<isinclude template="catalogreducer/modules"/>
 
-<table id="cat-files-table" width="100%" cellspacing="0" cellpadding="4" border="0">
-	<tbody>
-		<tr>
-			<td class="table_header w e" id="recent-cat-exports" width="100%" nowrap="nowrap" colspan="3">Recent Reduced Catalog Exports</td>
-		</tr>
-		<tr>
-			<td class="table_header e s th-left" nowrap="nowrap" width="70%">File Name</td>
-			<td class="table_header e s th-right" nowrap="nowrap" width="20%">File Size</td>
-			<td class="table_header e s th-right" nowrap="nowrap" width="10%">Last Modified</td>
-		</tr>
-		
-		<isif condition="${!empty(pdict.RootDirectory) && !empty(pdict.RootDirectory.listFiles())}">
-    		<isloop var="file" items="${pdict.RootDirectory.listFiles()}" status="status">
-				<isdirectorylist file="${file}" />
-			</isloop>
-	 	<iselse>
-	 		<tr>
-	 			<td class="w e s" colspan="3">No catalog exports</td>
-	 		</tr>
-	 	</isif>
-	 	
-		<tr>
-			<td colspan="3" class="w e s">
-				<button class="button" id="catalog-list-refresh">Refresh</button>
-			</td>
-		</tr>
-	</tbody>
+<isset name="files" value="${pdict.RootDirectory.listFiles()}" scope="page"/>
+
+<table>
+    <thead class="infobox">
+    <th width="70%" class="w p">File Name</th>
+    <th width="20%" class="w p">File Size</th>
+    <th width="10%" class="w e p">Last Modified</th>
+    </thead>
+
+    <tbody>
+
+    <isif condition="${!empty(pdict.RootDirectory) && !empty(files)}">
+        <isloop var="file" items="${files}">
+            <isdirectorylist file="${file}"/>
+        </isloop>
+    <iselse/>
+        <tr>
+            <td class="w e s p" colspan="3">No catalog exports</td>
+        </tr>
+    </isif>
+
+    <tr>
+        <td colspan="3" class="w e s p">
+            <button class="button" id="catalog-list-refresh">Refresh</button>
+        </td>
+    </tr>
+    </tbody>
 </table>

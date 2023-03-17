@@ -55,19 +55,11 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
-            <attribute-definition attribute-id="progress">
-                <display-name xml:lang="x-default">Progress</display-name>
-                <description xml:lang="x-default">Percentage value representing progress of export process</description>
-                <type>int</type>
+            <attribute-definition attribute-id="state">
+                <display-name xml:lang="x-default">State</display-name>
+                <description xml:lang="x-default">Current state of what is happening in the process</description>
+                <type>string</type>
                 <localizable-flag>false</localizable-flag>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>false</externally-managed-flag>
-                <min-value>1.0</min-value>
-                <max-value>100.0</max-value>
-            </attribute-definition>
-            <attribute-definition attribute-id="running">
-                <display-name xml:lang="x-default">Running</display-name>
-                <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
@@ -78,13 +70,6 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
-            </attribute-definition>
-            <attribute-definition attribute-id="zipAndMoveToInstance">
-                <display-name xml:lang="x-default">Zip and move</display-name>
-                <description xml:lang="x-default">Zip the result and move it in the "src/instance" folder (for instance import purpose)</description>
-                <type>boolean</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
         </attribute-definitions>
         <group-definitions>
@@ -101,8 +86,7 @@
                 <attribute attribute-id="zipAndMoveToInstance"/>
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
-                <attribute attribute-id="running"/>
-                <attribute attribute-id="progress"/>
+                <attribute attribute-id="state"/>
             </attribute-group>
         </group-definitions>
     </custom-type>

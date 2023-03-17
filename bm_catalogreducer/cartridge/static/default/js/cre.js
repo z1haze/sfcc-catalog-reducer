@@ -1,393 +1,195 @@
-(function( cre, $, undefined ) {
-    function init() {
-        jQuery(document).ready(function() {
-            var $cache = {};
-            $cache.body = $('body');
+/**
+ * BEGIN BOILERPLATE
+ * We need this request boilerplate BS because I don't want to use jquery,
+ * and SFCC blackboxes some logic to bind to XMLHttpRequests, and fetch
+ * does not use XMLHttpRequests, so here we are
+ */
 
-            //show exported catalogs in the Recent Catalog Export table
-            cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-            //removed code here
+function makeRequest(method, url, data = null) {
+    return new Promise(function (resolve, reject) {
+        const xhr = new XMLHttpRequest();
 
-            //refresh exported catalog list on refresh button click
-            $cache.body.on("click", "#catalog-list-refresh", function(e) {
-                cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-            });
+        xhr.open(method, url);
 
-            //expand catalog directory to show all catalog XML files
-            $cache.body.on("click", ".catalog-directory-link", function(e) {
-                e.preventDefault();
-                var $self = $(this);
-                var $tr = $self.parents('tr');
-                var thisPath = $tr.attr('data-parentpath') + $tr.attr('data-filename') + '/';
-                var $children = $cache.body.find('#cat-files-table tr.inner[data-parentpath="' + thisPath + '"]');
-                var $icon = $self.find("i");
-
-                //change the arrow direction
-                if ($icon.hasClass('fa-folder-open')) {
-                    $self.find("i").removeClass('fa-folder-open');
-                    $self.find("i").addClass('fa-folder');
-
-                    if ($children.length > 0) {
-                        // Close all open children
-                        $cache.body.find('#cat-files-table tr.inner[data-parentpath^="' + thisPath + '"]').hide();
-                        var $directoryChildren = $cache.body.find('#cat-files-table tr.directory.inner[data-parentpath^="' + thisPath + '"]');
-                        $directoryChildren.find("i").removeClass('fa-folder-open');
-                        $directoryChildren.find("i").addClass('fa-folder');
-                    }
-                } else {
-                    $self.find("i").removeClass('fa-folder');
-                    $self.find("i").addClass('fa-folder-open');
-                    $children.show();
-                }
-            });
-
-            //ensure custom object is not already running
-            cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
-
-            //grab initial cre-catalogs-div HTML content for refresh purpose
-            var loadingCatalogsHTML = jQuery('#cre-catalogs-div').html();
-
-            //show all catalogs in the menu and disable export catalog button until done
-            jQuery('button#export-catalog-btn').prop('disabled', true);
-            if (localStorage && localStorage.getItem('creAllCatalogs')) {
-                //check if 10 minutes has passed to retrieve catalog list again
-                var oldDate = Date.parse(localStorage.getItem('creAllCatalogsDate'));
-                var newDate = new Date();
-                if ((newDate - oldDate) > 600000) {
-                    cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
-                } else {
-                    jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
-                    jQuery('button#export-catalog-btn').prop('disabled', false);
-                }
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response);
             } else {
-                cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+                reject({
+                    status: xhr.status,
+                    statusText: xhr.statusText
+                });
             }
-            //refresh all catalogs on refresh catalogs link click
-            $cache.body.on("click", "#all-catalogs-refresh", function(e) {
-                jQuery('#cre-catalogs-div').html(loadingCatalogsHTML);
-                jQuery('button#export-catalog-btn').prop('disabled', true);
-                cre.util.showAllCatalogs(cre.urls.showAllCatalogs);
+        };
+
+        xhr.onerror = function () {
+            reject({
+                status: xhr.status,
+                statusText: xhr.statusText
             });
+        };
 
-            //Delete a catalog directory
-            $cache.body.on("click", ".delete-directory-folder", function(e) {
-                var directory = $(this).attr('data-filepath');
-                var del = confirm("Are you sure you want to delete " + directory + "?");
-                if (del == true) {
-                    var data = {
-                        dir: directory
-                    }
-                    cre.util.deleteDirectoryFolder(cre.urls.deleteDirectoryFolder, data);
-                }
-            });
+        xhr.send(data);
+    });
+}
 
-            //Show CSV product ids textarea when specific products will be included
-            $cache.body.on("change", "input#csvprods", function(e) {
-                jQuery("#csv-prods-row").toggle();
-                var value = jQuery("#noofprods").val();
-                //disable export button if # of prods is 0 or empty
-                if (!jQuery("#csvprods").prop('checked')) {
-                    if ((value === "") || (value < 1)) {
-                        jQuery('button#export-catalog-btn').prop('disabled', true);
-                        jQuery("#noofprods-error").html("Number of products cannot be less than 1, unless at least 1 product ID is provided");
-                    }
-                } else if (jQuery("#csvprods").prop('checked')) {
-                    if (cre.util.inProgress) {
-                        jQuery('button#export-catalog-btn').prop('disabled', true);
-                    } else {
-                        if (((value === "") || (value < 1)) && (jQuery("#prodids").val().length > 0)) {
-                            jQuery('button#export-catalog-btn').prop('disabled', false);
-                            jQuery("#noofprods-error").html("");
-                        }
-                    }
-                }
-            });
+/**
+ * END BOILERPLATE
+ */
 
+(function () {
+    // the catalogs display
+    const catalogsDiv = document.getElementById('all-catalogs');
+    const catalogsLoadingHtml = catalogsDiv.innerHTML;
 
+    // the form that is submitted
+    const form = document.getElementById('catalog-form');
 
-            //Show export image sizes
-            $cache.body.on("change", "input#exportimages", function(e) {
-                jQuery("#images-size-row").toggle();
-                var value = jQuery("#imagesizes").val();
-                //disable export button if # of prods is 0 or empty
-                if (!jQuery("#exportimages").prop('checked')) {
-                    if (value.length === 0) {
-                        jQuery("#imagesizes").val('large,medium,small,swatch');
-                    }
-                } else if (jQuery("#exportimages").prop('checked')) {
-                    if (cre.util.inProgress) {
-                        jQuery('button#export-catalog-btn').prop('disabled', true);
-                    } else {
-                        if (((value === "") || (value.length < 1))) {
-                            jQuery('button#export-catalog-btn').prop('disabled', false);
-                            jQuery("#imagesizes-error").html("Please provide at least one image size");
-                        }
-                    }
-                }
-            });
+    // submit form button
+    const exportBtn = document.getElementById('export-btn');
 
-            //check value of number of products input field
-            $cache.body.on("keyup", "#noofprods", function(e) {
-                e.preventDefault();
-                var value = jQuery(this).val();
-                var msg = "";
-                if (cre.util.inProgress) {
-                    jQuery('button#export-catalog-btn').prop('disabled', true);
-                } else {
-                    if (value === "") {
-                        msg = "";
-                        if (jQuery("#prodids").val().length < 1) {
-                            jQuery('button#export-catalog-btn').prop('disabled', true);
-                        }
-                    } else if (value < 1) {
-                        if (jQuery("#csvprods").prop('checked')) {
-                            if (jQuery("#prodids").val().length > 0) {
-                                msg = "";
-                            } else {
-                                msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
-                                jQuery('button#export-catalog-btn').prop('disabled', true);
-                            }
-                        } else {
-                            msg = "Number of products cannot be less than 1, unless at least 1 product ID is provided";
-                            jQuery('button#export-catalog-btn').prop('disabled', true);
-                        }
-                    } else if (value > 10) {
-                        msg = "Number of products cannot be more than 10";
-                    } else {
-                        jQuery('button#export-catalog-btn').prop('disabled', false);
-                        msg = "";
-                    }
-                    jQuery("#noofprods-error").html(msg);
-                }
-            });
+    // the exports display
+    const exportsDiv = document.getElementById('recent-exports');
+    const exportsLoadingHtml = exportsDiv.innerHTML;
 
-            //if number of products is blank or zero, on change of adding a product ID, it should be valid
-            $cache.body.on("keyup", "#prodids", function(e) {
-                if (cre.util.inProgress) {
-                    jQuery('button#export-catalog-btn').prop('disabled', true);
-                } else {
-                    if ((jQuery("#noofprods").val() === '') || (jQuery("#noofprods").val() == 0)) {
-                        if (jQuery("#prodids").val().length > 0) {
-                            jQuery("#noofprods-error").html(''); //remove any message
-                            jQuery("#noofprods").val(0); //replace value to 0
-                            jQuery('button#export-catalog-btn').prop('disabled', false);
-                        } else {
-                            jQuery('button#export-catalog-btn').prop('disabled', true);
-                            jQuery("#noofprods-error").html('Number of products cannot be less than 1, unless at least 1 product ID is provided');
-                        }
-                    }
-                }
-            });
+    // shown when a job is running
+    const jobStatusDiv = document.getElementById('job-status');
+    const jobState = jobStatusDiv.querySelector('strong');
 
-            //if number of products input field is blank
-            $cache.body.on("blur", "#noofprods", function(e) {
-                e.preventDefault();
-                var value = jQuery(this).val();
-                if ((value === "") && (jQuery("#prodids").val().length < 1)) {
-                    jQuery("#noofprods-error").html("Number of products cannot be empty");
-                }
-            });
+    let interval;
 
-            jQuery("form#catalogreducerform").submit(function (e) {
-                e.preventDefault();
-                var valid = true; //for form validation
+    /**
+     * Setup initial monitoring
+     */
+    makeRequest('get', window.catalogReducerUrls.checkJobStatus)
+        .then((status) => {
 
-                //check for master catalog selection
-                if ((jQuery("input[name=mastercat]:checked").length > 0)) {
-                    var mastercat = "";
-                    jQuery("input[name=mastercat]:checked").each(function() {
-                        mastercat += $(this).val() + ",";
-                    });
-                    //remove last comma on master category list
-                    mastercat = mastercat.slice(0, -1);
-                } else {
-                    var mastercat = "";
-                }
+            if (status.length) {
+                jobStatusDiv.style.display = 'block';
+                jobState.innerText = status;
+                exportBtn.setAttribute('disabled', true);
+                interval = setInterval(checkStatus, 1500);
+            }
+        })
 
-                //mark storefront catalog id
-                var storefrontcat = jQuery("input[name=storefrontcat]:checked").val();
+    // display catalogs UI
+    loadCatalogs();
 
-                if (jQuery("#onlineprods").prop('checked')) {
-                    var onlineprods = true;
-                } else {
-                    var onlineprods = false;
-                }
+    // display exports UI
+    loadRecentExports();
 
-                var exportimages = false;
-                if (jQuery("#exportimages").prop('checked')) {
-                    exportimages = true;
-                }
+    /**
+     * Handle form submission
+     */
+    form.addEventListener('submit', exportCatalog);
 
-                var zipandmove = false;
-                if (jQuery("#zipandmove").prop('checked')) {
-                    zipandmove = true;
-                }
-
-                var noofprods = jQuery("#noofprods").val();
-                if (noofprods === "") {
-                    if (jQuery("#prodids").val().length > 0) {
-                        jQuery("#noofprods").val(0);
-                        noofprods = 0;
-                    } else {
-                        jQuery("#noofprods").val(5);
-                        noofprods = 5;
-                    }
-                } else if (noofprods < 1) {
-                    if (jQuery("#prodids").val().length > 0) {
-                        jQuery("#noofprods").val(0);
-                        noofprods = 0;
-                    } else {
-                        jQuery("#noofprods").val(1);
-                        noofprods = 1;
-                    }
-                } else if (noofprods > 10) {
-                    jQuery("#noofprods").val(10);
-                    noofprods = 10;
-                }
-
-                //if specific products to be included set in prodids variable
-                var prodids = '';
-                if (jQuery("#csvprods").prop('checked')) {
-                    if (jQuery("#prodids").val().length > 0) {
-                        prodids = jQuery("#prodids").val();
-                        jQuery("#csv-error").html('');
-                    } else {
-                        valid = false;
-                        jQuery("#csv-error").html('Please input at least 1 product ID!');
-                    }
-                }
-
-                //if export images is checked, we need to provide sizes
-                var imagesizes = '';
-                if (jQuery("#exportimages").prop('checked')) {
-                    if (jQuery("#imagesizes").val().length > 0) {
-                        imagesizes = jQuery("#imagesizes").val();
-                        jQuery("#imagesizes-error").html('');
-                    } else {
-                        valid = false;
-                        jQuery("#imagesizes-error").html('Please input at least 1 image size!');
-                    }
-                }
-
-                var $form = jQuery(this),
-                    url = $form.attr('action'),
-                    prodids = prodids,
-                    storefrontcat = storefrontcat,
-                    data = {
-                        noofprods: noofprods,
-                        onlineprods: onlineprods,
-                        exportimages: exportimages,
-                        zipandmove: zipandmove,
-                        prodids: prodids,
-                        imagesizes: imagesizes,
-                        mastercat: mastercat,
-                        storefrontcat: storefrontcat
-                    }
-
-                if (valid) {
-                    cre.util.runCREJob(url, data);
-                    cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
-                    setInterval(function() {
-                        cre.util.getCustomObjectStatus(cre.urls.getCustomObjectJson);
-                    }, 10000);
-                }
-            });
-        });
-    }
-    init();
-
-}( window.cre = window.cre || {}, jQuery ));
-
-(function( cre, $, undefined ) {
-
-    cre.util = {
-
-        //to monitor progress of job if already started
-        inProgress : false,
-
-        showAllCatalogs : function (url) {
-            var u = url;
-            jQuery.post(u).done(function(response) {
-                var response = jQuery.trim(response);
-                if (localStorage) {
-                    localStorage.setItem('creAllCatalogs', response);
-                    var date = new Date();
-                    localStorage.setItem('creAllCatalogsDate', date);
-                    jQuery('#cre-catalogs-div').html(localStorage.getItem('creAllCatalogs'));
-                } else {
-                    jQuery('#cre-catalogs-div').html(response);
-                }
-                // check if export job is currently running
-                if (cre.util.inProgress) {
-                    jQuery('button#export-catalog-btn').prop('disabled', true);
-                } else {
-                    jQuery('button#export-catalog-btn').prop('disabled', false);
-                }
-            });
-        },
-        showCatalogFileList : function (url) {
-            var u = url;
-            jQuery.post(u).done(function(response) {
-                var $response = jQuery(jQuery.trim(response));
-                jQuery('#cre-catalogfilelist-div').html($response);
-            });
-        },
-        showCatalogDirectoryFiles : function (url, data, i) {
-            var u = url,
-                d = data,
-                i = i;
-            jQuery.post(u, d).done(function(response) {
-                var response = jQuery.trim(response);
-                jQuery('#directory-files-cell-'+i).html(response);
-            });
-        },
-        deleteDirectoryFolder : function (url, data) {
-            var u = url,
-                d = data;
-            jQuery.post(u, d).done(function(response) {
-                cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-            });
-        },
-        runCREJob : function (url, data) {
-            var u = url,
-                d = data;
-            jQuery.post(u, d).done(function(response) {
-                jQuery('#export-catalog-btn').prop('disabled', true);
-                jQuery('#export-progress-div').fadeIn(500);
-            });
-        },
-        getCustomObjectStatus : function (url) {
-            var u = url;
-            jQuery.getJSON(u, function(data) {
-                if (data.running) {
-                    cre.util.inProgress = true;
-                    var progress = data.progress;
-                    jQuery('#export-progress-div').fadeIn(500);
-                    jQuery('#export-progress-complete').animate({
-                        width: progress+'%'
-                    }, 500);
-                    jQuery('#export-progress-complete').html(progress + '%');
-                    if (data.progress == 100) {
-                        jQuery('#export-progress-text').html('Complete');
-                    } else {
-                        jQuery('#export-progress-text').html('Running');
-                    }
-                    jQuery('#export-catalog-btn').prop('disabled', true);
-                } else {
-                    if (cre.util.inProgress == true) {
-                        jQuery('#export-progress-complete').animate({
-                            width: '100%'
-                        }, 500);
-                        jQuery('#export-progress-complete').html('100%');
-                        jQuery('#export-progress-text').html('Complete');
-                        jQuery('#export-progress-div').fadeOut(500);
-                        jQuery('#export-catalog-btn').prop('disabled', false);
-                        cre.util.inProgress = false;
-                        cre.util.showCatalogFileList(cre.urls.showCatalogFileList);
-                    }
-                }
+    /**
+     * Handle toggle of optional fields
+     */
+    form.querySelectorAll('.field-toggle')
+        .forEach(el =>
+            el.addEventListener('change', () => {
+                el.closest('tr').nextElementSibling.style.display = el.checked ? 'table-row' : 'none';
             })
-        }
-    };
+        );
 
-}( window.cre = window.cre || {}, jQuery ));
+    /**
+     * Submit the form to trigger the catalog export job
+     */
+    function exportCatalog(e) {
+        e.preventDefault();
+
+        exportBtn.setAttribute('disabled', true);
+
+        const data = new FormData();
+        const mastercat = getCheckedValues(form.elements['mastercat']);
+
+        if (!mastercat.length) {
+            alert('You must select a master catalog');
+            exportBtn.removeAttribute('disabled');
+            return false;
+        }
+
+        data.append('mastercat', mastercat);
+        data.append('storefrontcat', form.elements['storefrontcat'].value);
+        data.append('noofprods', form.elements['noofprods'].value);
+        data.append('onlineprods', form.elements['onlineprods'].checked);
+        data.append('exportimages', form.elements['exportimages'].checked);
+        data.append('imagesizes', form.elements['imagesizes'].value);
+        data.append('prodids', form.elements['prodids'].value);
+
+        jobStatusDiv.style.display = 'block';
+
+        makeRequest('post', form.action, data)
+            .then(state => {
+                jobState.innerText = state;
+                interval = setInterval(checkStatus, 1500);
+            });
+    }
+
+    /**
+     * Get the current state of the running job and update the DOM
+     */
+    function checkStatus() {
+        makeRequest('get', window.catalogReducerUrls.checkJobStatus)
+            .then(state => {
+                if (!state.length) {
+                    exportBtn.removeAttribute('disabled');
+                    jobStatusDiv.style.display = 'none';
+
+                    alert('Finished!');
+                    clearInterval(interval);
+                    loadRecentExports();
+                } else {
+                    jobState.innerText = state;
+                }
+            });
+    }
+
+    /**
+     * Utility function to get all values for checked options
+     *
+     * @param inputs
+     * @returns {*|string|string}
+     */
+    function getCheckedValues(inputs) {
+        if (inputs instanceof RadioNodeList) {
+            return Array.from(inputs)
+                .filter(input => input.checked)
+                .map(input => input.value)
+                .join(',');
+        }
+
+        return inputs.checked ? inputs.value : '';
+    }
+
+    /**
+     * Load the recent exports
+     */
+    function loadRecentExports() {
+        exportsDiv.innerHTML = exportsLoadingHtml;
+
+        makeRequest('post', window.catalogReducerUrls.showExports)
+            .then(html => {
+                exportsDiv.innerHTML = html;
+
+                exportsDiv.querySelector('#catalog-list-refresh')
+                    .addEventListener('click', loadRecentExports)
+            });
+    }
+
+    /**
+     * Load Catalogs
+     */
+    function loadCatalogs() {
+        catalogsDiv.innerHTML = catalogsLoadingHtml;
+
+        makeRequest('post', window.catalogReducerUrls.showAllCatalogs)
+            .then(html => {
+                catalogsDiv.innerHTML = html;
+
+                catalogsDiv.querySelector('#catalogs-refresh-btn')
+                    .addEventListener('click', () => loadCatalogs());
+            });
+    }
+})();

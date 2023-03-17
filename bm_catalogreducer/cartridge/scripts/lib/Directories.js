@@ -1,10 +1,12 @@
-'use strict';
-
 const File = require('dw/io/File');
-const FileWriter = require('dw/io/FileWriter');
-const Logger = require('dw/system/Logger');
 const StringUtils = require('dw/util/StringUtils');
 const System = require('dw/system/System');
+const FileWriter = require('dw/io/FileWriter');
+const Logger = require('dw/system/Logger');
+
+const CATALOG_FILENAME = 'catalog.xml';
+const FILE_ENCODING = 'UTF-8';
+const VERSION = '17.8.3'; // what is this?
 
 const FOLDER = function (folder) {
     return File.SEPARATOR + [
@@ -14,18 +16,7 @@ const FOLDER = function (folder) {
     ].join(File.SEPARATOR);
 };
 
-const CATALOG_FILENAME = 'catalog.xml';
-const FILE_ENCODING = 'UTF-8';
-const VERSION = '17.8.3';
-
-
-/**
- * Remove the given file and all its children if the given file is a directory
- * The file input can be either an instance of the dw/io/File class or the path to the file (String)
- *
- * @param {dw/io/File|String} file
- */
-function removeFile(file) {
+const removeFile = function (file) {
     if (empty(file)) {
         return undefined;
     }
@@ -45,40 +36,7 @@ function removeFile(file) {
     file.remove();
 }
 
-/**
- * Generate the version file used by SFCC during Site import\
- *
- * @param {String} folderPath
- */
-function generateVersionFile(folderPath) {
-    if (empty(folderPath)) {
-        return undefined;
-    }
-
-    var versionFile = new File(folderPath + File.SEPARATOR + 'version.txt');
-    var writer = new FileWriter(versionFile, FILE_ENCODING);
-
-    try {
-        writer.writeLine('###########################################');
-        writer.writeLine('# Generated file, do not edit.');
-        writer.writeLine('# Copyright (c) 2017 by Demandware, Inc.');
-        writer.writeLine('###########################################');
-        writer.writeLine(VERSION);
-    } catch (e) {
-        Logger.error('An error occurred during version file generation: {0}', e);
-    } finally {
-        if (!empty(writer)) {
-            writer.close();
-        }
-    }
-}
-
-/**
- * Create any missing directory in the given path
- *
- * @param {String} fullPath
- */
-function createDirectory(fullPath) {
+const createDirectory = function (fullPath) {
     if (empty(fullPath)) {
         return undefined;
     }
@@ -91,91 +49,43 @@ function createDirectory(fullPath) {
     return fullPath;
 }
 
-/**
- * Copy the given source file to the given target file
- *
- * @param {dw/io/File} sourceFile
- * @param {dw/io/File} targetFile
- */
-function copyTo(sourceFile, targetFile) {
-    if (empty(targetFile) || empty(sourceFile) || !sourceFile.exists()) {
+const generateVersionFile = function (folderPath) {
+    if (empty(folderPath)) {
         return undefined;
     }
 
-    sourceFile.copyTo(targetFile);
+    var versionFile = new File(folderPath + File.SEPARATOR + 'version.txt');
+    var writer = new FileWriter(versionFile, FILE_ENCODING);
+
+    try {
+        writer.writeLine('###########################################');
+        writer.writeLine('# Generated file, do not edit.');
+        writer.writeLine('# Copyright (c) 2017 by Demandware, Inc.'); // is this necessary?
+        writer.writeLine('###########################################');
+        writer.writeLine(VERSION);
+    } catch (e) {
+        Logger.error('An error occurred during version file generation: {0}', e);
+    } finally {
+        if (!empty(writer)) {
+            writer.close();
+        }
+    }
 }
 
 module.exports = {
-    ROOT_FOLDER: FOLDER('catalog'),
-    INSTANCE_FOLDER: FOLDER('instance'),
+    ROOT_FOLDER: FOLDER('instance'),
 
-    /**
-     * Return the current file depth regarding the {ROOT_FOLDER}
-     *
-     * @param {String} filePath
-     *
-     * @returns {Integer}
-     */
-    getFileDepth: function(filePath) {
+    getFileDepth: function (filePath) {
         if (empty(filePath)) {
             return 0;
         }
 
-        filePath = filePath.replace(FOLDER('catalog') + File.SEPARATOR, '');
+        filePath = filePath.replace(FOLDER('instance') + File.SEPARATOR, '');
+
         return filePath.split(File.SEPARATOR).length;
     },
 
-    /**
-     * Return the current file size
-     *
-     * @param {dw/io/File} file
-     *
-     * @returns {String}
-     */
-    getFileSize: function(file) {
-        if (empty(file)) {
-            return '';
-        }
-
-        var fileSize = file.length();
-        var unity = 'kb';
-        var divisor = 1000;
-
-        if (fileSize > 1000000) {
-            unity = 'mb';
-            divisor = 1000000;
-        }
-
-        fileSize /= divisor;
-        return fileSize.toFixed(2) + ' ' + unity;
-    },
-
-    /**
-     * Return parent folder path of the given file path
-     *
-     * @param {String} filePath
-     *
-     * @returns {String}
-     */
-    getParentFolderPath: function(filePath) {
-        if (empty(filePath)) {
-            return '';
-        }
-
-        var filePathSlices = filePath.split(File.SEPARATOR);
-        // Remove the current folder/file name
-        filePathSlices.pop();
-        return filePathSlices.join(File.SEPARATOR) + File.SEPARATOR;
-    },
-
-    /**
-     * Return the last modified date of the given file
-     *
-     * @param {dw/io/File} file
-     *
-     * @returns {Date}
-     */
-    getLastModifiedDate: function(file) {
+    getLastModifiedDate: function (file) {
         if (empty(file)) {
             return '';
         }
@@ -183,14 +93,26 @@ module.exports = {
         return new Date(file.lastModified());
     },
 
-    /**
-     * Prepare the root folder for the export. The root folder will be relative to IMPEX/src/catalog
-     *
-     * @param {String} storefrontCatalogID
-     *
-     * @returns {Object}
-     */
-    prepareRootFolder: function(storefrontCatalogID) {
+    getFileSize: function (file) {
+        if (empty(file)) {
+            return '';
+        }
+
+        let fileSize = file.length();
+        let unity = 'kb';
+        let divisor = 1000;
+
+        if (fileSize > 1000000) {
+            unity = 'mb';
+            divisor = 1000000;
+        }
+
+        fileSize /= divisor;
+
+        return fileSize.toFixed(2) + ' ' + unity;
+    },
+
+    prepareRootFolder: function (storefrontCatalogID) {
         if (empty(storefrontCatalogID)) {
             return undefined;
         }
@@ -199,7 +121,7 @@ module.exports = {
         var directoryName = StringUtils.format('{0}_{1}', storefrontCatalogID, formattedDate);
 
         var directoryPath = [
-            FOLDER('catalog'),
+            FOLDER('catalogreducer'),
             directoryName,
             'catalogs'
         ].join(File.SEPARATOR) + File.SEPARATOR;
@@ -208,18 +130,21 @@ module.exports = {
 
         return {
             directoryName: directoryName,
-            directortyPath: directoryPath
+            directoryPath: directoryPath
         };
     },
-    /**
-     * Prepare the catalog folder for the export. The root folder will be relative to IMPEX/src/catalog/{rootFolder}/{catalogID}
-     *
-     * @param {String} rootFolderPath
-     * @param {String} catalogID
-     *
-     * @returns {Object}
-     */
-    prepareCatalogFolder: function(rootFolderPath, catalogID) {
+
+    createDirectory: createDirectory,
+
+    copyTo: function (sourceFile, targetFile) {
+        if (empty(targetFile) || empty(sourceFile) || !sourceFile.exists()) {
+            return undefined;
+        }
+
+        sourceFile.copyTo(targetFile);
+    },
+
+    prepareCatalogFolder: function (rootFolderPath, catalogID) {
         if (empty(rootFolderPath) || empty(catalogID)) {
             return;
         }
@@ -236,6 +161,7 @@ module.exports = {
             directoryPath,
             CATALOG_FILENAME
         ].join('');
+
         return {
             directoryPath: catalogFilePath,
             // need to export the catalog path relative to the IMPEX/src/ path
@@ -248,45 +174,15 @@ module.exports = {
         };
     },
 
-    /**
-     * Zip the content of the root path in a Zip file relative to the IMPEX/src/instance folder
-     * Note: The ZIP file has the same name as the root folder (relative to IMPEX/src/catalog)
-     *
-     * @param {Boolean} zipAndMoveToInstance
-     * @param {Array} arrayofCatalogIDs
-     * @param {String} rootFolderName
-     * @param {Boolean} isGlobalZip
-     */
-    zipFiles: function(zipAndMoveToInstance, arrayofCatalogIDs, rootFolderName) {
-        if (zipAndMoveToInstance !== true || empty(arrayofCatalogIDs) || empty(rootFolderName)) {
-            return;
-        }
+    removeFile: removeFile,
 
-        // Generate the version.txt file used by SFCC in ZIP files
-        var rootFolder = [
-            FOLDER('catalog'),
-            rootFolderName
-        ].join(File.SEPARATOR);
-
-        generateVersionFile(rootFolder);
-
-        // Construct the ZIP file
-        var zipFolder = new File(rootFolder);
-        var zipFile = new File([
-            FOLDER('instance'),
-            File.SEPARATOR,
-            rootFolderName,
-            '.zip'
-        ].join(''));
+    zipFiles: function (inDir, outFile) {
+        generateVersionFile(inDir.fullPath);
 
         // Then ZIP content of the zip directory
-        zipFolder.zip(zipFile);
+        inDir.zip(outFile);
 
         // Finally remove old folder
-        removeFile(zipFolder);
+        removeFile(inDir);
     },
-
-    createDirectory: createDirectory,
-    copyTo: copyTo,
-    removeFile: removeFile
-};
+}
