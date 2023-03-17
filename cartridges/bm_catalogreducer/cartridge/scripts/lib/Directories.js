@@ -6,7 +6,7 @@ const Logger = require('dw/system/Logger');
 
 const CATALOG_FILENAME = 'catalog.xml';
 const FILE_ENCODING = 'UTF-8';
-const VERSION = '17.8.3'; // what is this?
+const VERSION = '23.3.1';
 
 const FOLDER = function (folder) {
     return File.SEPARATOR + [
@@ -60,7 +60,7 @@ const generateVersionFile = function (folderPath) {
     try {
         writer.writeLine('###########################################');
         writer.writeLine('# Generated file, do not edit.');
-        writer.writeLine('# Copyright (c) 2017 by Demandware, Inc.'); // is this necessary?
+        writer.writeLine('# Copyright (c) 2023 by Demandware, Inc.'); // is this necessary?
         writer.writeLine('###########################################');
         writer.writeLine(VERSION);
     } catch (e) {
