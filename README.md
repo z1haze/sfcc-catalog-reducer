@@ -30,7 +30,7 @@ Installation
 5. Go to `Administration` -> `Organization` -> `Roles & Permissions`
 6. Click on the role you wish to use the catalog reducer with (likely Administrator for sandboxes)
 7. Click on the `Business Manager Modules` tab
-8. In the context dialog, select both organization and your sites, and proceed to enable
+8. In the context dialog, select your sites, and proceed to enable
 (clicking the checkbox) for the catalog reducer for each.
 
 > Once configured, you should be able to access the catalog reducer via `Merchant Tools` -> `Products & Catalogs` -> `Catalog Reducer`
