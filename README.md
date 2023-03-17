@@ -4,7 +4,7 @@ Catalog Reducer
 > A business manager module to help with creating reduced catalogs for import into sandboxs,
 > but still reflect the overall category structure of the standard catalog.
 
-![Catalog Reducer](documentation/screenshot_1.png)]
+![Catalog Reducer](documentation/screenshot_1.png)
 
 ## Features
 
