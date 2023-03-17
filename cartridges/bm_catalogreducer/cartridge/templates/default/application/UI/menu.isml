@@ -29,14 +29,12 @@
 
             <div>
                 <ul>
-                    <li>Determine how many products to be exported per category (minimum 1, maximum 10)<br/>
+                    <li>Determine how many products to be exported per category<br/>
                         This value can be 0 if at least 1 product ID is provided
                     </li>
                     <li>Select whether to include only online categories and products</li>
                     <li>Input a comma-separated list of specific product IDs to be included in the export</li>
-                    <li>Select whether to include images in the export (images will be zipped into a site import and
-                        placed in IMPEX/src/instance)
-                    </li>
+                    <li>Select whether to include images in the export</li>
                 </ul>
             </div>
         </div>
@@ -64,7 +62,7 @@
                     <tr>
                         <td width="190px">Number of Products</td>
                         <td>
-                            <input name="noofprods" value="5" type="number" min="1" max="10">
+                            <input name="noofprods" value="5" type="number">
                             <small>Products per category</small>
                         </td>
                     </tr>
