@@ -1,36 +1,41 @@
-Catalog Reducer Extension
-=================
+Catalog Reducer
+===
 
---------------------------
+> A business manager module to help with creating reduced catalogs for import into sandboxs,
+> but still reflect the overall category structure of the standard catalog.
 
-Introduction
-------------
-The Catalog Reducer Extension is a Business Manager Extension that was created to provide a simple, easy way to export smaller version of Production catalogs, for use on sandboxes on the Salesforce B2C Commerce Platform.
+![Catalog Reducer](documentation/screenshot_1.png)]
 
-Documentation
-----------------
-### Business Manager Extension - Manual exports
-This cartridge, once installed, can be enabled for users in the Business Manager. Once enabled, the user can go to the Merchant Tools > Products & Catalogs > Catalog Reducer page and can export smaller versions of the catalogs here. This operation is a manual operation that administrators can do to improve Sandboxes performances by importing smaller versions of the catalogs.
+## Features
 
-### Business Manager job - Automatic exports
-This cartridge also includes a job schedule that you can run in an automatic way. This will allow you to automate the small catalogs generation and imports to the sandboxes you want.
+- [X] Create a reduced sized catalog in the format of a site import archive
+- [X] Option to create a storefront catalog using multiple master catalogs
+- [X] Option to include only online categories and products
+- [X] Option to limit the number of products that will be included in each category
+- [X] Option to include specific (must-have) product ID's
+- [X] Option to include images for the products being exported while specifying
+the maximum number of images per image type that will be exported
+- [X] Track current job progress in realtime
+- [X] List files currently in IMPEX/src/instance for easy remote site imports
 
-Support / Contributing
-----------------------
-Feel free to create issues and enhancement requests or discuss/comment on existing issues/requests. This will help us understand which area, or component has the biggest need.
+Installation
+---
 
-Release History
----------------
-Nov 15, 2018 - version 0.7.14
-May 6, 2015 - version 0.7.13
+[![Download](https://img.shields.io/badge/Download-blue.svg?logo=github&style=for-the-badge)](https://github.com/z1haze/catalog-reducer-extension/releases/latest)
 
-Creators:
---------------- 
-Project Lead: Andrew Tougas: atougas@demandware.com
+1. Download the latest release zip
+2. Extract to your project
+3. Import metadata from `catalog-reducer-extenstion/metadata`
+4. Add `bm_catalogreducer` to both your BM and Site cartridge path
+5. Go to `Administration` -> `Organization` -> `Roles & Permissions`
+6. Click on the role you wish to use the catalog reducer with (likely Administrator for sandboxes)
+7. Click on the `Business Manager Modules` tab
+8. In the context dialog, select both organization and your sites, and proceed to enable
+(clicking the checkbox) for the catalog reducer for each.
 
-Tech Lead: Rob Turner: rturner@demandware.com
+> Once configured, you should be able to access the catalog reducer via `Merchant Tools` -> `Products & Catalogs` -> `Catalog Reducer`
 
-Code Contributors:  
-Tony Ruschioni: truschioni@demandware.com  
-Elec Boothe: jboothe@demandware.com  
-Ramasree Pitla: rpitla@demandware.com
+This project was originated from [here](https://github.com/SalesforceCommerceCloud/catalog-reducer-extension). These folks
+laid the groundwork that made all of this possible. This update makes some changes for simplicity, but most notably
+adds support for handling catalogs of large sizes where the export would be larger than 20k products in total. There are
+some additional tweaks make to how images are exported so that you may choose to only export up to a certain number of images per product.
