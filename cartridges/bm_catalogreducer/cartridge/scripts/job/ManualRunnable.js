@@ -7,6 +7,7 @@ const COHelper = require('~/cartridge/scripts/lib/COHelper');
 const Reducer = require('~/cartridge/scripts/lib/Reducer');
 const Catalogs = require('~/cartridge/scripts/lib/Catalogs');
 const Directories = require('~/cartridge/scripts/lib/Directories');
+const Pricebooks = require('~/cartridge/scripts/lib/Pricebooks');
 const Images = require('~/cartridge/scripts/lib/Images');
 
 let catalogReducer;
@@ -42,6 +43,11 @@ module.exports = {
         if (catalogReducer.getConfig().exportImages) {
             COHelper.setState(catalogReducer.getCO(), 'state', 'Writing Images...');
             Images.exportImages(catalogReducer.getSets(), config.imageSizes, config.rootDirectoryObj.directoryPath);
+        }
+
+        if (catalogReducer.getConfig().exportPricebooks) {
+            COHelper.setState(catalogReducer.getCO(), 'state', 'Writing Pricebooks...');
+            Pricebooks.exportPricebooks(catalogReducer.getSets(), config.rootDirectoryObj.directoryName);
         }
 
         COHelper.setState(catalogReducer.getCO(), 'state', 'Zipping catalog contents...');

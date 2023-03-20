@@ -23,6 +23,7 @@ module.exports = {
             co.custom.exportImages = details.ExportImages;
             co.custom.productIDs = details.ProductIDs;
             co.custom.imageSizes = details.ImageSizes;
+            co.custom.exportPricebooks = details.ExportPricebooks;
             co.custom.masterCatalogs = details.MasterCatalog;
             co.custom.storefrontCatalog = details.StorefrontCatalog;
             co.custom.state = "Getting to work...";

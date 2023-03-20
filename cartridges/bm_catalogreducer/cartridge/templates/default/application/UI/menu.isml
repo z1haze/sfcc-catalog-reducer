@@ -62,7 +62,7 @@
                     <tr>
                         <td width="190px">Number of Products</td>
                         <td>
-                            <input name="noofprods" value="5" type="number">
+                            <input name="noofprods" value="5" type="number" style="width:35px"/>
                             <small>Products per category</small>
                         </td>
                     </tr>
@@ -98,6 +98,15 @@
                         <td valign="top">Product IDs</td>
                         <td colspan="2">
                             <textarea name="prodids" cols="40" rows="3"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Export Pricebooks</td>
+                        <td>
+                            <input id="c" name="exportpricebooks" type="checkbox"/>
+                            <label for="c">
+                                <small>Select to export pricebooks for the included products</small>
+                            </label>
                         </td>
                     </tr>
                     </tbody>

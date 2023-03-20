@@ -71,6 +71,12 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="exportPricebooks">
+                <display-name xml:lang="x-default">Should pricebooks be exported?</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
         </attribute-definitions>
         <group-definitions>
             <attribute-group group-id="presentation">
@@ -83,6 +89,7 @@
                 <attribute attribute-id="productIDs"/>
                 <attribute attribute-id="exportImages"/>
                 <attribute attribute-id="imageSizes"/>
+                <attribute attribute-id="exportPricebooks"/>
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="state"/>

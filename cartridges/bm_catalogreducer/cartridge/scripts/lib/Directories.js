@@ -185,4 +185,6 @@ module.exports = {
         // Finally remove old folder
         removeFile(inDir);
     },
+
+    FOLDER: FOLDER
 }

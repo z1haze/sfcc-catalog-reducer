@@ -46,7 +46,8 @@ module.exports.ExportJob = function () {
         MasterCatalog: httpParameterMap.mastercat.stringValue,
         StorefrontCatalog: httpParameterMap.storefrontcat.stringValue,
         ExportImages: httpParameterMap.exportimages.booleanValue,
-        ImageSizes: httpParameterMap.imagesizes.stringValue
+        ImageSizes: httpParameterMap.imagesizes.stringValue,
+        ExportPricebooks: httpParameterMap.exportpricebooks.booleanValue
     };
 
     const co = COHelper.createCustomObject(parameters);

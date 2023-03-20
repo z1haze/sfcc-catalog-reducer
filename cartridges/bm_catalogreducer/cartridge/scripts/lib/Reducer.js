@@ -30,7 +30,8 @@ const Reducer = Class.extend({
             onlineOnly: co.custom.onlineProducts,
             specificProductIds: co.custom.productIDs instanceof String ? co.custom.productIDs.split(',') : [],
             exportImages: co.custom.exportImages,
-            imageSizes: co.custom.imageSizes
+            imageSizes: co.custom.imageSizes,
+            exportPricebooks: co.custom.exportPricebooks
         };
 
         this._config.arrayOfCatalogIds = Catalogs.createArrayOfCatalogIDs(this._config.storefrontCatalogId, this._config.masterCatalogIds);
