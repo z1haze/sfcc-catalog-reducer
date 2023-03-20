@@ -8,11 +8,13 @@ const Directories = require('~/cartridge/scripts/lib/Directories');
 function writeElement(writer, name, value, attributes) {
     writer.writeStartElement(name);
 
-    if (typeof attributes instanceof Array && attributes.length > 0) {
-        attributes.forEach((attr) => {
-            writer.writeAttribute(attr[0], attr[1]);
-        });
+    if (typeof attributes === 'undefined') {
+        attributes = [];
     }
+
+    attributes.forEach((attr) => {
+        writer.writeAttribute(attr[0], attr[1]);
+    });
 
     if (value) {
         writer.writeCharacters(value);
