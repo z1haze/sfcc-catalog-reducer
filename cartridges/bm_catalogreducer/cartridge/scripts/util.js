@@ -14,5 +14,23 @@ module.exports = {
         // @formatter:on
 
         return newCookies;
+    },
+
+    writeXMLElement: function(writer, name, value, attributes) {
+        writer.writeStartElement(name);
+
+        if (typeof attributes === 'undefined') {
+            attributes = [];
+        }
+
+        attributes.forEach((attr) => {
+            writer.writeAttribute(attr[0], attr[1]);
+        });
+
+        if (typeof value !== 'undefined' && value !== null) {
+            writer.writeCharacters(value);
+        }
+
+        writer.writeEndElement();
     }
 }

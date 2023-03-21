@@ -116,6 +116,8 @@ function makeRequest(method, url, data = null) {
         data.append('onlineprods', form.elements['onlineprods'].checked);
         data.append('exportimages', form.elements['exportimages'].checked);
         data.append('imagesizes', form.elements['imagesizes'].value);
+        data.append('exportpricebooks', form.elements['exportpricebooks'].checked);
+        data.append('exportinventorylist', form.elements['exportinventorylist'].checked);
         data.append('prodids', form.elements['prodids'].value);
 
         jobStatusDiv.style.display = 'block';

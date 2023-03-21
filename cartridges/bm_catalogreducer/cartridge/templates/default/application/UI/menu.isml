@@ -109,6 +109,15 @@
                             </label>
                         </td>
                     </tr>
+                    <tr>
+                        <td>Export Inventory</td>
+                        <td>
+                            <input id="d" name="exportinventorylist" type="checkbox"/>
+                            <label for="d">
+                                <small>Select to export the inventory-list for the included products</small>
+                            </label>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -4,24 +4,7 @@ const XMLStreamWriter = require('dw/io/XMLStreamWriter');
 const PriceBookMgr = require('dw/catalog/PriceBookMgr');
 
 const Directories = require('~/cartridge/scripts/lib/Directories');
-
-function writeElement(writer, name, value, attributes) {
-    writer.writeStartElement(name);
-
-    if (typeof attributes === 'undefined') {
-        attributes = [];
-    }
-
-    attributes.forEach((attr) => {
-        writer.writeAttribute(attr[0], attr[1]);
-    });
-
-    if (value) {
-        writer.writeCharacters(value);
-    }
-
-    writer.writeEndElement();
-}
+const writeXMLElement = require('~/cartridge/scripts/util').writeXMLElement;
 
 module.exports = {
     exportPricebooks: function (setsOfProducts, directoryName) {
@@ -49,12 +32,12 @@ module.exports = {
                 xmlWriter.writeStartElement('header');
                 xmlWriter.writeAttribute('pricebook-id', pricebook.ID);
 
-                writeElement(xmlWriter, 'currency', pricebook.currencyCode);
-                writeElement(xmlWriter, 'display-name', pricebook.displayName, [['xml:lang', 'x-default']]);
-                writeElement(xmlWriter, 'online-flag', pricebook.online);
+                writeXMLElement(xmlWriter, 'currency', pricebook.currencyCode);
+                writeXMLElement(xmlWriter, 'display-name', pricebook.displayName, [['xml:lang', 'x-default']]);
+                writeXMLElement(xmlWriter, 'online-flag', pricebook.online);
 
                 if (pricebook.parentPriceBook) {
-                    writeElement(xmlWriter, 'parent', pricebook.parentPriceBook.ID);
+                    writeXMLElement(xmlWriter, 'parent', pricebook.parentPriceBook.ID);
                 }
 
                 xmlWriter.writeEndElement(); // header
@@ -89,7 +72,7 @@ module.exports = {
                         if (price.valueOrNull !== null) {
                             config.xmlWriter.writeStartElement('price-table');
                             config.xmlWriter.writeAttribute('product-id', p.getID());
-                            writeElement(config.xmlWriter, 'amount', price.value, [['quantity', 1]])
+                            writeXMLElement(config.xmlWriter, 'amount', price.value, [['quantity', 1]])
                             config.xmlWriter.writeEndElement();
                         }
                     });

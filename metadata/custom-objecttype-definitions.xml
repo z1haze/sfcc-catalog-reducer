@@ -77,6 +77,12 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="exportInventoryList">
+                <display-name xml:lang="x-default">Should the inventory-list be written?</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
         </attribute-definitions>
         <group-definitions>
             <attribute-group group-id="presentation">
@@ -90,6 +96,7 @@
                 <attribute attribute-id="exportImages"/>
                 <attribute attribute-id="imageSizes"/>
                 <attribute attribute-id="exportPricebooks"/>
+                <attribute attribute-id="exportInventoryList"/>
                 <attribute attribute-id="storefrontCatalog"/>
                 <attribute attribute-id="masterCatalogs"/>
                 <attribute attribute-id="state"/>

@@ -24,6 +24,7 @@ module.exports = {
             co.custom.productIDs = details.ProductIDs;
             co.custom.imageSizes = details.ImageSizes;
             co.custom.exportPricebooks = details.ExportPricebooks;
+            co.custom.exportInventoryList = details.ExportInventoryList;
             co.custom.masterCatalogs = details.MasterCatalog;
             co.custom.storefrontCatalog = details.StorefrontCatalog;
             co.custom.state = "Getting to work...";
