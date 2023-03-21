@@ -16,6 +16,7 @@ Catalog Reducer
 - [X] Option to include images for the products being exported while specifying
 the maximum number of images per image type that will be exported
 - [X] Option to include pricebooks for the generated reduced catalog
+- [X] Option to include inventory-list for the generated catalog
 - [X] Track current job progress in realtime
 - [X] List files currently in IMPEX/src/instance for easy remote site imports
 
