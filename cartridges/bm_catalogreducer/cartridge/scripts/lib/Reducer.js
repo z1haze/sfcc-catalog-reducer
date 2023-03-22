@@ -28,6 +28,7 @@ const Reducer = Class.extend({
             masterCatalogIds: co.custom.masterCatalogs.split(','),
             maxProductsPerCategory: co.custom.numberProducts,
             onlineOnly: co.custom.onlineProducts,
+            orderableOnly: co.custom.orderableProducts,
             specificProductIds: co.custom.productIDs instanceof String ? co.custom.productIDs.split(',') : [],
             exportImages: co.custom.exportImages,
             imageSizes: co.custom.imageSizes,
@@ -62,7 +63,7 @@ const Reducer = Class.extend({
     /**
      * Get the configuration for the reducer instance
      *
-     * @returns {*|{specificProductIds: (dw.order.ShippingOrderItem|string[]|*[]), storefrontCatalogId: *, onlineOnly: *, maxProductsPerCategory: *}}
+     * @returns {*|{masterCatalogIds: dw.order.ShippingOrderItem | string[], specificProductIds: (dw.order.ShippingOrderItem|string[]|*[]), exportImages: *, imageSizes: *, exportInventoryList: *, storefrontCatalogId: *, onlineOnly: *, maxProductsPerCategory: *, exportPricebooks: *, orderableOnly: *}}
      */
     getConfig: function () {
         return this._config;
@@ -120,7 +121,7 @@ const Reducer = Class.extend({
              * The reason for the * -1 stuff is to guarantee
              * that the max count is not reached
              */
-            this.addProducts(products, (products.size() * -1));
+            this.addProducts(products, {count: (products.size() * -1)});
         }
     },
 
@@ -129,47 +130,104 @@ const Reducer = Class.extend({
      * @param {dw.catalog.Category} category
      */
     addCategory: function (category: dw.catalog.Category) {
-        const subCategories = this.onlineOnly
+        const subCategories = this.getConfig().onlineOnly
             ? category.getOnlineSubCategories()
             : category.getSubCategories();
 
-        [].forEach.call(subCategories, (category) => this.addCategory(category));
+        [].forEach.call(subCategories, subCategory => this.addCategory(subCategory));
 
-        const products = this.onlineOnly
+        const products = this.getConfig().onlineOnly
             ? category.getOnlineProducts()
             : category.getProducts();
 
-        this.addProducts(products, 0);
+        this.addProducts(products, {count: 0});
     },
 
     /**
      *
-     * @param {dw.util.Collection} products
-     * @param {Number} currentCount
+     * @param {dw.util.Collection<dw.catalog.Product>} products
+     * @param {Object} currentCount
      */
-    addProducts: function (products: dw.util.Collection, currentCount: Number) {
+    addProducts: function (products: dw.util.Collection, currentCount: Object) {
         [].some.call(products, (product) => {
-            if (
-                product.isMaster()
-                || product.isProductSet()
-                || product.isBundle()
-            ) {
-                this.addProducts(productTypeCollection(product), currentCount);
-            }
+            // make sure we do not add more products than we want
+            if (currentCount.count >= this.getConfig().maxProductsPerCategory) return true;
 
+            // move pointer to next set if we're maxxed out
             if (this.getCurrentSet().size() === COLLECTION_SIZE_QUOTA) {
                 this.getSets().add(this.getCurrentSet());
                 this._currentSet = new LinkedHashSet();
             }
 
-            this.getCurrentSet().add(product);
+            // a "complex" product is one like a master product or product set/bundle, etc
+            if (this.productIsComplex(product)) {
+                const eligibleChildren =
+                    [].filter.call(productTypeCollection(product),
+                            child => this.productIsOrderable(child));
 
-            currentCount++;
+                // if there are no eligible child products, exit early
+                if (eligibleChildren.length === 0) {
+                    return false;
+                }
 
-            if (currentCount >= this.getConfig().maxProductsPerCategory) {
-                return true;
+                // add the complex product and call addProducts for the children.
+                // do not increment because master products should not count toward
+                // the number of products in a category because they are not orderable
+                if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
+                    this.getCurrentSet().add(product);
+                    this.addProducts(new ArrayList(eligibleChildren), currentCount);
+                }
+            } else {
+                // add the child/standalone products and increment the count for the category
+                if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
+                    this.getCurrentSet().add(product);
+
+                    currentCount.count++;
+                }
             }
         });
+    },
+
+    /**
+     * Checks if a product has already been added to any of our sets
+     *
+     * @param product
+     * @returns {boolean}
+     */
+    productAlreadyAdded: function (product) {
+        if (this.getCurrentSet().contains(product)) {
+            return true;
+        }
+
+        return [].some.call(this.getSets(), set => set.contains(product))
+    },
+
+    /**
+     * Checks if a product is qualified to be added,
+     * eg checking if the product is orderable
+     *
+     * @param product
+     * @returns {boolean}
+     */
+    productIsOrderable: function (product) {
+        if (this.getConfig().onlineOnly && !product.online) {
+            return false;
+        }
+
+        // complex products only need to be online to be valid
+        if (this.productIsComplex(product)) {
+            return true;
+        }
+
+        const inventoryRecord = product.getAvailabilityModel().getInventoryRecord();
+        const allocation = inventoryRecord ? inventoryRecord.allocation : 0;
+        const price = product.getPriceModel().getPrice().valueOrNull;
+
+        return allocation > 0 && price !== null;
+    },
+
+    productIsComplex: function (product) {
+        return product.isMaster() || product.isProductSet() || product.isBundle();
     }
 });
 

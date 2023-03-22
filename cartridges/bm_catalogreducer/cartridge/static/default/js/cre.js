@@ -114,6 +114,7 @@ function makeRequest(method, url, data = null) {
         data.append('storefrontcat', form.elements['storefrontcat'].value);
         data.append('noofprods', form.elements['noofprods'].value);
         data.append('onlineprods', form.elements['onlineprods'].checked);
+        data.append('orderableprods', form.elements['orderableprods'].checked);
         data.append('exportimages', form.elements['exportimages'].checked);
         data.append('imagesizes', form.elements['imagesizes'].value);
         data.append('exportpricebooks', form.elements['exportpricebooks'].checked);

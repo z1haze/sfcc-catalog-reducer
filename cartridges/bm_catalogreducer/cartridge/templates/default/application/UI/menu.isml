@@ -71,6 +71,10 @@
                         <td><input name="onlineprods" type="checkbox" checked/></td>
                     </tr>
                     <tr>
+                        <td>Orderable Products Only</td>
+                        <td><input name="orderableprods" type="checkbox" checked/></td>
+                    </tr>
+                    <tr>
                         <td>Export Product Images</td>
                         <td>
                             <input name="exportimages" id="a" type="checkbox" class="field-toggle"/>

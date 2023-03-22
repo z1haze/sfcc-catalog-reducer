@@ -47,6 +47,12 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="orderableProducts">
+                <display-name xml:lang="x-default">Orderable Products Only</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
             <attribute-definition attribute-id="productIDs">
                 <display-name xml:lang="x-default">Product IDs</display-name>
                 <description xml:lang="x-default">List of product IDs to export</description>
@@ -78,7 +84,7 @@
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
             <attribute-definition attribute-id="exportInventoryList">
-                <display-name xml:lang="x-default">Should the inventory-list be written?</display-name>
+                <display-name xml:lang="x-default">Should the inventory-list be exported?</display-name>
                 <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -92,6 +98,7 @@
                 <attribute attribute-id="lastModified" system="true"/>
                 <attribute attribute-id="ID"/>
                 <attribute attribute-id="onlineProducts"/>
+                <attribute attribute-id="orderableProducts"/>
                 <attribute attribute-id="productIDs"/>
                 <attribute attribute-id="exportImages"/>
                 <attribute attribute-id="imageSizes"/>

@@ -56,7 +56,7 @@ module.exports = {
             InventoryLists.exportInventoryList(catalogReducer.getSets(), config.rootDirectoryObj.directoryName);
         }
 
-        COHelper.setState(catalogReducer.getCO(), 'state', 'Zipping catalog contents...');
+        COHelper.setState(catalogReducer.getCO(), 'state', 'Zipping contents...');
         Directories.zipFiles(
             new File(File.IMPEX + '/src/catalogreducer/' + config.rootDirectoryObj.directoryName),
             new File(File.IMPEX + '/src/instance/' + config.rootDirectoryObj.directoryName + '.zip')

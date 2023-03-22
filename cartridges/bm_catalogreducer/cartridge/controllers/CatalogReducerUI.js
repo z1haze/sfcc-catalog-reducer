@@ -42,6 +42,7 @@ module.exports.ExportJob = function () {
     const parameters = {
         NumberOfProducts: httpParameterMap.noofprods.intValue,
         OnlineProducts: httpParameterMap.onlineprods.booleanValue,
+        OrderableProducts: httpParameterMap.orderableprods.booleanValue,
         ProductIDs: httpParameterMap.prodids.stringValue,
         MasterCatalog: httpParameterMap.mastercat.stringValue,
         StorefrontCatalog: httpParameterMap.storefrontcat.stringValue,

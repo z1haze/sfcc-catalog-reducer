@@ -20,6 +20,7 @@ module.exports = {
 
             co.custom.numberProducts = details.NumberOfProducts;
             co.custom.onlineProducts = details.OnlineProducts;
+            co.custom.orderableProducts = details.OrderableProducts;
             co.custom.exportImages = details.ExportImages;
             co.custom.productIDs = details.ProductIDs;
             co.custom.imageSizes = details.ImageSizes;

@@ -58,7 +58,7 @@ module.exports = {
                 let p = productItr.next();
 
                 if (!p.isMaster()) {
-                    const invRecord = p.getAvailabilityModel().getInventoryRecord();
+                    let invRecord = p.getAvailabilityModel().getInventoryRecord();
 
                     if (invRecord) {
                         xmlWriter.writeStartElement('record');
