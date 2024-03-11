@@ -29,7 +29,7 @@ const Reducer = Class.extend({
             maxProductsPerCategory: co.custom.numberProducts,
             onlineOnly: co.custom.onlineProducts,
             orderableOnly: co.custom.orderableProducts,
-            specificProductIds: co.custom.productIDs instanceof String ? co.custom.productIDs.split(',') : [],
+            specificProductIds: co.custom.productIDs ? co.custom.productIDs.split(',') : [],
             exportImages: co.custom.exportImages,
             imageSizes: co.custom.imageSizes,
             exportPricebooks: co.custom.exportPricebooks,
@@ -100,29 +100,35 @@ const Reducer = Class.extend({
      * Generates the reduced catalog data
      */
     generateReducedCatalog: function () {
-        const storefrontCatalog = CatalogMgr.getCatalog(this.getConfig().storefrontCatalogId);
-        const rootCategory = storefrontCatalog.getRoot();
+        // only need to crawl the catalog if maxProductsPerCategory is more than 0
+        if (this.getConfig().maxProductsPerCategory > 0) {
+            const storefrontCatalog = CatalogMgr.getCatalog(this.getConfig().storefrontCatalogId);
+            const rootCategory = storefrontCatalog.getRoot();
 
-        this.addCategory(rootCategory);
+            this.addCategory(rootCategory);
+        }
+
+        // only need to add specific products if they're provided
+        if (this.getConfig().specificProductIds.length > 0) {
+            const products = new LinkedHashSet(
+              new ArrayList(
+                Transaction.wrap(() => this.getConfig().specificProductIds.map((pid) => ProductMgr.getProduct(pid)))
+              )
+            );
+
+            [].forEach.call(products, product => {
+                if (this.getCurrentSet().size() === COLLECTION_SIZE_QUOTA) {
+                    this.getSets().add(this.getCurrentSet());
+                    this._currentSet = new LinkedHashSet();
+                }
+
+                this.getCurrentSet().add(product);
+            });
+        }
 
         // add the final set the sets of products
         // the addCategory recursion will add previous ones
         this.getSets().add(this.getCurrentSet());
-
-        if (this.getConfig().specificProductIds.length > 0) {
-            const products = new LinkedHashSet(
-                new ArrayList(
-                    Transaction.wrap(() => this.getConfig().specificProductIds.map((pid) => ProductMgr.getProduct(pid)))
-                )
-            );
-
-            /**
-             * Add the specifically requested products.
-             * The reason for the * -1 stuff is to guarantee
-             * that the max count is not reached
-             */
-            this.addProducts(products, {count: (products.size() * -1)});
-        }
     },
 
     /**
