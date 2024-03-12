@@ -26,7 +26,8 @@ const Reducer = Class.extend({
         this._config = {
             storefrontCatalogId: co.custom.storefrontCatalog,
             masterCatalogIds: co.custom.masterCatalogs.split(','),
-            maxProductsPerCategory: co.custom.numberProducts,
+            maxProductsPerCategory: co.custom.maxProductsPerCategory,
+            maxVariantsPerMaster: co.custom.maxVariantsPerMaster,
             onlineOnly: co.custom.onlineProducts,
             orderableOnly: co.custom.orderableProducts,
             specificProductIds: co.custom.productIDs ? co.custom.productIDs.split(',') : [],
@@ -63,7 +64,7 @@ const Reducer = Class.extend({
     /**
      * Get the configuration for the reducer instance
      *
-     * @returns {*|{masterCatalogIds: dw.order.ShippingOrderItem | string[], specificProductIds: (dw.order.ShippingOrderItem|string[]|*[]), exportImages: *, imageSizes: *, exportInventoryList: *, storefrontCatalogId: *, onlineOnly: *, maxProductsPerCategory: *, exportPricebooks: *, orderableOnly: *}}
+     * @returns {*|{masterCatalogIds: dw.order.ShippingOrderItem | string[], specificProductIds: (dw.order.ShippingOrderItem|string[]|*[]), exportImages: *, imageSizes: *, exportInventoryList: *, storefrontCatalogId: *, onlineOnly: *, maxProductsPerCategory: *, maxVariantsPerMaster: *, exportPricebooks: *, orderableOnly: *}}
      */
     getConfig: function () {
         return this._config;
@@ -156,8 +157,11 @@ const Reducer = Class.extend({
      */
     addProducts: function (products: dw.util.Collection, currentCount: Object) {
         [].some.call(products, (product) => {
-            // make sure we do not add more products than we want
-            if (currentCount.count >= this.getConfig().maxProductsPerCategory) return true;
+            // variations do not count toward the maxProductsPerCategory
+            if (!product.variant && currentCount.count >= this.getConfig().maxProductsPerCategory) return true;
+
+            // master products do not count toward the maxVariantsPerMaster
+            if (product.variant && currentCount.count >= this.getConfig().maxVariantsPerMaster) return true;
 
             // move pointer to next set if we're maxxed out
             if (this.getCurrentSet().size() === COLLECTION_SIZE_QUOTA) {
@@ -181,7 +185,10 @@ const Reducer = Class.extend({
                 // the number of products in a category because they are not orderable
                 if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
                     this.getCurrentSet().add(product);
-                    this.addProducts(new ArrayList(eligibleChildren), currentCount);
+
+                    currentCount.count++;
+
+                    this.addProducts(new ArrayList(eligibleChildren), {count: 0});
                 }
             } else {
                 // add the child/standalone products and increment the count for the category

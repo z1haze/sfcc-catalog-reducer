@@ -4,12 +4,13 @@
         <description/>
         <parameters/>
         <flow>
-            <context site-id="LauraCanada"/>
+            <context site-id="Tillys"/>
             <step step-id="AutomaticCatalogReducer" type="custom.CatalogReducer.AutomaticRunnable" enforce-restart="false">
                 <description/>
                 <parameters>
-                    <parameter name="numberProducts">1</parameter>
-                    <parameter name="masterCatalogIDs">laura-master,melanie-lyne-master</parameter>
+                    <parameter name="maxProductsPerCategory">1</parameter>
+                    <parameter name="maxVariantsPerMaster">1</parameter>
+                    <parameter name="masterCatalogIDs">master-catalog</parameter>
                     <parameter name="onlineProducts">true</parameter>
                     <parameter name="imageSizes">large</parameter>
                     <parameter name="zipAndMoveToInstance">true</parameter>
@@ -29,7 +30,7 @@
         <description/>
         <parameters/>
         <flow>
-            <context site-id="LauraCanada"/>
+            <context site-id="Tillys"/>
             <step step-id="CatalogReducerExport" type="custom.CatalogReducer.ManualRunnable" enforce-restart="false">
                 <description/>
                 <parameters/>

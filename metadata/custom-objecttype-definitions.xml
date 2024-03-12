@@ -33,9 +33,17 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
-            <attribute-definition attribute-id="numberProducts">
-                <display-name xml:lang="x-default">Number of Products</display-name>
-                <description xml:lang="x-default">Number of Products per category</description>
+            <attribute-definition attribute-id="maxProductsPerCategory">
+                <display-name xml:lang="x-default">Products Per Category</display-name>
+                <description xml:lang="x-default">The maximum number of products to include per category, not including variations</description>
+                <type>int</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="maxVariantsPerMaster">
+                <display-name xml:lang="x-default">Variations Per Master</display-name>
+                <description xml:lang="x-default">The maximum number of variation products to include per each master product</description>
                 <type>int</type>
                 <localizable-flag>false</localizable-flag>
                 <mandatory-flag>false</mandatory-flag>
@@ -93,7 +101,8 @@
         <group-definitions>
             <attribute-group group-id="presentation">
                 <display-name xml:lang="x-default">Presentation</display-name>
-                <attribute attribute-id="numberProducts"/>
+                <attribute attribute-id="maxProductsPerCategory"/>
+                <attribute attribute-id="maxVariantsPerMaster"/>
                 <attribute attribute-id="creationDate" system="true"/>
                 <attribute attribute-id="lastModified" system="true"/>
                 <attribute attribute-id="ID"/>
