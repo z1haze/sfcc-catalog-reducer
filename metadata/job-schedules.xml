@@ -4,7 +4,7 @@
         <description/>
         <parameters/>
         <flow>
-            <context site-id="Tillys"/>
+            <context site-id="tillys"/>
             <step step-id="AutomaticCatalogReducer" type="custom.CatalogReducer.AutomaticRunnable" enforce-restart="false">
                 <description/>
                 <parameters>
@@ -30,7 +30,7 @@
         <description/>
         <parameters/>
         <flow>
-            <context site-id="Tillys"/>
+            <context site-id="tillys"/>
             <step step-id="CatalogReducerExport" type="custom.CatalogReducer.ManualRunnable" enforce-restart="false">
                 <description/>
                 <parameters/>

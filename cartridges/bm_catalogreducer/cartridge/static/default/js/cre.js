@@ -62,15 +62,15 @@ function makeRequest(method, url, data = null) {
      * Setup initial monitoring
      */
     makeRequest('get', window.catalogReducerUrls.checkJobStatus)
-        .then((status) => {
+      .then((status) => {
 
-            if (status.length) {
-                jobStatusDiv.style.display = 'block';
-                jobState.innerText = status;
-                exportBtn.setAttribute('disabled', true);
-                interval = setInterval(checkStatus, 1500);
-            }
-        })
+          if (status.length) {
+              jobStatusDiv.style.display = 'block';
+              jobState.innerText = status;
+              exportBtn.setAttribute('disabled', true);
+              interval = setInterval(checkStatus, 1500);
+          }
+      })
 
     // display catalogs UI
     loadCatalogs();
@@ -87,17 +87,21 @@ function makeRequest(method, url, data = null) {
      * Handle toggle of optional fields
      */
     form.querySelectorAll('.field-toggle')
-        .forEach(el =>
-            el.addEventListener('change', () => {
-                el.closest('tr').nextElementSibling.style.display = el.checked ? 'table-row' : 'none';
-            })
-        );
+      .forEach(el =>
+        el.addEventListener('change', () => {
+            el.closest('tr').nextElementSibling.style.display = el.checked ? 'table-row' : 'none';
+        })
+      );
 
     /**
      * Submit the form to trigger the catalog export job
      */
     function exportCatalog(e) {
         e.preventDefault();
+
+        if(!form.checkValidity()) {
+            return false;
+        }
 
         exportBtn.setAttribute('disabled', true);
 
@@ -113,6 +117,7 @@ function makeRequest(method, url, data = null) {
         data.append('mastercat', mastercat);
         data.append('storefrontcat', form.elements['storefrontcat'].value);
         data.append('noofprods', form.elements['noofprods'].value);
+        data.append('noofvariants', form.elements['noofvariants'].value);
         data.append('onlineprods', form.elements['onlineprods'].checked);
         data.append('orderableprods', form.elements['orderableprods'].checked);
         data.append('exportimages', form.elements['exportimages'].checked);
@@ -124,10 +129,10 @@ function makeRequest(method, url, data = null) {
         jobStatusDiv.style.display = 'block';
 
         makeRequest('post', form.action, data)
-            .then(state => {
-                jobState.innerText = state;
-                interval = setInterval(checkStatus, 1500);
-            });
+          .then(state => {
+              jobState.innerText = state;
+              interval = setInterval(checkStatus, 1500);
+          });
     }
 
     /**
@@ -135,18 +140,18 @@ function makeRequest(method, url, data = null) {
      */
     function checkStatus() {
         makeRequest('get', window.catalogReducerUrls.checkJobStatus)
-            .then(state => {
-                if (!state.length) {
-                    exportBtn.removeAttribute('disabled');
-                    jobStatusDiv.style.display = 'none';
+          .then(state => {
+              if (!state.length) {
+                  exportBtn.removeAttribute('disabled');
+                  jobStatusDiv.style.display = 'none';
 
-                    alert('Finished!');
-                    clearInterval(interval);
-                    loadRecentExports();
-                } else {
-                    jobState.innerText = state;
-                }
-            });
+                  alert('Finished!');
+                  clearInterval(interval);
+                  loadRecentExports();
+              } else {
+                  jobState.innerText = state;
+              }
+          });
     }
 
     /**
@@ -158,9 +163,9 @@ function makeRequest(method, url, data = null) {
     function getCheckedValues(inputs) {
         if (inputs instanceof RadioNodeList) {
             return Array.from(inputs)
-                .filter(input => input.checked)
-                .map(input => input.value)
-                .join(',');
+              .filter(input => input.checked)
+              .map(input => input.value)
+              .join(',');
         }
 
         return inputs.checked ? inputs.value : '';
@@ -173,12 +178,12 @@ function makeRequest(method, url, data = null) {
         exportsDiv.innerHTML = exportsLoadingHtml;
 
         makeRequest('post', window.catalogReducerUrls.showExports)
-            .then(html => {
-                exportsDiv.innerHTML = html;
+          .then(html => {
+              exportsDiv.innerHTML = html;
 
-                exportsDiv.querySelector('#catalog-list-refresh')
-                    .addEventListener('click', loadRecentExports)
-            });
+              exportsDiv.querySelector('#catalog-list-refresh')
+                .addEventListener('click', loadRecentExports)
+          });
     }
 
     /**
@@ -188,11 +193,11 @@ function makeRequest(method, url, data = null) {
         catalogsDiv.innerHTML = catalogsLoadingHtml;
 
         makeRequest('post', window.catalogReducerUrls.showAllCatalogs)
-            .then(html => {
-                catalogsDiv.innerHTML = html;
+          .then(html => {
+              catalogsDiv.innerHTML = html;
 
-                catalogsDiv.querySelector('#catalogs-refresh-btn')
-                    .addEventListener('click', () => loadCatalogs());
-            });
+              catalogsDiv.querySelector('#catalogs-refresh-btn')
+                .addEventListener('click', () => loadCatalogs());
+          });
     }
 })();

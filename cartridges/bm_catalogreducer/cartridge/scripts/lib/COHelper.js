@@ -18,7 +18,7 @@ module.exports = {
 
             const co = CustomObjectMgr.createCustomObject(CUSTOM_OBJECT_TYPE, CUSTOM_OBJECT_ID);
 
-            co.custom.numberProducts = details.NumberOfProducts;
+            co.custom.maxProductsPerCategory = details.NumberOfProducts;
             co.custom.maxVariantsPerMaster = details.NumberOfVariants;
             co.custom.onlineProducts = details.OnlineProducts;
             co.custom.orderableProducts = details.OrderableProducts;

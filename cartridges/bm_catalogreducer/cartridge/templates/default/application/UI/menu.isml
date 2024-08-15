@@ -62,8 +62,15 @@
                     <tr>
                         <td width="190px">Number of Products</td>
                         <td>
-                            <input name="noofprods" value="5" type="number" style="width:35px"/>
-                            <small>Products per category</small>
+                            <input name="noofprods" value="5" min="0" type="number" style="width:35px" required/>
+                            <small>Max products per category</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="190px">Number of Variants</td>
+                        <td>
+                            <input name="noofvariants" value="5" min="1" type="number" style="width:35px" required/>
+                            <small>Max variants per master</small>
                         </td>
                     </tr>
                     <tr>

@@ -6,7 +6,7 @@ const ProductMgr = require('dw/catalog/ProductMgr');
 
 const Catalogs = require('~/cartridge/scripts/lib/Catalogs');
 const Directories = require('~/cartridge/scripts/lib/Directories');
-const Class = require("~/cartridge/scripts/util/Class").Class;
+const Class = require('~/cartridge/scripts/util/Class').Class;
 
 const COLLECTION_SIZE_QUOTA = 20000;
 
@@ -138,14 +138,14 @@ const Reducer = Class.extend({
      */
     addCategory: function (category: dw.catalog.Category) {
         const subCategories = this.getConfig().onlineOnly
-            ? category.getOnlineSubCategories()
-            : category.getSubCategories();
+          ? category.getOnlineSubCategories()
+          : category.getSubCategories();
 
         [].forEach.call(subCategories, subCategory => this.addCategory(subCategory));
 
         const products = this.getConfig().onlineOnly
-            ? category.getOnlineProducts()
-            : category.getProducts();
+          ? category.getOnlineProducts()
+          : category.getProducts();
 
         this.addProducts(products, {count: 0});
     },
@@ -163,7 +163,7 @@ const Reducer = Class.extend({
             // master products do not count toward the maxVariantsPerMaster
             if (product.variant && currentCount.count >= this.getConfig().maxVariantsPerMaster) return true;
 
-            // move pointer to next set if we're maxxed out
+            // move pointer to next set if we're maxed out
             if (this.getCurrentSet().size() === COLLECTION_SIZE_QUOTA) {
                 this.getSets().add(this.getCurrentSet());
                 this._currentSet = new LinkedHashSet();
@@ -171,25 +171,53 @@ const Reducer = Class.extend({
 
             // a "complex" product is one like a master product or product set/bundle, etc
             if (this.productIsComplex(product)) {
+
+                // collect eligible child products
                 const eligibleChildren =
-                    [].filter.call(productTypeCollection(product),
+                  [].filter.call(productTypeCollection(product),
+                    child => this.productIsOrderable(child));
+
+                if (eligibleChildren.length === 0) {
+                    return;
+                }
+
+                // add the master to be exported if it has eligible children and has not already been added
+                if (!this.productAlreadyAdded(product)) {
+                    // if the master has any eligible children, add the master to the export
+                    this.getCurrentSet().add(product);
+                    currentCount.count++;
+                }
+
+                // add the children to the export
+                this.addProducts(new ArrayList(eligibleChildren), {count: 0});
+
+                // now add any related master products because Tillys uses masters kinda like variants for colors
+                let relatedMasterIds;
+
+                try {
+                    relatedMasterIds = product.custom.masterProductsForSwatches.split(',');
+                } catch (_) {
+                    relatedMasterIds = [];
+                }
+
+                relatedMasterIds.forEach(pid => {
+                    const product = ProductMgr.getProduct(pid);
+
+                    // if the product isn't already added for export, add it
+                    if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
+                        this.getCurrentSet().add(product);
+
+                        const eligibleChildren =
+                          [].filter.call(productTypeCollection(product),
                             child => this.productIsOrderable(child));
 
-                // if there are no eligible child products, exit early
-                if (eligibleChildren.length === 0) {
-                    return false;
-                }
+                        if (eligibleChildren.length === 0) {
+                            return;
+                        }
 
-                // add the complex product and call addProducts for the children.
-                // do not increment because master products should not count toward
-                // the number of products in a category because they are not orderable
-                if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
-                    this.getCurrentSet().add(product);
-
-                    currentCount.count++;
-
-                    this.addProducts(new ArrayList(eligibleChildren), {count: 0});
-                }
+                        this.addProducts(new ArrayList(eligibleChildren), {count: 0});
+                    }
+                });
             } else {
                 // add the child/standalone products and increment the count for the category
                 if (this.productIsOrderable(product) && !this.productAlreadyAdded(product)) {
@@ -212,7 +240,7 @@ const Reducer = Class.extend({
             return true;
         }
 
-        return [].some.call(this.getSets(), set => set.contains(product))
+        return [].some.call(this.getSets(), set => set.contains(product));
     },
 
     /**
